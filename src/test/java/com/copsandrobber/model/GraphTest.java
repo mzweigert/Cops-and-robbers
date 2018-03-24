@@ -126,23 +126,4 @@ public class GraphTest {
         assertFalse(vertex.isPresent());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
-    public void whenTryModifyDirectlyVerticesList_thenThrowException() throws UnsupportedOperationException {
-        //GIVEN
-        Graph<Integer> graph = Graph.newInstance();
-        Integer firstVertexIndex = 1;
-        //WHEN
-        graph.getVertices().add(new Vertex<>(firstVertexIndex));
-    }
-
-    @Test(expected = UnsupportedOperationException.class)
-    public void whenTryModifyDirectlyEdgesList_thenThrowException() throws UnsupportedOperationException {
-        //GIVEN
-        Graph<Integer> graph = Graph.newInstance();
-        Integer firstVertexIndex = 1;
-        Integer secondVertexIndex = 3;
-        //WHEN
-        graph.getEdges().add(new Edge<>(firstVertexIndex, secondVertexIndex));
-    }
-
 }
