@@ -1,11 +1,15 @@
 package com.copsandrobber.model;
 
 import com.copsandrobber.exception.NeighborAlreadyExistException;
+import org.apache.commons.lang.SerializationUtils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
-class Vertex<E> {
+public class Vertex<E> implements Serializable {
 
     E index;
     List<Vertex<E>> neighbors;
@@ -22,8 +26,19 @@ class Vertex<E> {
         this.neighbors.add(neighbor);
     }
 
-    List<Vertex<E>> getNeighbors() {
-        return this.neighbors;
+    public Collection<Vertex<E>> getOpenNeighbourhood() {
+        return new ArrayList<>(this.neighbors);
+    }
+
+    public Collection<Vertex<E>> getClosedNeighbourhood() {
+        Collection<Vertex<E>> collection = getOpenNeighbourhood();
+        collection.add(this);
+        return collection;
+    }
+
+
+    public boolean removeFromNeighbourhood(Vertex<E> vertex) {
+        return neighbors.remove(vertex);
     }
 
     @Override
@@ -40,5 +55,9 @@ class Vertex<E> {
     @Override
     public int hashCode() {
         return index.hashCode();
+    }
+
+    public Vertex<E> clone() throws CloneNotSupportedException {
+        return (Vertex<E>) SerializationUtils.clone(this);
     }
 }

@@ -4,10 +4,12 @@ package com.copsandrobber.model;
 import com.copsandrobber.exception.EdgeAlreadyExistException;
 import com.copsandrobber.exception.NeighborAlreadyExistException;
 import com.copsandrobber.exception.VertexAlreadyExistException;
+import org.apache.commons.lang.SerializationUtils;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Graph<E> {
+public class Graph<E> implements Serializable {
 
     List<Edge<E>> edges;
     List<Vertex<E>> vertices;
@@ -23,18 +25,20 @@ public class Graph<E> {
         return new Graph<>();
     }
 
-    public void addEdge(E first, E second) throws NeighborAlreadyExistException, EdgeAlreadyExistException {
+    public Graph<E> addEdge(E first, E second) throws NeighborAlreadyExistException, EdgeAlreadyExistException {
         Vertex<E> firstVertex = graphUtils.findOrCreateVertex(first);
         Vertex<E> secondVertex = graphUtils.findOrCreateVertex(second);
         graphUtils.createEdge(firstVertex, secondVertex);
+        return this;
     }
 
-    public void addEdge(E first, E... neighbors) throws NeighborAlreadyExistException, EdgeAlreadyExistException {
+    public Graph<E>  addEdge(E first, E... neighbors) throws NeighborAlreadyExistException, EdgeAlreadyExistException {
         Vertex<E> firstVertex = graphUtils.findOrCreateVertex(first);
         for(E second : neighbors) {
             Vertex<E> secondVertex = graphUtils.findOrCreateVertex(second);
             graphUtils.createEdge(firstVertex, secondVertex);
         }
+        return this;
     }
     public Vertex<E> addVertex(E index) throws VertexAlreadyExistException {
         if(graphUtils.containsVertex(index)){
@@ -58,13 +62,16 @@ public class Graph<E> {
                 .findFirst();
     }
 
-    public Collection<Vertex<E>> getVertices() {
-        return Collections.unmodifiableCollection(vertices) ;
+    public List<Vertex<E>> getVertices() {
+        return new ArrayList<>(vertices);
     }
 
     public Collection<Edge<E>> getEdges() {
-        return Collections.unmodifiableCollection(edges);
+        return new ArrayList<>(edges);
     }
 
+    public Graph<E> clone() throws CloneNotSupportedException {
+        return (Graph<E>)SerializationUtils.clone(this);
+    }
 
 }

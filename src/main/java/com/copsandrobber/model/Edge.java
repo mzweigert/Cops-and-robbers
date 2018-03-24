@@ -5,12 +5,12 @@ class Edge<E> {
     Vertex<E> first;
     Vertex<E> second;
 
-    public Edge(Vertex<E> first, Vertex<E> second) {
+    Edge(Vertex<E> first, Vertex<E> second) {
         this.first = first;
         this.second = second;
     }
 
-    public Edge(E first, E second) {
+    Edge(E first, E second) {
         this.first = new Vertex<>(first);
         this.second = new Vertex<>(second);
     }
