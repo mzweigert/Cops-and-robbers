@@ -1,12 +1,11 @@
-package com.copsandrobber.model;
+package com.graphrodite.model;
 
-import com.copsandrobber.exception.NeighborAlreadyExistException;
+import com.graphrodite.exception.NeighborAlreadyExistException;
 import org.apache.commons.lang.SerializationUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 public class Vertex<E> implements Serializable {

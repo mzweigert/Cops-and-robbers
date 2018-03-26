@@ -1,7 +1,7 @@
-package com.copsandrobber.model;
+package com.graphrodite.model;
 
-import com.copsandrobber.exception.EdgeAlreadyExistException;
-import com.copsandrobber.exception.NeighborAlreadyExistException;
+import com.graphrodite.exception.EdgeAlreadyExistException;
+import com.graphrodite.exception.NeighborAlreadyExistException;
 
 import java.util.Optional;
 import java.util.function.Predicate;

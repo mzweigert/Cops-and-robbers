@@ -1,7 +1,7 @@
-package com.copsandrobber.model;
+package com.graphrodite.model;
 
-import com.copsandrobber.exception.EdgeAlreadyExistException;
-import com.copsandrobber.exception.NeighborAlreadyExistException;
+import com.graphrodite.exception.EdgeAlreadyExistException;
+import com.graphrodite.exception.NeighborAlreadyExistException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +24,7 @@ public class GraphUtilsTest {
     }
 
     @Test
-    public void givenSomeIndexAndCreateVertex_whenContainsVertex_thenReturnTrue() throws Exception {
+    public void givenSomeIndexAndCreateVertex_whenContainsVertex_thenReturnTrue() {
         //GIVEN
         Integer someIndex = 1;
         graphUtils.createVertex(someIndex);
@@ -35,7 +35,7 @@ public class GraphUtilsTest {
     }
 
     @Test
-    public void givenSomeIndexAndCreateVertex_whenContainsVertex_thenReturnFalse() throws Exception {
+    public void givenSomeIndexAndCreateVertex_whenContainsVertex_thenReturnFalse() {
         //GIVEN
         Integer someIndex = 1;
         graphUtils.createVertex(someIndex);
@@ -46,7 +46,7 @@ public class GraphUtilsTest {
     }
 
     @Test
-    public void givenSomeIndex_whenCreateOrFindVertex_thenReturnVertex() throws Exception {
+    public void givenSomeIndex_whenCreateOrFindVertex_thenReturnVertex() {
         //GIVEN
         Integer someIndex = 1;
         //WHEN
@@ -56,7 +56,7 @@ public class GraphUtilsTest {
     }
 
     @Test
-    public void givenSomeIndex_whenCreateVertex_thenReturnVertex() throws Exception {
+    public void givenSomeIndex_whenCreateVertex_thenReturnVertex() {
         //GIVEN
         Integer someIndex = 1;
         //WHEN
@@ -66,7 +66,7 @@ public class GraphUtilsTest {
     }
 
     @Test
-    public void givenSomePredicate_whenFindVertex_thenReturnVertex() throws Exception {
+    public void givenSomePredicate_whenFindVertex_thenReturnVertex() {
         //GIVEN
         Integer someIndex = 1;
         graphUtils.createVertex(someIndex);
@@ -79,7 +79,7 @@ public class GraphUtilsTest {
     }
 
     @Test
-    public void givenSomePredicate_whenFindEdge_thenReturnVertex() throws Exception {
+    public void givenSomePredicate_whenFindEdge_thenReturnVertex() {
         //GIVEN
         Integer someIndex = 1;
         graphUtils.createVertex(someIndex);

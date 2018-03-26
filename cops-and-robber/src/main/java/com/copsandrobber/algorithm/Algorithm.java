@@ -1,7 +1,7 @@
 package com.copsandrobber.algorithm;
 
-import com.copsandrobber.model.Graph;
-import com.copsandrobber.model.Vertex;
+import com.graphrodite.model.Graph;
+import com.graphrodite.model.Vertex;
 
 import java.util.Collection;
 import java.util.Iterator;

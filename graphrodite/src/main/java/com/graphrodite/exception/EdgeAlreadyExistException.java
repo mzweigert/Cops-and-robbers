@@ -1,4 +1,4 @@
-package com.copsandrobber.exception;
+package com.graphrodite.exception;
 
 public class EdgeAlreadyExistException extends Exception{
 
