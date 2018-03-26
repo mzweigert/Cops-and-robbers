@@ -1,13 +1,16 @@
-package com.copsandrobber.model;
+package com.graphrodite.model;
 
 
-import com.copsandrobber.exception.EdgeAlreadyExistException;
-import com.copsandrobber.exception.NeighborAlreadyExistException;
-import com.copsandrobber.exception.VertexAlreadyExistException;
+import com.graphrodite.exception.EdgeAlreadyExistException;
+import com.graphrodite.exception.NeighborAlreadyExistException;
+import com.graphrodite.exception.VertexAlreadyExistException;
 import org.apache.commons.lang.SerializationUtils;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 public class Graph<E> implements Serializable {
 

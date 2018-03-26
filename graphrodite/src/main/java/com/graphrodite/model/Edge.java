@@ -1,4 +1,4 @@
-package com.copsandrobber.model;
+package com.graphrodite.model;
 
 class Edge<E> {
 

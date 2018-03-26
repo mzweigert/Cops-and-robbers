@@ -1,6 +1,7 @@
 package com.copsandrobber.algorithm;
 
-import com.copsandrobber.model.Graph;
+import com.graphrodite.model.Graph;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
