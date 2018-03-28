@@ -10,18 +10,33 @@ import java.util.List;
 
 public class Vertex<E> implements Serializable {
 
-    E index;
-    List<Vertex<E>> neighbors;
+    private E index;
+    private List<Vertex<E>> neighbors;
 
-    Vertex(E index) {
+    public Vertex(E index) {
         this.index = index;
         this.neighbors = new ArrayList<>();
     }
 
-    void addNeighbor(Vertex<E> neighbor) throws NeighborAlreadyExistException {
+    public void createNeighbourhood(Vertex<E> neighbor) throws NeighborAlreadyExistException {
         if(neighbors.contains(neighbor)){
-            throw new NeighborAlreadyExistException(neighbor.index, index);
+            throw new NeighborAlreadyExistException(neighbor.getIndex(), index);
+        } else if (neighbor.equals(this)) {
+            throw new IllegalArgumentException("Cannot add same vertex to his neighbourhood");
         }
+        this.addToNeighbors(neighbor);
+        neighbor.addToNeighbors(this);
+    }
+
+    public boolean removeNeighbourhood(Vertex<E> vertex) {
+        return this.removeFromNeighbors(vertex) && vertex.removeFromNeighbors(this);
+    }
+
+    private boolean removeFromNeighbors(Vertex<E> neighbor) {
+        return this.neighbors.remove(neighbor);
+    }
+
+    private void addToNeighbors(Vertex<E> neighbor) {
         this.neighbors.add(neighbor);
     }
 
@@ -35,9 +50,8 @@ public class Vertex<E> implements Serializable {
         return collection;
     }
 
-
-    public boolean removeFromNeighbourhood(Vertex<E> vertex) {
-        return neighbors.remove(vertex);
+    public E getIndex() {
+        return index;
     }
 
     @Override
@@ -56,7 +70,7 @@ public class Vertex<E> implements Serializable {
         return index.hashCode();
     }
 
-    public Vertex<E> clone() throws CloneNotSupportedException {
+    public Vertex<E> clone() {
         return (Vertex<E>) SerializationUtils.clone(this);
     }
 }

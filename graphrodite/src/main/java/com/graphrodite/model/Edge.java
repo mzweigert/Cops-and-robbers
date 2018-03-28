@@ -1,18 +1,14 @@
 package com.graphrodite.model;
 
-class Edge<E> {
 
-    Vertex<E> first;
-    Vertex<E> second;
+public class Edge<E> {
 
-    Edge(Vertex<E> first, Vertex<E> second) {
+    private Vertex<E> first;
+    private Vertex<E> second;
+
+    public Edge(Vertex<E> first, Vertex<E> second) {
         this.first = first;
         this.second = second;
-    }
-
-    Edge(E first, E second) {
-        this.first = new Vertex<>(first);
-        this.second = new Vertex<>(second);
     }
 
     @Override
@@ -32,4 +28,8 @@ class Edge<E> {
         return result;
     }
 
+    public boolean containsVertices(E first, E second) {
+        return (this.first.getIndex().equals(first) && this.second.getIndex().equals(second)) ||
+                (this.first.getIndex().equals(second) && this.second.getIndex().equals(first));
+    }
 }

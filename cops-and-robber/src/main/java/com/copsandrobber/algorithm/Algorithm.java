@@ -1,5 +1,7 @@
 package com.copsandrobber.algorithm;
 
+
+
 import com.graphrodite.model.Graph;
 import com.graphrodite.model.Vertex;
 
@@ -17,7 +19,7 @@ public class Algorithm {
             for (Vertex<E> vNeighbor : vertexNeighbors) {
                 Collection<Vertex<E>> neighborNeighbors = vNeighbor.getClosedNeighbourhood();
                 if (canRemoveTrap(vertexNeighbors, neighborNeighbors) && !vertex.equals(vNeighbor)) {
-                    vertices.stream().forEach(v -> v.removeFromNeighbourhood(vertex));
+                    vertices.forEach(v -> v.removeNeighbourhood(vertex));
                     iterator.remove();
                     break;
                 }
