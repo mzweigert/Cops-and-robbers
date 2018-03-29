@@ -1,7 +1,7 @@
 package com.graphrodite.model;
 
+
 import com.graphrodite.exception.EdgeAlreadyExistException;
-import com.graphrodite.exception.NeighborAlreadyExistException;
 import com.graphrodite.exception.VertexAlreadyExistException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,13 +19,13 @@ public class GraphTest {
     @Test
     public void testNewInstance() {
         //WHEN
-        Graph<Integer> graph = Graph.newInstance();
+        Graph graph = Graph.newInstance();
         //THEN
         assertNotNull(graph);
     }
 
     @Test
-    public void givenDifferentVertex_whenAddEdge_thenSuccessAddEdge() throws EdgeAlreadyExistException, NeighborAlreadyExistException {
+    public void givenDifferentVertex_whenAddEdge_thenSuccessAddEdge() throws EdgeAlreadyExistException {
         //GIVEN
         Graph<Integer> graph = Graph.newInstance();
         Integer firstVertexIndex = 1;
@@ -33,18 +33,18 @@ public class GraphTest {
         //WHEN
         graph.addEdge(firstVertexIndex, secondVertexIndex);
         //THEN
-        Vertex<Integer> v1 =  graph.getVertex(firstVertexIndex).get();
-        Vertex<Integer> v2 = graph.getVertex(secondVertexIndex).get();
+        Vertex<Integer> v1 =  graph.findVertex(firstVertexIndex).get();
+        Vertex<Integer> v2 = graph.findVertex(secondVertexIndex).get();
 
-        assertTrue(v1.index.equals(1));
-        assertTrue(v2.index.equals(2));
-        assertEquals(v1.neighbors.get(0), v2);
-        assertEquals(v2.neighbors.get(0), v1);
+        assertTrue(v1.getIndex().equals(1));
+        assertTrue(v2.getIndex().equals(2));
+        assertEquals(v1.getOpenNeighbourhood().stream().findFirst().get(), v2);
+        assertEquals(v2.getOpenNeighbourhood().stream().findFirst().get(), v1);
         assertEquals(graph.getEdges().size(), 1);
     }
 
     @Test
-    public void givenSameVertex_whenAddEdge_thenSuccessAddEdge() throws EdgeAlreadyExistException, NeighborAlreadyExistException {
+    public void givenSameVertex_whenAddEdge_thenSuccessAddEdge() throws EdgeAlreadyExistException {
         //GIVEN
         Graph<Integer> graph = Graph.newInstance();
         Integer firstVertexIndex = 1;
@@ -52,15 +52,14 @@ public class GraphTest {
         //WHEN
         graph.addEdge(firstVertexIndex, secondVertexIndex);
         //THEN
-        Vertex<Integer> v1 = graph.getVertex(firstVertexIndex).get();
+        Vertex<Integer> v1 = graph.findVertex(firstVertexIndex).get();
 
-        assertTrue(v1.index.equals(1));
-        assertEquals(v1.neighbors.get(0), v1);
+        assertTrue(v1.getIndex().equals(1));
         assertEquals(graph.getEdges().size(), 1);
     }
 
     @Test(expected = EdgeAlreadyExistException.class)
-    public void givenSomeVertex_whenAddExistingEdge_thenThrowException() throws EdgeAlreadyExistException, NeighborAlreadyExistException {
+    public void givenSomeVertex_whenAddExistingEdge_thenThrowException() throws EdgeAlreadyExistException {
         //GIVEN
         Graph<Integer> graph = Graph.newInstance();
         Integer firstVertexIndex = 2;
@@ -80,7 +79,7 @@ public class GraphTest {
         Vertex<Integer> result = graph.addVertex(firstVertexIndex);
         //THEN
         assertEquals(graph.getVertices().size(), 1);
-        assertEquals(graph.getVertex(firstVertexIndex).get(), result);
+        assertEquals(graph.findVertex(firstVertexIndex).get(), result);
     }
 
     @Test(expected = VertexAlreadyExistException.class)
@@ -103,16 +102,43 @@ public class GraphTest {
         assertEquals(result.size(), 5);
     }
 
+    @Test
+    public void givenIndexes_whenAddPathAndGraphIsEmpty_thenSuccessAddPathToGraph() throws EdgeAlreadyExistException {
+        //GIVEN
+        Graph<Integer> graph = Graph.newInstance();
+        //WHEN
+        List<Vertex<Integer>> result = graph.addPath(1, 2, 3, 4, 5);
+        //THEN
+        assertEquals(result.size(), 5);
+        assertEquals(graph.getVertices().size(), 5);
+
+    }
+
+    @Test
+    public void givenIndexes_whenAddPathAndGraphIsNotEmpty_thenSuccessAddPathToGraph() throws EdgeAlreadyExistException {
+        //GIVEN
+        Graph<Integer> graph = Graph.newInstance();
+            graph.addEdge(1, 2)
+                    .addEdge(2, 3)
+                    .addEdge(3, 1);
+        //WHEN
+        List<Vertex<Integer>> result = graph.addPath(3, 4, 5, 6, 7);
+        //THEN
+        assertEquals(result.size(), 5);
+        assertEquals(graph.getVertices().size(), 7);
+        assertEquals(graph.findVertex(3).get().getOpenNeighbourhood().size(), 3);
+    }
+
     public void givenExistingIndex_whenGetVertex_thenReturnExistingVertex() throws UnsupportedOperationException, VertexAlreadyExistException {
         //GIVEN
         Graph<Integer> graph = Graph.newInstance();
         Integer firstVertexIndex = 1;
         graph.addVertex(firstVertexIndex);
         //WHEN
-        Optional<Vertex<Integer>> vertex = graph.getVertex(firstVertexIndex);
+        Optional<Vertex<Integer>> vertex = graph.findVertex(firstVertexIndex);
 
         assertTrue(vertex.isPresent());
-        assertEquals(vertex.get().index, firstVertexIndex);
+        assertEquals(vertex.get().getIndex(), firstVertexIndex);
     }
 
     public void givenNotExistingIndex_whenGetVertex_thenReturnNull() throws UnsupportedOperationException, VertexAlreadyExistException {
@@ -121,7 +147,7 @@ public class GraphTest {
         Integer firstVertexIndex = 1;
         graph.addVertex(firstVertexIndex);
         //WHEN
-        Optional<Vertex<Integer>> vertex = graph.getVertex(firstVertexIndex);
+        Optional<Vertex<Integer>> vertex = graph.findVertex(firstVertexIndex);
 
         assertFalse(vertex.isPresent());
     }

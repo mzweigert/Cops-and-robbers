@@ -2,79 +2,74 @@ package com.graphrodite.model;
 
 
 import com.graphrodite.exception.EdgeAlreadyExistException;
-import com.graphrodite.exception.NeighborAlreadyExistException;
 import com.graphrodite.exception.VertexAlreadyExistException;
+import com.graphrodite.service.internal.GraphService;
 import org.apache.commons.lang.SerializationUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 public class Graph<E> implements Serializable {
 
-    List<Edge<E>> edges;
-    List<Vertex<E>> vertices;
-    private GraphUtils<E> graphUtils;
+    private List<Edge<E>> edges;
+    private List<Vertex<E>> vertices;
+    private GraphService<E> graphService;
 
     private Graph() {
         vertices = new ArrayList<>();
         edges = new ArrayList<>();
-        graphUtils = new GraphUtils<>(this);
+        graphService = new GraphService<>(vertices, edges);
     }
 
     public static <E> Graph<E> newInstance() {
         return new Graph<>();
     }
 
-    public Graph<E> addEdge(E first, E second) throws NeighborAlreadyExistException, EdgeAlreadyExistException {
-        Vertex<E> firstVertex = graphUtils.findOrCreateVertex(first);
-        Vertex<E> secondVertex = graphUtils.findOrCreateVertex(second);
-        graphUtils.createEdge(firstVertex, secondVertex);
+    public Graph<E> addEdge(E first, E second) throws EdgeAlreadyExistException {
+        graphService.addEdge(first, second);
         return this;
     }
 
-    public Graph<E>  addEdge(E first, E... neighbors) throws NeighborAlreadyExistException, EdgeAlreadyExistException {
-        Vertex<E> firstVertex = graphUtils.findOrCreateVertex(first);
-        for(E second : neighbors) {
-            Vertex<E> secondVertex = graphUtils.findOrCreateVertex(second);
-            graphUtils.createEdge(firstVertex, secondVertex);
-        }
+    @SafeVarargs
+    public final Graph<E> addEdge(E first, E... neighbors) throws EdgeAlreadyExistException {
+        graphService.addEdge(first, neighbors);
         return this;
     }
+
     public Vertex<E> addVertex(E index) throws VertexAlreadyExistException {
-        if(graphUtils.containsVertex(index)){
-            throw new VertexAlreadyExistException(index);
-        }
-        return graphUtils.createVertex(index);
+        return graphService.addVertex(index);
     }
 
-    public List<Vertex<E>> addVertices(E... indexes) throws VertexAlreadyExistException {
-        List<Vertex<E>> vertices = new ArrayList<>();
-        for(E index : indexes){
-            Vertex<E> vertex = addVertex(index);
-            vertices.add(vertex);
-        }
-        return vertices;
+    @SafeVarargs
+    public final List<Vertex<E>> addVertices(E... indexes) throws VertexAlreadyExistException {
+        return graphService.addVertices(indexes);
     }
 
-    public Optional<Vertex<E>> getVertex(E index) {
-        return vertices.stream()
-                .filter(v -> v.index.equals(index))
-                .findFirst();
+    @SafeVarargs
+    public final List<Vertex<E>> addPath(E... indexes) throws EdgeAlreadyExistException {
+        return graphService.addPath(indexes);
+    }
+
+    public Optional<Edge<E>> findEdge(E first, E second) {
+        return graphService.findEdge(e -> e.containsVertices(first, second));
+    }
+
+    public Optional<Vertex<E>> findVertex(E index) {
+        return graphService.findVertex(v -> v.getIndex().equals(index));
     }
 
     public List<Vertex<E>> getVertices() {
         return new ArrayList<>(vertices);
     }
 
-    public Collection<Edge<E>> getEdges() {
+    public List<Edge<E>> getEdges() {
         return new ArrayList<>(edges);
     }
 
-    public Graph<E> clone() throws CloneNotSupportedException {
-        return (Graph<E>)SerializationUtils.clone(this);
+    public Graph<E> clone() {
+        return (Graph<E>) SerializationUtils.clone(this);
     }
 
 }
