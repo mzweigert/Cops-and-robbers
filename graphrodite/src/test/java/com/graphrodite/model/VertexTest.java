@@ -5,7 +5,8 @@ import org.junit.Test;
 
 import java.util.Collection;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
 
 public class VertexTest {
 
@@ -17,10 +18,10 @@ public class VertexTest {
         // THEN
         vertex.createNeighbourhood(vertexNeighbor);
         // WHEN
-        assertEquals(vertex.getOpenNeighbourhood().size(), 1);
-        assertTrue(vertex.getOpenNeighbourhood().contains(vertexNeighbor));
-        assertEquals(vertexNeighbor.getOpenNeighbourhood().size(), 1);
-        assertTrue(vertexNeighbor.getOpenNeighbourhood().contains(vertex));
+        assertThat(vertex.getOpenNeighbourhood().size()).isEqualTo(1);
+        assertThat(vertex.getOpenNeighbourhood().contains(vertexNeighbor)).isTrue();
+        assertThat(vertexNeighbor.getOpenNeighbourhood().size()).isEqualTo(1);
+        assertThat(vertexNeighbor.getOpenNeighbourhood().contains(vertex)).isTrue();
     }
 
     @Test(expected = NeighborAlreadyExistException.class)
@@ -61,8 +62,8 @@ public class VertexTest {
         // THEN
         Collection<Vertex<Integer>> neighbourhood = vertex.getOpenNeighbourhood();
         // WHEN
-        assertEquals(neighbourhood.size(), 1);
-        assertTrue(neighbourhood.contains(vertexNeighbor));
+        assertThat(neighbourhood.size()).isEqualTo(1);
+        assertThat(neighbourhood.contains(vertexNeighbor)).isTrue();
     }
 
     @Test
@@ -74,9 +75,9 @@ public class VertexTest {
         // THEN
         Collection<Vertex<Integer>> neighbourhood = vertex.getClosedNeighbourhood();
         // WHEN
-        assertEquals(neighbourhood.size(), 2);
-        assertTrue(neighbourhood.contains(vertex));
-        assertTrue(neighbourhood.contains(vertexNeighbor));
+        assertThat(neighbourhood.size()).isEqualTo(2);
+        assertThat(neighbourhood.contains(vertex)).isTrue();
+        assertThat(neighbourhood.contains(vertexNeighbor)).isTrue();
     }
 
     @Test
@@ -88,10 +89,9 @@ public class VertexTest {
         // THEN
         boolean result = vertex.removeNeighbourhood(vertexNeighbor);
         // WHEN
-        assertTrue(result);
-        assertFalse(vertex.getOpenNeighbourhood().contains(vertexNeighbor));
-        assertFalse(vertexNeighbor.getOpenNeighbourhood().contains(vertex));
-
+        assertThat(result).isTrue();
+        assertThat(vertex.getOpenNeighbourhood().contains(vertexNeighbor)).isFalse();
+        assertThat(vertexNeighbor.getOpenNeighbourhood().contains(vertex)).isFalse();
     }
 
     @Test
@@ -102,8 +102,8 @@ public class VertexTest {
         // THEN
         boolean result = vertex.removeNeighbourhood(notVertexNeighbor);
         // WHEN
-        assertFalse(result);
-        assertFalse(vertex.getOpenNeighbourhood().contains(notVertexNeighbor));
-        assertFalse(notVertexNeighbor.getOpenNeighbourhood().contains(vertex));
+        assertThat(result).isFalse();
+        assertThat(vertex.getOpenNeighbourhood().contains(notVertexNeighbor)).isFalse();
+        assertThat(notVertexNeighbor.getOpenNeighbourhood().contains(vertex)).isFalse();
     }
 }

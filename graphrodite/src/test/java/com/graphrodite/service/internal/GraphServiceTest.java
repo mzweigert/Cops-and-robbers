@@ -4,7 +4,6 @@ import com.graphrodite.exception.EdgeAlreadyExistException;
 import com.graphrodite.exception.VertexAlreadyExistException;
 import com.graphrodite.model.Graph;
 import com.graphrodite.model.Vertex;
-import com.graphrodite.service.internal.GraphService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +12,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -35,7 +34,7 @@ public class GraphServiceTest {
         //WHEN
         boolean result = graphService.containsVertex(someIndex);
         //THEN
-        assertTrue(result);
+        assertThat(result).isTrue();
     }
 
     @Test
@@ -46,7 +45,7 @@ public class GraphServiceTest {
         //WHEN
         boolean result = graphService.containsVertex(2);
         //THEN
-        assertFalse(result);
+        assertThat(result).isFalse();
     }
 
     @Test
@@ -56,7 +55,7 @@ public class GraphServiceTest {
         //WHEN
         Vertex<Integer> result = graphService.findOrCreateVertex(someIndex);
         //THEN
-        assertEquals(result.getIndex(), someIndex);
+        assertThat(result.getIndex()).isEqualTo(someIndex);
     }
 
     @Test
@@ -66,7 +65,7 @@ public class GraphServiceTest {
         //WHEN
         Vertex<Integer> result = graphService.addVertex(someIndex);
         //THEN
-        assertEquals(result.getIndex(), someIndex);
+        assertThat(result.getIndex()).isEqualTo(someIndex);
     }
 
     @Test
@@ -78,8 +77,8 @@ public class GraphServiceTest {
         //WHEN
         Optional<Vertex<Integer>> result = graphService.findVertex(somePredicate);
         //THEN
-        assertTrue(result.isPresent());
-        assertEquals(result.get().getIndex(), someIndex);
+        assertThat(result.isPresent()).isTrue();
+        assertThat(result.get().getIndex()).isEqualTo(someIndex);
     }
 
     @Test
@@ -91,8 +90,8 @@ public class GraphServiceTest {
         //WHEN
         Optional<Vertex<Integer>> result = graphService.findVertex(somePredicate);
         //THEN
-        assertTrue(result.isPresent());
-        assertEquals(result.get().getIndex(), someIndex);
+        assertThat(result.isPresent()).isTrue();
+        assertThat(result.get().getIndex()).isEqualTo(someIndex);
     }
 
     @Test
@@ -105,13 +104,13 @@ public class GraphServiceTest {
         //THEN
         Optional<Vertex<Integer>> expectedVertex1 = graphService.findVertex(v -> v.getIndex().equals(firstVertexIndex));
         Optional<Vertex<Integer>> expectedVertex2 = graphService.findVertex(v -> v.getIndex().equals(secondVertexIndex));
-        assertTrue(expectedVertex1.isPresent());
-        assertTrue(expectedVertex2.isPresent());
-        assertEquals(expectedVertex1.get().getIndex(), firstVertexIndex);
-        assertEquals(expectedVertex2.get().getIndex(), secondVertexIndex);
-        assertEquals(expectedVertex1.get().getOpenNeighbourhood().stream().findFirst().get(), expectedVertex2.get());
-        assertEquals(expectedVertex2.get().getOpenNeighbourhood().stream().findFirst().get(), expectedVertex1.get());
-        assertTrue(graphService.containsEdge(expectedVertex1.get().getIndex(), expectedVertex2.get().getIndex()));
+        assertThat(expectedVertex1.isPresent()).isTrue();
+        assertThat(expectedVertex2.isPresent()).isTrue();
+        assertThat(expectedVertex1.get().getIndex()).isEqualTo(firstVertexIndex);
+        assertThat(expectedVertex2.get().getIndex()).isEqualTo(secondVertexIndex);
+        assertThat(expectedVertex1.get().getOpenNeighbourhood().stream().findFirst().get()).isEqualTo(expectedVertex2.get());
+        assertThat(expectedVertex2.get().getOpenNeighbourhood().stream().findFirst().get()).isEqualTo(expectedVertex1.get());
+        assertThat(graphService.containsEdge(expectedVertex1.get().getIndex(), expectedVertex2.get().getIndex())).isTrue();
     }
 
     @Test
@@ -124,10 +123,10 @@ public class GraphServiceTest {
         //THEN
         Optional<Vertex<Integer>> expectedVertex1 = graphService.findVertex(v -> v.getIndex().equals(firstVertexIndex));
         Optional<Vertex<Integer>> expectedVertex2 = graphService.findVertex(v -> v.getIndex().equals(secondVertexIndex));
-        assertTrue(expectedVertex1.isPresent());
-        assertTrue(expectedVertex2.isPresent());
-        assertEquals(expectedVertex1.get().getIndex(), firstVertexIndex);
-        assertEquals(expectedVertex2.get().getIndex(), secondVertexIndex);
+        assertThat(expectedVertex1.isPresent()).isTrue();
+        assertThat(expectedVertex2.isPresent()).isTrue();
+        assertThat(expectedVertex1.get().getIndex()).isEqualTo(firstVertexIndex);
+        assertThat(expectedVertex2.get().getIndex()).isEqualTo(firstVertexIndex);
     }
 
     @Test(expected = EdgeAlreadyExistException.class)
