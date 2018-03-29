@@ -27,15 +27,13 @@ public class Graph<E> implements Serializable {
         return new Graph<>();
     }
 
-    public Graph<E> addEdge(E first, E second) throws EdgeAlreadyExistException {
-        graphService.addEdge(first, second);
-        return this;
+    public Edge<E> addEdge(E first, E second) throws EdgeAlreadyExistException {
+        return graphService.addEdge(first, second);
     }
 
     @SafeVarargs
-    public final Graph<E> addEdge(E first, E... neighbors) throws EdgeAlreadyExistException {
-        graphService.addEdge(first, neighbors);
-        return this;
+    public final List<Edge<E>> addEdgesToVertex(E first, E... neighbors) throws EdgeAlreadyExistException {
+        return graphService.addEdgesToVertex(first, neighbors);
     }
 
     public Vertex<E> addVertex(E index) throws VertexAlreadyExistException {

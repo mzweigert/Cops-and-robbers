@@ -4,7 +4,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
 
 @RunWith(MockitoJUnitRunner.class)
 public class EdgeTest {
@@ -16,16 +17,16 @@ public class EdgeTest {
         // WHEN
         boolean result = edge.containsVertices(1, 2);
         // THEN
-        assertTrue(result);
+        assertThat(result).isTrue();
     }
 
     @Test
-    public void givenNotExistingVertices_whenContainsVertices_thenReturnTrue() {
+    public void givenNotExistingVertices_whenContainsVertices_thenReturnFalse() {
         // GIVEN
         Edge<Integer> edge = new Edge<>(new Vertex<>(1), new Vertex<>(2));
         // WHEN
         boolean result = edge.containsVertices(3, 3);
         // THEN
-        assertFalse(result);
+        assertThat(result).isFalse();
     }
 }

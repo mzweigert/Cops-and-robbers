@@ -67,7 +67,7 @@ public class GraphService<E> {
                 .findFirst();
     }
 
-    public void addEdge(E first, E second) throws EdgeAlreadyExistException {
+    public Edge<E> addEdge(E first, E second) throws EdgeAlreadyExistException {
         Vertex<E> firstVertex = findOrCreateVertex(first);
         Vertex<E> secondVertex = findOrCreateVertex(second);
         Edge<E> edge = new Edge<>(firstVertex, secondVertex);
@@ -82,15 +82,19 @@ public class GraphService<E> {
         } catch (NeighborAlreadyExistException e) {
             e.printStackTrace();
         }
+        return edge;
     }
 
 
-    public void addEdge(E first, E... neighbors) throws EdgeAlreadyExistException {
+    public List<Edge<E>> addEdgesToVertex(E first, E... neighbors) throws EdgeAlreadyExistException {
+        List<Edge<E>> edges = new ArrayList<>();
         Vertex<E> firstVertex = findOrCreateVertex(first);
         for (E second : neighbors) {
             Vertex<E> secondVertex = findOrCreateVertex(second);
-            addEdge(firstVertex.getIndex(), secondVertex.getIndex());
+            Edge<E> edge = addEdge(firstVertex.getIndex(), secondVertex.getIndex());
+            edges.add(edge);
         }
+        return edges;
     }
 
 
