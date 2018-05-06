@@ -1,7 +1,8 @@
-package com.graphrodite.service.internal;
+package com.graphrodite.service;
 
 import com.graphrodite.exception.EdgeAlreadyExistException;
 import com.graphrodite.exception.VertexAlreadyExistException;
+import com.graphrodite.internal.service.GraphService;
 import com.graphrodite.model.Graph;
 import com.graphrodite.model.Vertex;
 import org.junit.Before;
