@@ -1,16 +1,16 @@
-package com.graphrodite.service;
+package com.graphrodite.factory;
 
 import com.graphrodite.exception.EdgeAlreadyExistException;
 import com.graphrodite.exception.VertexAlreadyExistException;
 import com.graphrodite.model.Pair;
-import com.graphrodite.enums.GraphProduct;
+import com.graphrodite.internal.enums.GraphProduct;
 import com.graphrodite.model.Graph;
 import com.graphrodite.model.Vertex;
-import com.graphrodite.shared.GraphProductCondition;
+import com.graphrodite.internal.wrapper.ProductConditionWrapper;
 
 import java.util.ListIterator;
 
-public class GraphProductService {
+public class GraphProductFactory {
 
     public <A, B> Graph createStrongProduct(Graph<A> firstGraph, Graph<B> secondGraph) {
         return createProduct(firstGraph, secondGraph, GraphProduct.STRONG);
@@ -42,7 +42,8 @@ public class GraphProductService {
                 ListIterator<Vertex<Pair<A, B>>> secondIterator = resultGraph.getVertices().listIterator(vertexIterator.nextIndex());
                 while (secondIterator.hasNext()) {
                     Vertex<Pair<A, B>> nextVertex = secondIterator.next();
-                    GraphProductCondition<A, B> condition = GraphProductCondition.newInstance(firstGraph, secondGraph, firstVertex.getIndex(), nextVertex.getIndex());
+                    ProductConditionWrapper<A, B> condition =
+                            ProductConditionWrapper.newInstance(firstGraph, secondGraph, firstVertex.getIndex(), nextVertex.getIndex());
                     if (graphProduct.getCondition(condition)) {
                         resultGraph.addEdge(firstVertex.getIndex(), nextVertex.getIndex());
                     }
@@ -53,6 +54,5 @@ public class GraphProductService {
             e.printStackTrace();
         }
         return null;
-
     }
 }

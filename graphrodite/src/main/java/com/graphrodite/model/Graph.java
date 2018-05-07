@@ -3,7 +3,7 @@ package com.graphrodite.model;
 
 import com.graphrodite.exception.EdgeAlreadyExistException;
 import com.graphrodite.exception.VertexAlreadyExistException;
-import com.graphrodite.service.internal.GraphService;
+import com.graphrodite.internal.service.GraphService;
 import org.apache.commons.lang.SerializationUtils;
 
 import java.io.Serializable;

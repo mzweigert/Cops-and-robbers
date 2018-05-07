@@ -1,26 +1,26 @@
-package com.graphrodite.shared;
+package com.graphrodite.internal.wrapper;
 
 
 import com.graphrodite.model.Graph;
 import com.graphrodite.model.Pair;
 
-public class GraphProductCondition<A, B> {
+public class ProductConditionWrapper<A, B> {
 
     private final Graph<A> firstGraph;
     private final Graph<B> secondGraph;
     private final Pair<A, B> firstVertexIndex;
     private final Pair<A, B> secondVertexIndex;
 
-    private GraphProductCondition(Graph<A> firstGraph, Graph<B> secondGraph, Pair<A, B> firstVertex, Pair<A, B> secondVertex) {
+    private ProductConditionWrapper(Graph<A> firstGraph, Graph<B> secondGraph, Pair<A, B> firstVertex, Pair<A, B> secondVertex) {
         this.firstGraph = firstGraph;
         this.secondGraph = secondGraph;
         this.firstVertexIndex = firstVertex;
         this.secondVertexIndex = secondVertex;
     }
 
-    public static <A, B>  GraphProductCondition<A, B> newInstance(Graph<A> firstGraph, Graph<B> secondGraph,
-                                                                  Pair<A, B> firstVertex, Pair<A, B> secondVertex) {
-        return new GraphProductCondition<>(firstGraph, secondGraph, firstVertex, secondVertex);
+    public static <A, B> ProductConditionWrapper<A, B> newInstance(Graph<A> firstGraph, Graph<B> secondGraph,
+                                                                   Pair<A, B> firstVertex, Pair<A, B> secondVertex) {
+        return new ProductConditionWrapper<>(firstGraph, secondGraph, firstVertex, secondVertex);
     }
 
     public boolean isFirstGraphHasEdgeWithFirstIndexes() {

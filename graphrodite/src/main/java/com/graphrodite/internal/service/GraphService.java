@@ -1,4 +1,4 @@
-package com.graphrodite.service.internal;
+package com.graphrodite.internal.service;
 
 import com.graphrodite.exception.EdgeAlreadyExistException;
 import com.graphrodite.exception.NeighborAlreadyExistException;
@@ -6,12 +6,12 @@ import com.graphrodite.exception.VertexAlreadyExistException;
 import com.graphrodite.model.Edge;
 import com.graphrodite.model.Vertex;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.io.Serializable;
+import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
-public class GraphService<E> {
+public class GraphService<E> implements Serializable {
 
     private List<Edge<E>> edges;
     private List<Vertex<E>> vertices;
@@ -36,12 +36,13 @@ public class GraphService<E> {
 
     public List<Vertex<E>> addVertices(E... indexes) throws VertexAlreadyExistException {
         List<Vertex<E>> vertices = new ArrayList<>();
-        for(E index : indexes){
+        for (E index : indexes) {
             Vertex<E> vertex = addVertex(index);
             vertices.add(vertex);
         }
         return vertices;
     }
+
     public Vertex<E> addVertex(E index) throws VertexAlreadyExistException {
         if (containsVertex(index)) {
             throw new VertexAlreadyExistException(index);
@@ -76,7 +77,7 @@ public class GraphService<E> {
         }
         edges.add(edge);
         try {
-            if(!firstVertex.equals(secondVertex)){
+            if (!firstVertex.equals(secondVertex)) {
                 firstVertex.createNeighbourhood(secondVertex);
             }
         } catch (NeighborAlreadyExistException e) {
@@ -110,6 +111,4 @@ public class GraphService<E> {
         }
         return vertices;
     }
-
-
 }

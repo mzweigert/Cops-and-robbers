@@ -50,6 +50,10 @@ public class Vertex<E> implements Serializable {
         return collection;
     }
 
+    public boolean closedNeighbourhoodNotContains(Vertex<E> vertex) {
+        return !getClosedNeighbourhood().contains(vertex);
+    }
+
     public E getIndex() {
         return index;
     }
@@ -68,6 +72,11 @@ public class Vertex<E> implements Serializable {
     @Override
     public int hashCode() {
         return index.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return index.toString();
     }
 
     public Vertex<E> clone() {
