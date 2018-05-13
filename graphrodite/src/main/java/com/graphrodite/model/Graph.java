@@ -2,6 +2,7 @@ package com.graphrodite.model;
 
 
 import com.graphrodite.exception.EdgeAlreadyExistException;
+import com.graphrodite.exception.PathContainsDuplicates;
 import com.graphrodite.exception.VertexAlreadyExistException;
 import com.graphrodite.internal.service.GraphService;
 import org.apache.commons.lang.SerializationUtils;
@@ -46,7 +47,7 @@ public class Graph<E> implements Serializable {
     }
 
     @SafeVarargs
-    public final List<Vertex<E>> addPath(E... indexes) throws EdgeAlreadyExistException {
+    public final List<Vertex<E>> addPath(E... indexes) throws EdgeAlreadyExistException, PathContainsDuplicates {
         return graphService.addPath(indexes);
     }
 
@@ -68,6 +69,22 @@ public class Graph<E> implements Serializable {
 
     public Graph<E> clone() {
         return (Graph<E>) SerializationUtils.clone(this);
+    }
+
+    public static Graph<Integer> petersen(){
+        Graph<Integer> petersenGraph = Graph.newInstance();
+        try {
+            petersenGraph.addPath(0, 1, 2, 3, 4);
+            petersenGraph.addPath(0, 4);
+            petersenGraph.addEdgesToVertex(5, 0, 7, 8);
+            petersenGraph.addEdgesToVertex(6, 1, 8, 9);
+            petersenGraph.addEdgesToVertex(7, 2, 9);
+            petersenGraph.addEdgesToVertex(8, 3);
+            petersenGraph.addEdgesToVertex(9, 4);
+        } catch (EdgeAlreadyExistException | PathContainsDuplicates e) {
+            e.printStackTrace();
+        }
+        return petersenGraph;
     }
 
 }

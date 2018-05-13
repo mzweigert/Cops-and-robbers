@@ -1,6 +1,7 @@
-package com.copsandrobber.helper;
+package com.copsandrobber.algorithm.k_cop_enough.helper;
 
 import com.graphrodite.exception.EdgeAlreadyExistException;
+import com.graphrodite.exception.PathContainsDuplicates;
 import com.graphrodite.exception.VertexAlreadyExistException;
 import com.graphrodite.factory.GraphProductFactory;
 import com.graphrodite.model.Graph;
@@ -13,22 +14,22 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.runners.MockitoJUnitRunner;
-import java.util.*;
-import java.util.stream.Collectors;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
-
 @RunWith(MockitoJUnitRunner.class)
-public class AlgorithmHelperTest {
+public class IsKCopEnoughHelperTest {
 
     private Graph<Integer> graph;
-
-    @InjectMocks
     private GraphProductFactory factory = new GraphProductFactory();
 
     @InjectMocks
-    private AlgorithmHelper algorithmHelper;
+    private IsKCopEnoughHelper helper;
 
     @Before
     public void setUp() {
@@ -36,7 +37,7 @@ public class AlgorithmHelperTest {
     }
 
     @Test
-    public void givenAnyGraph_whenGetClosedNeighbourhoodUnion_thenReturnUnionOfClosedNeighbourhood() throws EdgeAlreadyExistException {
+    public void givenAnyGraph_whenGetClosedNeighbourhoodUnion_thenReturnUnionOfClosedNeighbourhood() throws EdgeAlreadyExistException, PathContainsDuplicates {
         // GIVEN
         graph.addPath(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         Set<Vertex<Integer>> vertices = new HashSet<>();
@@ -46,7 +47,7 @@ public class AlgorithmHelperTest {
         vertices.add(anyVertex_2);
 
         // WHEN
-        Set<Vertex<Integer>> result = algorithmHelper.getClosedNeighbourhoodUnion(vertices);
+        Set<Vertex<Integer>> result = helper.getClosedNeighbourhoodUnion(vertices);
 
         // THEN
         assertThat(result.containsAll(anyVertex_1.getClosedNeighbourhood())).isTrue();
@@ -54,82 +55,14 @@ public class AlgorithmHelperTest {
     }
 
     @Test
-    public void givenTwoDominatingVertex_whenIsFirstDominatingSecond_thenReturnFalse() throws EdgeAlreadyExistException {
-        // GIVEN
-        graph.addPath(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-        Vertex<Integer> dominating_1 = graph.findVertex(2).get();
-        Vertex<Integer> dominating_2 = graph.findVertex(9).get();
-
-        // WHEN
-        boolean result = algorithmHelper.isFirstDominatingSecond(dominating_1, dominating_2);
-        // THEN
-        assertThat(result).isFalse();
-    }
-
-    @Test
-    public void givenDominatingAndDominatedVertex_whenIsFirstDominatingSecond_thenReturnFalse() throws EdgeAlreadyExistException {
-        // GIVEN
-        graph.addPath(1, 2, 3);
-        graph.addEdge(1, 3);
-        Vertex<Integer> dominating = graph.findVertex(3).get();
-        Vertex<Integer> dominated = graph.findVertex(2).get();
-
-        // WHEN
-        boolean result = algorithmHelper.isFirstDominatingSecond(dominating, dominated);
-        // THEN
-        assertThat(result).isTrue();
-    }
-
-    @Test
-    public void givenSameMap_whenSafeZoneChanged_thenReturnFalse() {
-        // GIVEN
-        Map<Vertex<Integer>, Set<Vertex<Integer>>> firstMap = new HashMap<>();
-        Set<Vertex<Integer>> set = new HashSet<>();
-        set.add(new Vertex<>(2));
-        set.add(new Vertex<>(3));
-        set.add(new Vertex<>(4));
-        firstMap.put(new Vertex<>(1), set);
-
-        Map<Vertex<Integer>, Integer> secondMap = firstMap.entrySet().stream()
-                .collect(Collectors.toMap(
-                        k -> k.getKey(),
-                        v -> v.getValue().size()
-                ));
-
-        // WHEN
-        boolean result = algorithmHelper.safeZoneChanged(firstMap, secondMap);
-        // THEN
-        assertThat(result).isFalse();
-    }
-
-    @Test
-    public void givenDifferentMap_whenIsMapEquals_thenReturnFalse() {
-        // GIVEN
-        Map<Vertex<Integer>, Set<Vertex<Integer>>> firstMap = new HashMap<>();
-        Set<Vertex<Integer>> set_1 = new HashSet<>();
-        set_1.add(new Vertex<>(2));
-        set_1.add(new Vertex<>(3));
-        set_1.add(new Vertex<>(4));
-        firstMap.put(new Vertex<>(1), set_1);
-
-        Map<Vertex<Integer>, Integer> secondMap = new HashMap<>();
-        secondMap.put(new Vertex<>(1), 2);
-
-        // WHEN
-        boolean result = algorithmHelper.safeZoneChanged(firstMap, secondMap);
-        // THEN
-        assertThat(result).isTrue();
-    }
-
-    @Test
-    public void givenPathGraph_whenFindSafeZonesForVertices_thenReturnSafeZones() throws EdgeAlreadyExistException {
+    public void givenPathGraph_whenFindSafeZonesForVertices_thenReturnSafeZones() throws EdgeAlreadyExistException, PathContainsDuplicates {
         // GIVEN
         graph.addPath(1, 2, 3, 4, 5, 6, 7, 8);
         Vertex<Integer> vertex_1 = graph.findVertex(2).get();
         Vertex<Integer> vertex_2 = graph.findVertex(4).get();
         List<Vertex<Integer>> vertices = Lists.newArrayList(vertex_1, vertex_2);
         // WHEN
-        Map<Vertex<Integer>, Set<Vertex<Integer>>> safeZones = algorithmHelper.findSafeZonesForVertices(vertices, graph);
+        Map<Vertex<Integer>, Set<Vertex<Integer>>> safeZones = helper.findSafeZonesForVertices(vertices, graph);
         // THEN
         Set<Vertex<Integer>> expectedSafeZoneForFirstVertex = Sets.newHashSet(Lists.newArrayList(
                 new Vertex<>(4), new Vertex<>(5), new Vertex<>(6),
@@ -146,7 +79,7 @@ public class AlgorithmHelperTest {
     }
 
     @Test
-    public void givenC5Graph_whenFindSafeZonesForVertices_thenReturnSafeZones() throws EdgeAlreadyExistException {
+    public void givenC5Graph_whenFindSafeZonesForVertices_thenReturnSafeZones() throws EdgeAlreadyExistException, PathContainsDuplicates {
         // GIVEN
         graph.addPath(1, 2, 3, 4, 5);
         graph.addPath(1, 5);
@@ -154,7 +87,7 @@ public class AlgorithmHelperTest {
         Vertex<Integer> vertex_2 = graph.findVertex(4).get();
         List<Vertex<Integer>> vertices = Lists.newArrayList(vertex_1, vertex_2);
         // WHEN
-        Map<Vertex<Integer>, Set<Vertex<Integer>>> safeZones = algorithmHelper.findSafeZonesForVertices(vertices, graph);
+        Map<Vertex<Integer>, Set<Vertex<Integer>>> safeZones = helper.findSafeZonesForVertices(vertices, graph);
         // THEN
         Set<Vertex<Integer>> expectedSafeZoneForFirstVertex = Sets.newHashSet(Lists.newArrayList(
                 new Vertex<>(3), new Vertex<>(4)));
@@ -169,13 +102,13 @@ public class AlgorithmHelperTest {
     }
 
     @Test
-    public void givenC5Graph_whenFindSafeZonesForVertex_thenReturnSafeZones() throws EdgeAlreadyExistException {
+    public void givenC5Graph_whenFindSafeZonesForVertex_thenReturnSafeZones() throws EdgeAlreadyExistException, PathContainsDuplicates {
         // GIVEN
         graph.addPath(1, 2, 3, 4, 5);
         graph.addPath(1, 5);
         Vertex<Integer> vertex_1 = graph.findVertex(1).get();
         // WHEN
-        Set<Vertex<Integer>> safeZonesForVertex = algorithmHelper.findSafeZonesForVertex(vertex_1, graph);
+        Set<Vertex<Integer>> safeZonesForVertex = helper.findSafeZonesForVertex(vertex_1, graph);
         // THEN
         Set<Vertex<Integer>> expectedSafeZoneForFirstVertex = Sets.newHashSet(Lists.newArrayList(
                 new Vertex<>(3), new Vertex<>(4)));
@@ -184,7 +117,7 @@ public class AlgorithmHelperTest {
     }
 
     @Test
-    public void givenC5ProductGraphGraph_whenFindSafeZonesForVertex_thenReturnIntersectionSafeZones() throws EdgeAlreadyExistException {
+    public void givenC5ProductGraphGraph_whenFindSafeZonesForVertex_thenReturnIntersectionSafeZones() throws EdgeAlreadyExistException, PathContainsDuplicates {
         // GIVEN
         graph.addPath(1, 2, 3, 4, 5);
         graph.addPath(1, 5);
@@ -192,7 +125,7 @@ public class AlgorithmHelperTest {
 
         Vertex vertex = product.findVertex(new Pair<>(1, 5)).get();
         // WHEN
-        Set<Vertex<Integer>> safeZonesForVertex = algorithmHelper.findSafeZonesForVertex(vertex, graph);
+        Set<Vertex<Integer>> safeZonesForVertex = helper.findSafeZonesForVertex(vertex, graph);
         // THEN
         Set<Vertex<Integer>> expectedSafeZoneForFirstVertex = Sets.newHashSet(Lists.newArrayList(new Vertex<>(3)));
 
@@ -207,7 +140,7 @@ public class AlgorithmHelperTest {
 
         Vertex vertex = new Vertex(new Pair<>(new Pair<>(new Pair<>(3, 2), 5), 6));
         // WHEN
-        Set<Vertex<Integer>> result = algorithmHelper.extractVertices(vertex, graph);
+        Set<Vertex<Integer>> result = helper.extractVertices(vertex, graph);
         // THEN
         Set<Vertex<Integer>> expectedSafeZoneForFirstVertex = Sets.newHashSet(Lists.newArrayList(
                 new Vertex<>(3),
@@ -219,18 +152,4 @@ public class AlgorithmHelperTest {
         assertThat(result).isEqualTo(expectedSafeZoneForFirstVertex);
     }
 
-    @Test
-    public void givenSafeZonesMap_whenCreateSafeZonesCountMap_thenReturnSafeZonesCountMap() {
-        // GIVEN
-        Map<Vertex<Integer>, Set<Vertex<Integer>>> safeZones = new HashMap<>();
-        Set<Vertex<Integer>> set_1 = new HashSet<>();
-        set_1.add(new Vertex<>(2));
-        set_1.add(new Vertex<>(3));
-        set_1.add(new Vertex<>(4));
-        safeZones.put(new Vertex<>(1), set_1);
-        // WHEN
-        Map<Vertex<Integer>, Integer> result = algorithmHelper.createSafeZonesCountMap(safeZones);
-        // THEN
-        assertThat(result.get(new Vertex<>(1))).isEqualTo(3);
-    }
 }

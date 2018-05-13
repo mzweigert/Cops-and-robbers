@@ -33,7 +33,7 @@ public class GraphProductFactory {
             Graph<Pair<A, B>> resultGraph = Graph.newInstance();
             for (Vertex<A> firstVertex : firstGraph.getVertices()) {
                 for (Vertex<B> secondVertex : secondGraph.getVertices()) {
-                    resultGraph.addVertex(new Pair<>(firstVertex, secondVertex));
+                    resultGraph.addVertex(new Pair<>(firstVertex.getIndex(), secondVertex.getIndex()));
                 }
             }
             ListIterator<Vertex<Pair<A, B>>> vertexIterator = resultGraph.getVertices().listIterator();

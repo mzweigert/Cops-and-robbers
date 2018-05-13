@@ -14,10 +14,6 @@ public class Pair<A, B> implements Serializable {
         this.second = second;
     }
 
-    public Pair(Vertex<A> firstVertex, Vertex<B> secondVertex) {
-        this(firstVertex.getIndex(), secondVertex.getIndex());
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
