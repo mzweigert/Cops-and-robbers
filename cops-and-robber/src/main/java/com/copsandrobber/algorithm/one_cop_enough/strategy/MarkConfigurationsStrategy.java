@@ -6,6 +6,7 @@ import com.graphrodite.model.Pair;
 import com.graphrodite.model.Vertex;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class MarkConfigurationsStrategy implements OneCopEnoughStrategy {
 
@@ -22,22 +23,23 @@ public class MarkConfigurationsStrategy implements OneCopEnoughStrategy {
     @Override
     public <E> boolean calculate(Graph<E> graph) {
         List<Vertex<E>> graphVertices = graph.getVertices();
-        List<Pair<Vertex<E>, Vertex<E>>> marked = helper.createMarkedConfigurations(graphVertices);
+        Set<Pair<Vertex<E>, Vertex<E>>> marked = helper.createMarkedConfigurations(graphVertices);
         List<Pair<Vertex<E>, Vertex<E>>> unmarked = helper.createUnmarkedConfigurations(marked);
+
         int prevUnmarkedCount;
 
         do {
             prevUnmarkedCount = unmarked.size();
-            ListIterator<Pair<Vertex<E>, Vertex<E>>> listIterator = unmarked.listIterator();
+            Iterator<Pair<Vertex<E>, Vertex<E>>> unmarkedIterator = unmarked.iterator();
 
-            while (listIterator.hasNext()) {
+            while (unmarkedIterator.hasNext()) {
 
-                Pair<Vertex<E>, Vertex<E>> configuration = listIterator.next();
+                Pair<Vertex<E>, Vertex<E>> configuration = unmarkedIterator.next();
                 Collection<Vertex<E>> copNeighbours = configuration.getFirst().getClosedNeighbourhood();
                 Collection<Vertex<E>> robberNeighbours = configuration.getSecond().getClosedNeighbourhood();
 
                 if (helper.isAllRobbersNeighbourAndAnyCopIsMarked(robberNeighbours, copNeighbours, marked)) {
-                    listIterator.remove();
+                    unmarkedIterator.remove();
                     marked.add(configuration);
                 }
             }

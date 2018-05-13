@@ -22,12 +22,18 @@ public class IsOneCopEnough {
         }
 
         @Override
+        public <E> boolean measureCalculate(Graph<E> graph) {
+            return strategy.measureCalculate(graph);
+        }
+
+        @Override
         public <E> boolean calculate(Graph<E> graph) {
             return strategy.calculate(graph);
         }
     }
 
     public interface Calculate {
+        <E> boolean measureCalculate(Graph<E> graph);
         <E> boolean calculate(Graph<E> graph);
     }
 }
