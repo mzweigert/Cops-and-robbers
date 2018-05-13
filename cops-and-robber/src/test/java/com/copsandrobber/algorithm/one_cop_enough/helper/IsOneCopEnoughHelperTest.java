@@ -11,10 +11,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
@@ -69,7 +66,7 @@ public class IsOneCopEnoughHelperTest {
 
         Collection<Vertex<Integer>> robberNeighbourhood = robberPosition.getClosedNeighbourhood();
         Collection<Vertex<Integer>> copNeighbourhood = copPosition.getClosedNeighbourhood();
-        List<Pair<Vertex<Integer>, Vertex<Integer>>> marked = helper.createMarkedConfigurations(vertices);
+        Set<Pair<Vertex<Integer>, Vertex<Integer>>> marked = helper.createMarkedConfigurations(vertices);
         // WHEN
         boolean result = helper.isAllRobbersNeighbourAndAnyCopIsMarked(robberNeighbourhood, copNeighbourhood, marked);
         // THEN
@@ -88,7 +85,7 @@ public class IsOneCopEnoughHelperTest {
         Vertex<Integer> copPosition = vertices.get(0);
         Collection<Vertex<Integer>> robberNeighbourhood = robberPosition.getClosedNeighbourhood();
         Collection<Vertex<Integer>> copNeighbourhood = copPosition.getClosedNeighbourhood();
-        List<Pair<Vertex<Integer>, Vertex<Integer>>> marked = helper.createMarkedConfigurations(vertices);
+        Set<Pair<Vertex<Integer>, Vertex<Integer>>> marked = helper.createMarkedConfigurations(vertices);
         // add configuration where cop is in vertex 1 and robber on 2
         marked.add(new Pair<>(new Vertex<>(1), new Vertex<>(2)));
         // WHEN
@@ -111,7 +108,7 @@ public class IsOneCopEnoughHelperTest {
 
         Collection<Vertex<Integer>> robberNeighbourhood = robberPosition.getClosedNeighbourhood();
         Collection<Vertex<Integer>> copNeighbourhood = copPosition.getClosedNeighbourhood();
-        List<Pair<Vertex<Integer>, Vertex<Integer>>> marked = helper.createMarkedConfigurations(vertices);
+        Set<Pair<Vertex<Integer>, Vertex<Integer>>> marked = helper.createMarkedConfigurations(vertices);
         // WHEN
         boolean result = helper.isAllRobbersNeighbourAndAnyCopIsMarked(robberNeighbourhood, copNeighbourhood, marked);
         // THEN
@@ -125,7 +122,7 @@ public class IsOneCopEnoughHelperTest {
         List<Vertex<Integer>> vertices = graph.getVertices();
 
         // WHEN
-        List<Pair<Vertex<Integer>, Vertex<Integer>>> marked = helper.createMarkedConfigurations(vertices);
+        Set<Pair<Vertex<Integer>, Vertex<Integer>>> marked = helper.createMarkedConfigurations(vertices);
 
         // THEN
         assertThat(marked).isNotNull();
@@ -137,7 +134,7 @@ public class IsOneCopEnoughHelperTest {
     public void givenMarkedCollection_whenCreateUnmarkedConfigurations_thenSuccessMatchEachWithEachFromMarked() throws EdgeAlreadyExistException, PathContainsDuplicates {
         // GIVEN
         graph.addPath(1, 2, 3, 4, 5);
-        List<Pair<Vertex<Integer>, Vertex<Integer>>> marked = helper.createMarkedConfigurations(graph.getVertices());
+        Set<Pair<Vertex<Integer>, Vertex<Integer>>> marked = helper.createMarkedConfigurations(graph.getVertices());
 
         // WHEN
         List<Pair<Vertex<Integer>, Vertex<Integer>>> unmarked = helper.createUnmarkedConfigurations(marked);
