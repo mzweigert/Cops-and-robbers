@@ -1,8 +1,7 @@
-package com.graphrodite.service;
+package com.graphrodite.internal.service;
 
 import com.graphrodite.exception.EdgeAlreadyExistException;
 import com.graphrodite.exception.VertexAlreadyExistException;
-import com.graphrodite.internal.service.GraphService;
 import com.graphrodite.model.Graph;
 import com.graphrodite.model.Vertex;
 import org.junit.Before;
@@ -14,7 +13,6 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
 
 @RunWith(MockitoJUnitRunner.class)
 public class GraphServiceTest {

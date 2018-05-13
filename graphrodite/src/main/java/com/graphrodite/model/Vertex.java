@@ -50,10 +50,6 @@ public class Vertex<E> implements Serializable {
         return collection;
     }
 
-    public boolean closedNeighbourhoodNotContains(Vertex<E> vertex) {
-        return !getClosedNeighbourhood().contains(vertex);
-    }
-
     public E getIndex() {
         return index;
     }

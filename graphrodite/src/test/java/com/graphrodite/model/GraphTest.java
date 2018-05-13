@@ -2,6 +2,7 @@ package com.graphrodite.model;
 
 
 import com.graphrodite.exception.EdgeAlreadyExistException;
+import com.graphrodite.exception.PathContainsDuplicates;
 import com.graphrodite.exception.VertexAlreadyExistException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -103,7 +104,7 @@ public class GraphTest {
     }
 
     @Test
-    public void givenIndexes_whenAddPathAndGraphIsEmpty_thenSuccessAddPathToGraph() throws EdgeAlreadyExistException {
+    public void givenIndexes_whenAddPathAndGraphIsEmpty_thenSuccessAddPathToGraph() throws EdgeAlreadyExistException, PathContainsDuplicates {
         //GIVEN
         Graph<Integer> graph = Graph.newInstance();
         //WHEN
@@ -115,7 +116,7 @@ public class GraphTest {
     }
 
     @Test
-    public void givenIndexes_whenAddPathAndGraphIsNotEmpty_thenSuccessAddPathToGraph() throws EdgeAlreadyExistException {
+    public void givenIndexes_whenAddPathAndGraphIsNotEmpty_thenSuccessAddPathToGraph() throws EdgeAlreadyExistException, PathContainsDuplicates {
         //GIVEN
         Graph<Integer> graph = Graph.newInstance();
         graph.addEdge(1, 2);
