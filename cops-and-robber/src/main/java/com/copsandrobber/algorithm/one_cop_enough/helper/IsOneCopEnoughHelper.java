@@ -49,7 +49,7 @@ public class IsOneCopEnoughHelper {
         return unmarked;
     }
 
-    public <E> LinkedHashSet<Pair<Vertex<E>, Vertex<E>>> createMarkedConfigurations(List<Vertex<E>> graphVertices) {
+    public <E> LinkedHashSet<Pair<Vertex<E>, Vertex<E>>> createMarkedConfigurations(Set<Vertex<E>> graphVertices) {
         return graphVertices.stream()
                 .map(v -> new Pair<>(v, v))
                 .collect(Collectors.toCollection(LinkedHashSet::new));

@@ -4,13 +4,14 @@ package com.graphrodite.model;
 import org.apache.commons.lang.SerializationUtils;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Edge<E> implements Serializable {
 
     private Vertex<E> first;
     private Vertex<E> second;
 
-    public Edge(Vertex<E> first, Vertex<E> second) {
+    private Edge(Vertex<E> first, Vertex<E> second) {
         this.first = first;
         this.second = second;
     }
@@ -28,9 +29,7 @@ public class Edge<E> implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = first.hashCode();
-        result = 31 * result + second.hashCode();
-        return result;
+        return Objects.hash(getFirst(), getSecond()) * Objects.hash(getSecond(), getFirst());
     }
 
     @Override
@@ -53,5 +52,9 @@ public class Edge<E> implements Serializable {
 
     public Edge<E> clone() {
         return (Edge<E>) SerializationUtils.clone(this);
+    }
+
+    public static <E> Edge<E> create(Vertex<E> firstVertex, Vertex<E> secondVertex) {
+        return new Edge<>(firstVertex, secondVertex);
     }
 }

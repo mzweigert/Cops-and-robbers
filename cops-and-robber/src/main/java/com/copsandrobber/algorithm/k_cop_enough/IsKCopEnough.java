@@ -31,8 +31,9 @@ public class IsKCopEnough {
         }
         Map<Vertex<E>, Set<Vertex<E>>> safeZonesForVertices = helper.findSafeZonesForVertices(resultGraph.getVertices(), graph);
         boolean safeZoneUChanged = false, safeZoneVChanged = false;
+        Set<Edge<E>> edges = resultGraph.getEdges();
         do {
-            for (Edge<E> edge : resultGraph.getEdges()) {
+            for (Edge<E> edge : edges) {
                 Set<Vertex<E>> safeZoneForU = safeZonesForVertices.get(edge.getFirst());
                 Set<Vertex<E>> safeZoneForV = safeZonesForVertices.get(edge.getSecond());
                 Set<Vertex<E>> SafeZonesNeighboursForV = helper.getClosedNeighbourhoodUnion(safeZoneForV);

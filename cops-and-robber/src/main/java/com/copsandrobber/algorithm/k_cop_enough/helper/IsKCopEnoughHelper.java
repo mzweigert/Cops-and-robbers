@@ -17,7 +17,7 @@ public class IsKCopEnoughHelper {
     }
 
 
-    public <E> Map<Vertex<E>, Set<Vertex<E>>> findSafeZonesForVertices(List<Vertex<E>> newVertices, Graph<E> originalGraph) {
+    public <E> Map<Vertex<E>, Set<Vertex<E>>> findSafeZonesForVertices(Set<Vertex<E>> newVertices, Graph<E> originalGraph) {
         return newVertices.stream().collect(
                 Collectors.toMap(
                         key -> key,

@@ -8,7 +8,7 @@ import com.graphrodite.model.Graph;
 import com.graphrodite.model.Vertex;
 import com.graphrodite.internal.wrapper.ProductConditionWrapper;
 
-import java.util.ListIterator;
+import java.util.*;
 
 public class GraphProductFactory {
 
@@ -31,26 +31,29 @@ public class GraphProductFactory {
     private <A, B> Graph<Pair<A, B>> createProduct(Graph<A> firstGraph, Graph<B> secondGraph, GraphProduct graphProduct) {
         try {
             Graph<Pair<A, B>> resultGraph = Graph.newInstance();
+            List<Vertex<Pair<A, B>>> vertices = new LinkedList<>();
             for (Vertex<A> firstVertex : firstGraph.getVertices()) {
                 for (Vertex<B> secondVertex : secondGraph.getVertices()) {
-                    resultGraph.addVertex(new Pair<>(firstVertex.getIndex(), secondVertex.getIndex()));
+                    Pair<A, B> vertex = new Pair<>(firstVertex.getIndex(), secondVertex.getIndex());
+                    vertices.add(Vertex.create(vertex));
                 }
             }
-            ListIterator<Vertex<Pair<A, B>>> vertexIterator = resultGraph.getVertices().listIterator();
+            ListIterator<Vertex<Pair<A, B>>> vertexIterator = vertices.listIterator();
             while (vertexIterator.hasNext()) {
                 Vertex<Pair<A, B>> firstVertex = vertexIterator.next();
-                ListIterator<Vertex<Pair<A, B>>> secondIterator = resultGraph.getVertices().listIterator(vertexIterator.nextIndex());
+                ListIterator<Vertex<Pair<A, B>>> secondIterator = vertices.listIterator(vertexIterator.nextIndex());
                 while (secondIterator.hasNext()) {
                     Vertex<Pair<A, B>> nextVertex = secondIterator.next();
                     ProductConditionWrapper<A, B> condition =
                             ProductConditionWrapper.newInstance(firstGraph, secondGraph, firstVertex.getIndex(), nextVertex.getIndex());
+
                     if (graphProduct.getCondition(condition)) {
                         resultGraph.addEdge(firstVertex.getIndex(), nextVertex.getIndex());
                     }
                 }
             }
             return resultGraph;
-        } catch (VertexAlreadyExistException | EdgeAlreadyExistException e) {
+        } catch (EdgeAlreadyExistException e) {
             e.printStackTrace();
         }
         return null;

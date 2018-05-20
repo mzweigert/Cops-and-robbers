@@ -22,7 +22,7 @@ public class GraphServiceTest {
     @Before
     public void setUp() {
         Graph<Integer> graph = Graph.newInstance();
-        graphService = new GraphService<>(graph.getVertices(), graph.getEdges());
+        graphService = new GraphService<Integer>(graph.getVertices(), graph.getEdges());
     }
 
     @Test
@@ -91,6 +91,72 @@ public class GraphServiceTest {
         //THEN
         assertThat(result.isPresent()).isTrue();
         assertThat(result.get().getIndex()).isEqualTo(someIndex);
+    }
+
+
+    @Test
+    public void givenAddEdge_whenContainsEdge_thenReturnTrue() throws EdgeAlreadyExistException {
+        //GIVEN
+        graphService.addEdge(1, 2);
+
+        //WHEN
+        boolean result = graphService.containsEdge(1, 2);
+        //THEN
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    public void givenNothing_whenContainsEdge_thenReturnFalse() {
+        //GIVEN
+
+        //WHEN
+        boolean result = graphService.containsEdge(1, 2);
+        //THEN
+        assertThat(result).isFalse();
+    }
+
+    @Test
+    public void givenAddEdge_whenContainsEdgeWithReverseIndexes_thenReturnTrue() throws EdgeAlreadyExistException {
+        //GIVEN
+        graphService.addEdge(1, 2);
+
+        //WHEN
+        boolean result = graphService.containsEdge(2, 1);
+        //THEN
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    public void givenAddEdge_whenContainsOtherEdgeThanAdded_thenReturnFalse() throws EdgeAlreadyExistException {
+        //GIVEN
+        graphService.addEdge(1, 2);
+
+        //WHEN
+        boolean result = graphService.containsEdge(1, 3);
+        //THEN
+        assertThat(result).isFalse();
+    }
+
+    @Test
+    public void givenAddVertex_whenContainsVertex_thenReturnTrue() throws VertexAlreadyExistException {
+        //GIVEN
+        graphService.addVertex(1);
+
+        //WHEN
+        boolean result = graphService.containsVertex(1);
+        //THEN
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    public void givenAddVertex_whenContainsOtherVertex_thenReturnFalse() throws VertexAlreadyExistException {
+        //GIVEN
+        graphService.addVertex(1);
+
+        //WHEN
+        boolean result = graphService.containsVertex(2);
+        //THEN
+        assertThat(result).isFalse();
     }
 
     @Test
