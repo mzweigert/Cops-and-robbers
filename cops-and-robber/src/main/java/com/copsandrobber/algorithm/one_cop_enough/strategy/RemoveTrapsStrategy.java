@@ -5,8 +5,7 @@ import com.graphrodite.model.Graph;
 import com.graphrodite.model.Vertex;
 
 import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.Set;
 
 public class RemoveTrapsStrategy implements OneCopEnoughStrategy {
 
@@ -22,12 +21,12 @@ public class RemoveTrapsStrategy implements OneCopEnoughStrategy {
 
     @Override
     public <E> boolean calculate(Graph<E> graph) {
-        List<Vertex<E>> vertices = graph.getVertices();
+        Set<Vertex<E>> vertices = graph.getVertices();
         boolean trapsFound;
         do {
             trapsFound = false;
-            ListIterator<Vertex<E>> iterator;
-            for (iterator = vertices.listIterator(); iterator.hasNext();){
+            Iterator<Vertex<E>> iterator;
+            for (iterator = vertices.iterator(); iterator.hasNext();){
                 Vertex<E> vertex =  iterator.next();
                 for (Vertex<E> neighbor : vertex.getClosedNeighbourhood()) {
                     if (helper.isFirstDominatingSecond(neighbor, vertex) && !vertex.equals(neighbor)) {

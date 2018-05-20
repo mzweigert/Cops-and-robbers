@@ -22,7 +22,7 @@ public class MarkConfigurationsStrategy implements OneCopEnoughStrategy {
 
     @Override
     public <E> boolean calculate(Graph<E> graph) {
-        List<Vertex<E>> graphVertices = graph.getVertices();
+        Set<Vertex<E>> graphVertices = graph.getVertices();
         Set<Pair<Vertex<E>, Vertex<E>>> marked = helper.createMarkedConfigurations(graphVertices);
         List<Pair<Vertex<E>, Vertex<E>>> unmarked = helper.createUnmarkedConfigurations(marked);
 

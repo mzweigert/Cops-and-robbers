@@ -60,19 +60,19 @@ public class IsKCopEnoughHelperTest {
         graph.addPath(1, 2, 3, 4, 5, 6, 7, 8);
         Vertex<Integer> vertex_1 = graph.findVertex(2).get();
         Vertex<Integer> vertex_2 = graph.findVertex(4).get();
-        List<Vertex<Integer>> vertices = Lists.newArrayList(vertex_1, vertex_2);
+        Set<Vertex<Integer>> vertices = Sets.newHashSet(Lists.newArrayList(vertex_1, vertex_2));
         // WHEN
         Map<Vertex<Integer>, Set<Vertex<Integer>>> safeZones = helper.findSafeZonesForVertices(vertices, graph);
         // THEN
         Set<Vertex<Integer>> expectedSafeZoneForFirstVertex = Sets.newHashSet(Lists.newArrayList(
-                new Vertex<>(4), new Vertex<>(5), new Vertex<>(6),
-                new Vertex<>(7), new Vertex<>(8)));
+                Vertex.create(4), Vertex.create(5), Vertex.create(6),
+                Vertex.create(7), Vertex.create(8)));
 
         assertThat(safeZones.get(vertex_1)).isEqualTo(expectedSafeZoneForFirstVertex);
 
         Set<Vertex<Integer>> expectedSafeZoneForSecondVertex = Sets.newHashSet(Lists.newArrayList(
-                new Vertex<>(1), new Vertex<>(2), new Vertex<>(6),
-                new Vertex<>(7), new Vertex<>(8)));
+                Vertex.create(1), Vertex.create(2), Vertex.create(6),
+                Vertex.create(7), Vertex.create(8)));
 
         assertThat(safeZones.get(vertex_2)).isEqualTo(expectedSafeZoneForSecondVertex);
 
@@ -85,17 +85,17 @@ public class IsKCopEnoughHelperTest {
         graph.addPath(1, 5);
         Vertex<Integer> vertex_1 = graph.findVertex(1).get();
         Vertex<Integer> vertex_2 = graph.findVertex(4).get();
-        List<Vertex<Integer>> vertices = Lists.newArrayList(vertex_1, vertex_2);
+        Set<Vertex<Integer>> vertices = Sets.newHashSet(Lists.newArrayList(vertex_1, vertex_2));
         // WHEN
         Map<Vertex<Integer>, Set<Vertex<Integer>>> safeZones = helper.findSafeZonesForVertices(vertices, graph);
         // THEN
         Set<Vertex<Integer>> expectedSafeZoneForFirstVertex = Sets.newHashSet(Lists.newArrayList(
-                new Vertex<>(3), new Vertex<>(4)));
+                Vertex.create(3), Vertex.create(4)));
 
         assertThat(safeZones.get(vertex_1)).isEqualTo(expectedSafeZoneForFirstVertex);
 
         Set<Vertex<Integer>> expectedSafeZoneForSecondVertex = Sets.newHashSet(Lists.newArrayList(
-                new Vertex<>(1), new Vertex<>(2)));
+                Vertex.create(1), Vertex.create(2)));
 
         assertThat(safeZones.get(vertex_2)).isEqualTo(expectedSafeZoneForSecondVertex);
 
@@ -111,7 +111,7 @@ public class IsKCopEnoughHelperTest {
         Set<Vertex<Integer>> safeZonesForVertex = helper.findSafeZonesForVertex(vertex_1, graph);
         // THEN
         Set<Vertex<Integer>> expectedSafeZoneForFirstVertex = Sets.newHashSet(Lists.newArrayList(
-                new Vertex<>(3), new Vertex<>(4)));
+                Vertex.create(3), Vertex.create(4)));
 
         assertThat(safeZonesForVertex).isEqualTo(expectedSafeZoneForFirstVertex);
     }
@@ -127,7 +127,7 @@ public class IsKCopEnoughHelperTest {
         // WHEN
         Set<Vertex<Integer>> safeZonesForVertex = helper.findSafeZonesForVertex(vertex, graph);
         // THEN
-        Set<Vertex<Integer>> expectedSafeZoneForFirstVertex = Sets.newHashSet(Lists.newArrayList(new Vertex<>(3)));
+        Set<Vertex<Integer>> expectedSafeZoneForFirstVertex = Sets.newHashSet(Lists.newArrayList(Vertex.create(3)));
 
         assertThat(safeZonesForVertex).isEqualTo(expectedSafeZoneForFirstVertex);
     }
@@ -138,15 +138,13 @@ public class IsKCopEnoughHelperTest {
         Graph<Integer> graph = Graph.newInstance();
         graph.addVertices(3, 2, 5, 6);
 
-        Vertex vertex = new Vertex(new Pair<>(new Pair<>(new Pair<>(3, 2), 5), 6));
+        Vertex vertex = Vertex.create(new Pair<>(new Pair<>(new Pair<>(3, 2), 5), 6));
         // WHEN
         Set<Vertex<Integer>> result = helper.extractVertices(vertex, graph);
         // THEN
         Set<Vertex<Integer>> expectedSafeZoneForFirstVertex = Sets.newHashSet(Lists.newArrayList(
-                new Vertex<>(3),
-                new Vertex<>(2),
-                new Vertex<>(5),
-                new Vertex<>(6)
+                Vertex.create(3), Vertex.create(2),
+                Vertex.create(5), Vertex.create(6)
         ));
 
         assertThat(result).isEqualTo(expectedSafeZoneForFirstVertex);

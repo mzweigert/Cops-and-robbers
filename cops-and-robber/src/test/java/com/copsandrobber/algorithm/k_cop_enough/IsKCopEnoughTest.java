@@ -25,7 +25,7 @@ public class IsKCopEnoughTest {
     public void givenPathGraphAndKEqualOne_whenIsKCopWinGraph_thenReturnTrue() throws EdgeAlreadyExistException, PathContainsDuplicates {
         // GIVEN
         int k = 1;
-        for (int i = 1; i <= 100; i += 1) {
+        for (int i = 1; i < 100; i += 1) {
             graph.addPath(i, i + 1);
         }
 

@@ -13,7 +13,7 @@ public class EdgeTest {
     @Test
     public void givenExistingVertices_whenContainsVertices_thenReturnTrue() {
         // GIVEN
-        Edge<Integer> edge = new Edge<>(new Vertex<>(1), new Vertex<>(2));
+        Edge<Integer> edge = Edge.create(Vertex.create(1), Vertex.create(2));
         // WHEN
         boolean result = edge.containsVertices(1, 2);
         // THEN
@@ -23,10 +23,23 @@ public class EdgeTest {
     @Test
     public void givenNotExistingVertices_whenContainsVertices_thenReturnFalse() {
         // GIVEN
-        Edge<Integer> edge = new Edge<>(new Vertex<>(1), new Vertex<>(2));
+        Edge<Integer> edge = Edge.create(Vertex.create(1), Vertex.create(2));
         // WHEN
         boolean result = edge.containsVertices(3, 3);
         // THEN
         assertThat(result).isFalse();
+    }
+
+    @Test
+    public void givenTwoVertices_whenCreate_thenSuccessCreateAndReturnEdge() {
+        // GIVEN
+        Vertex<Integer> firstVertex = Vertex.create(1);
+        Vertex<Integer> secondVertex = Vertex.create(2);
+        // WHEN
+        Edge<Integer> edge = Edge.create(firstVertex, secondVertex);
+        // THEN
+        assertThat(edge).isNotNull();
+        assertThat(edge.getFirst()).isEqualTo(firstVertex);
+        assertThat(edge.getSecond()).isEqualTo(secondVertex);
     }
 }

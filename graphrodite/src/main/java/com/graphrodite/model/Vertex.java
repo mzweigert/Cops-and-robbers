@@ -78,4 +78,8 @@ public class Vertex<E> implements Serializable {
     public Vertex<E> clone() {
         return (Vertex<E>) SerializationUtils.clone(this);
     }
+
+    public static <E> Vertex<E> create(E index) {
+        return new Vertex<>(index);
+    }
 }

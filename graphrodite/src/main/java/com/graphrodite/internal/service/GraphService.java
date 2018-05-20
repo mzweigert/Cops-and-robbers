@@ -14,26 +14,19 @@ import java.util.stream.Collectors;
 
 public class GraphService<E> implements Serializable {
 
-    private List<Edge<E>> edges;
-    private List<Vertex<E>> vertices;
-    private List<E> duplicates;
+    private Set<Edge<E>> edges;
+    private Set<Vertex<E>> vertices;
 
-    public GraphService(List<Vertex<E>> vertices, List<Edge<E>> edges) {
+    public GraphService(Set<Vertex<E>> vertices, Set<Edge<E>> edges) {
         this.vertices = vertices;
         this.edges = edges;
     }
 
-    public boolean containsVertex(E index) {
-        return findVertex(v -> v.getIndex().equals(index)).isPresent();
-    }
-
-    public boolean containsEdge(E first, E second) {
-        return findEdge(e -> e.containsVertices(first, second)).isPresent();
-    }
-
     public Vertex<E> findOrCreateVertex(E index) {
-        Optional<Vertex<E>> optional = findVertex(v -> v.getIndex().equals(index));
-        return optional.orElseGet(() -> createVertex(index));
+        if(containsVertex(index)){
+            return findVertex(v -> v.getIndex().equals(index)).get();
+        }
+        return createVertex(index);
     }
 
     public List<Vertex<E>> addVertices(E... indexes) throws VertexAlreadyExistException {
@@ -52,8 +45,18 @@ public class GraphService<E> implements Serializable {
         return createVertex(index);
     }
 
+    public boolean containsVertex(E index) {
+        return vertices.contains(Vertex.create(index));
+    }
+
+
+    public boolean containsEdge(E first, E second) {
+        Edge<E> edge = Edge.create(Vertex.create(first), Vertex.create(second));
+        return edges.contains(edge);
+    }
+
     private Vertex<E> createVertex(E index) {
-        Vertex<E> vertex = new Vertex<>(index);
+        Vertex<E> vertex = Vertex.create(index);
         vertices.add(vertex);
         return vertex;
     }
@@ -71,12 +74,12 @@ public class GraphService<E> implements Serializable {
     }
 
     public Edge<E> addEdge(E first, E second) throws EdgeAlreadyExistException {
+        if (containsEdge(first, second)) {
+            throw new EdgeAlreadyExistException(first, second);
+        }
         Vertex<E> firstVertex = findOrCreateVertex(first);
         Vertex<E> secondVertex = findOrCreateVertex(second);
-        Edge<E> edge = new Edge<>(firstVertex, secondVertex);
-        if (edges.contains(edge)) {
-            throw new EdgeAlreadyExistException(firstVertex.getIndex(), secondVertex.getIndex());
-        }
+        Edge<E> edge = Edge.create(firstVertex, secondVertex);
         edges.add(edge);
         try {
             if (!firstVertex.equals(secondVertex)) {
@@ -101,13 +104,11 @@ public class GraphService<E> implements Serializable {
     }
 
     public List<Vertex<E>> addPath(E... indexes) throws EdgeAlreadyExistException, PathContainsDuplicates {
-        List<E> copyIndexes = Arrays.stream(indexes).collect(Collectors.toList());
-        HashSet<E> withoutDuplicates = new HashSet<>(copyIndexes);
-        boolean containsDuplicates = withoutDuplicates.size() != indexes.length;
-        if(containsDuplicates) {
-            Set<E> duplicates = copyIndexes.stream()
-                    .filter(i -> Collections.frequency(copyIndexes, i) > 1)
-                    .collect(Collectors.toSet());
+        List<E> indexesList = Arrays.asList(indexes);
+        Set<E> duplicates = indexesList.stream()
+                .filter(i -> Collections.frequency(indexesList, i) > 1)
+                .collect(Collectors.toSet());
+        if(duplicates.size() > 1) {
             throw new PathContainsDuplicates(duplicates);
         }
         return addSequentiallyEdges(indexes);
@@ -120,7 +121,7 @@ public class GraphService<E> implements Serializable {
             if (previousVertex != null) {
                 addEdge(previousVertex.getIndex(), index);
             }
-            previousVertex = new Vertex<>(index);
+            previousVertex = Vertex.create(index);
             vertices.add(previousVertex);
         }
         return vertices;

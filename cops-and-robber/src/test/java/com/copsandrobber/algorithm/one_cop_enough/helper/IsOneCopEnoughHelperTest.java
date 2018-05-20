@@ -60,9 +60,9 @@ public class IsOneCopEnoughHelperTest {
         // GIVEN
         // Easy to show, that robber has no free vertex to move, and will be caught
         graph.addPath(0, 1, 2);
-        List<Vertex<Integer>> vertices = graph.getVertices();
-        Vertex<Integer> robberPosition = vertices.get(2);
-        Vertex<Integer> copPosition = vertices.get(1);
+        Set<Vertex<Integer>> vertices = graph.getVertices();
+        Vertex<Integer> robberPosition = vertices.stream().filter(v -> v.getIndex().equals(2)).findFirst().get();
+        Vertex<Integer> copPosition = vertices.stream().filter(v -> v.getIndex().equals(1)).findFirst().get();
 
         Collection<Vertex<Integer>> robberNeighbourhood = robberPosition.getClosedNeighbourhood();
         Collection<Vertex<Integer>> copNeighbourhood = copPosition.getClosedNeighbourhood();
@@ -80,14 +80,14 @@ public class IsOneCopEnoughHelperTest {
         // GIVEN
         // Easy to show, that robber has no free vertex to move, and will be caught
         graph.addPath(0, 1, 2);
-        List<Vertex<Integer>> vertices = graph.getVertices();
-        Vertex<Integer> robberPosition = vertices.get(2);
-        Vertex<Integer> copPosition = vertices.get(0);
+        Set<Vertex<Integer>> vertices = graph.getVertices();
+        Vertex<Integer> robberPosition = vertices.stream().filter(v -> v.getIndex().equals(2)).findFirst().get();
+        Vertex<Integer> copPosition = vertices.stream().filter(v -> v.getIndex().equals(0)).findFirst().get();
         Collection<Vertex<Integer>> robberNeighbourhood = robberPosition.getClosedNeighbourhood();
         Collection<Vertex<Integer>> copNeighbourhood = copPosition.getClosedNeighbourhood();
         Set<Pair<Vertex<Integer>, Vertex<Integer>>> marked = helper.createMarkedConfigurations(vertices);
         // add configuration where cop is in vertex 1 and robber on 2
-        marked.add(new Pair<>(new Vertex<>(1), new Vertex<>(2)));
+        marked.add(new Pair<>(Vertex.create(1), Vertex.create(2)));
         // WHEN
         boolean result = helper.isAllRobbersNeighbourAndAnyCopIsMarked(robberNeighbourhood, copNeighbourhood, marked);
         // THEN
@@ -102,9 +102,9 @@ public class IsOneCopEnoughHelperTest {
         // Easy to show, that robber has no free vertex to move, and will be caught
         graph.addPath(0, 1, 2, 3);
         graph.addEdge(0, 3);
-        List<Vertex<Integer>> vertices = graph.getVertices();
-        Vertex<Integer> robberPosition = vertices.get(2);
-        Vertex<Integer> copPosition = vertices.get(1);
+        Set<Vertex<Integer>> vertices = graph.getVertices();
+        Vertex<Integer> robberPosition = vertices.stream().filter(v -> v.getIndex().equals(2)).findFirst().get();
+        Vertex<Integer> copPosition = vertices.stream().filter(v -> v.getIndex().equals(1)).findFirst().get();
 
         Collection<Vertex<Integer>> robberNeighbourhood = robberPosition.getClosedNeighbourhood();
         Collection<Vertex<Integer>> copNeighbourhood = copPosition.getClosedNeighbourhood();
@@ -119,7 +119,7 @@ public class IsOneCopEnoughHelperTest {
     public void givenGraphVertices_whenCreateMarkedConfigurations_thenSuccessMatchEachWithEachFromVertices() throws EdgeAlreadyExistException, PathContainsDuplicates {
         // GIVEN
         graph.addPath(1, 2, 3, 4, 5);
-        List<Vertex<Integer>> vertices = graph.getVertices();
+        Set<Vertex<Integer>> vertices = graph.getVertices();
 
         // WHEN
         Set<Pair<Vertex<Integer>, Vertex<Integer>>> marked = helper.createMarkedConfigurations(vertices);

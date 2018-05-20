@@ -60,12 +60,10 @@ public class IsOneCopEnoughTest {
     }
 
     @Test
-    public void givenMarkConfigurationsStrategyAndPathGraph_whenIsOneCopEnough_thenReturnTrue() throws Exception {
+    public void givenMarkConfigurationsStrategyAndPathGraph_whenIsOneCopEnough_thenReturnTrue() throws Exception, PathContainsDuplicates {
         // GIVEN
         OneCopEnoughStrategy strategy = MarkConfigurationsStrategy.get();
-        graph.addEdge(1, 2);
-        graph.addEdge(2, 3);
-
+        graph.addPath(1, 2, 3);
 
         // WHEN
         boolean result = IsOneCopEnough.setStrategy(strategy).calculate(graph);

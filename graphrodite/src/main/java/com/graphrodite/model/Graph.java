@@ -8,19 +8,17 @@ import com.graphrodite.internal.service.GraphService;
 import org.apache.commons.lang.SerializationUtils;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class Graph<E> implements Serializable {
 
-    private List<Edge<E>> edges;
-    private List<Vertex<E>> vertices;
+    private Set<Edge<E>> edges;
+    private Set<Vertex<E>> vertices;
     private GraphService<E> graphService;
 
     private Graph() {
-        vertices = new ArrayList<>();
-        edges = new ArrayList<>();
+        vertices = new LinkedHashSet<>();
+        edges = new LinkedHashSet<>();
         graphService = new GraphService<>(vertices, edges);
     }
 
@@ -52,19 +50,30 @@ public class Graph<E> implements Serializable {
     }
 
     public Optional<Edge<E>> findEdge(E first, E second) {
-        return graphService.findEdge(e -> e.containsVertices(first, second));
+        if (containsEdge(first, second)) {
+            return graphService.findEdge(e -> e.containsVertices(first, second));
+        }
+        return Optional.empty();
+    }
+
+    public boolean containsEdge(E first, E second) {
+        return graphService.containsEdge(first, second);
+    }
+
+    public boolean containsVertex(E index) {
+        return graphService.containsVertex(index);
     }
 
     public Optional<Vertex<E>> findVertex(E index) {
         return graphService.findVertex(v -> v.getIndex().equals(index));
     }
 
-    public List<Vertex<E>> getVertices() {
-        return new ArrayList<>(vertices);
+    public Set<Vertex<E>> getVertices() {
+        return new LinkedHashSet<>(vertices);
     }
 
-    public List<Edge<E>> getEdges() {
-        return new ArrayList<>(edges);
+    public Set<Edge<E>> getEdges() {
+        return new LinkedHashSet<>(edges);
     }
 
     public Graph<E> clone() {
