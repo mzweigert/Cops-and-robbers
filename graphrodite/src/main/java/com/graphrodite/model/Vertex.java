@@ -18,8 +18,12 @@ public class Vertex<E> implements Serializable {
         this.neighbors = new ArrayList<>();
     }
 
+    public static <E> Vertex<E> create(E index) {
+        return new Vertex<>(index);
+    }
+
     public void createNeighbourhood(Vertex<E> neighbor) throws NeighborAlreadyExistException {
-        if(neighbors.contains(neighbor)){
+        if (neighbors.contains(neighbor)) {
             throw new NeighborAlreadyExistException(neighbor.getIndex(), index);
         } else if (neighbor.equals(this)) {
             throw new IllegalArgumentException("Cannot add same vertex to his neighbourhood");
@@ -77,9 +81,5 @@ public class Vertex<E> implements Serializable {
 
     public Vertex<E> clone() {
         return (Vertex<E>) SerializationUtils.clone(this);
-    }
-
-    public static <E> Vertex<E> create(E index) {
-        return new Vertex<>(index);
     }
 }

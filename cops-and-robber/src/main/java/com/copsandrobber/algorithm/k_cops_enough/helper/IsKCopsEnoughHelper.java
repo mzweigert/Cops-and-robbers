@@ -1,13 +1,16 @@
-package com.copsandrobber.algorithm.k_cop_enough.helper;
+package com.copsandrobber.algorithm.k_cops_enough.helper;
 
 import com.graphrodite.model.Graph;
 import com.graphrodite.model.Pair;
 import com.graphrodite.model.Vertex;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-public class IsKCopEnoughHelper {
+public class IsKCopsEnoughHelper {
 
     public <E> Set<Vertex<E>> getClosedNeighbourhoodUnion(Set<Vertex<E>> vertices) {
         return vertices.stream()

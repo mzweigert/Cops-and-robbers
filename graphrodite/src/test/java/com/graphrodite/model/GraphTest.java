@@ -2,7 +2,7 @@ package com.graphrodite.model;
 
 
 import com.graphrodite.exception.EdgeAlreadyExistException;
-import com.graphrodite.exception.PathContainsDuplicates;
+import com.graphrodite.exception.PathContainsDuplicatesException;
 import com.graphrodite.exception.VertexAlreadyExistException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -114,7 +114,7 @@ public class GraphTest {
     }
 
     @Test
-    public void givenIndexes_whenAddPathAndGraphIsEmpty_thenSuccessAddPathToGraph() throws EdgeAlreadyExistException, PathContainsDuplicates {
+    public void givenIndexes_whenAddPathAndGraphIsEmpty_thenSuccessAddPathToGraph() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
         //GIVEN
         Graph<Integer> graph = Graph.newInstance();
 
@@ -128,7 +128,7 @@ public class GraphTest {
     }
 
     @Test
-    public void givenIndexes_whenAddPathAndGraphIsNotEmpty_thenSuccessAddPathToGraph() throws EdgeAlreadyExistException, PathContainsDuplicates {
+    public void givenIndexes_whenAddPathAndGraphIsNotEmpty_thenSuccessAddPathToGraph() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
         //GIVEN
         Graph<Integer> graph = Graph.newInstance();
         graph.addEdge(1, 2);
@@ -144,6 +144,7 @@ public class GraphTest {
         assertThat(graph.findVertex(3).get().getOpenNeighbourhood().size()).isEqualTo(3);
     }
 
+    @Test
     public void givenExistingIndex_whenFindVertex_thenReturnExistingVertex() throws UnsupportedOperationException, VertexAlreadyExistException {
         //GIVEN
         Graph<Integer> graph = Graph.newInstance();
@@ -158,11 +159,11 @@ public class GraphTest {
         assertThat(vertex.get().getIndex()).isEqualTo(firstVertexIndex);
     }
 
-    public void givenNotExistingIndex_whenFindVertex_thenReturnNull() throws UnsupportedOperationException, VertexAlreadyExistException {
+    @Test
+    public void givenNotExistingIndex_whenFindVertex_thenReturnNull() throws UnsupportedOperationException {
         //GIVEN
         Graph<Integer> graph = Graph.newInstance();
         Integer firstVertexIndex = 1;
-        graph.addVertex(firstVertexIndex);
 
         //WHEN
         Optional<Vertex<Integer>> vertex = graph.findVertex(firstVertexIndex);
@@ -171,6 +172,7 @@ public class GraphTest {
         assertThat(vertex.isPresent()).isFalse();
     }
 
+    @Test
     public void givenExistingVertex_whenContainsVertex_thenReturnTrue() throws UnsupportedOperationException, VertexAlreadyExistException {
         //GIVEN
         Graph<Integer> graph = Graph.newInstance();
@@ -184,7 +186,8 @@ public class GraphTest {
         assertThat(result).isTrue();
     }
 
-    public void givenNotExistingVertex_whenContainsVertex_thenReturnFalse() throws UnsupportedOperationException, VertexAlreadyExistException {
+    @Test
+    public void givenNotExistingVertex_whenContainsVertex_thenReturnFalse() throws UnsupportedOperationException {
         //GIVEN
         Graph<Integer> graph = Graph.newInstance();
 
@@ -195,6 +198,7 @@ public class GraphTest {
         assertThat(result).isFalse();
     }
 
+    @Test
     public void givenExistingEdge_whenFindEdge_thenReturnExistingEdge() throws UnsupportedOperationException, EdgeAlreadyExistException {
         //GIVEN
         Graph<Integer> graph = Graph.newInstance();
@@ -207,10 +211,11 @@ public class GraphTest {
 
         //THEN
         assertThat(edge.isPresent()).isTrue();
-        assertThat(edge.get().getFirst()).isEqualTo(firstVertexIndex);
-        assertThat(edge.get().getSecond()).isEqualTo(firstVertexIndex);
+        assertThat(edge.get().getFirst().getIndex()).isEqualTo(firstVertexIndex);
+        assertThat(edge.get().getSecond().getIndex()).isEqualTo(firstVertexIndex);
     }
 
+    @Test
     public void givenNotExistingEdge_whenFindEdge_thenReturnNull() throws UnsupportedOperationException {
         //GIVEN
         Graph<Integer> graph = Graph.newInstance();
@@ -224,6 +229,7 @@ public class GraphTest {
         assertThat(edge.isPresent()).isFalse();
     }
 
+    @Test
     public void givenExistingEdge_whenContainsEdge_thenReturnTrue() throws UnsupportedOperationException, EdgeAlreadyExistException {
         //GIVEN
         Graph<Integer> graph = Graph.newInstance();
@@ -238,6 +244,7 @@ public class GraphTest {
         assertThat(result).isTrue();
     }
 
+    @Test
     public void givenNotExistingEdge_whenContainsEdge_thenReturnFalse() throws UnsupportedOperationException {
         //GIVEN
         Graph<Integer> graph = Graph.newInstance();
@@ -251,6 +258,7 @@ public class GraphTest {
         assertThat(result).isFalse();
     }
 
+    @Test
     public void givenNothing_whenPetersen_thenSuccessCreatePetersen() throws UnsupportedOperationException {
         //GIVEN
 
@@ -259,7 +267,20 @@ public class GraphTest {
 
         //THEN
         assertThat(graph.getVertices().size()).isEqualTo(10);
-        assertThat(graph.getVertices().size()).isEqualTo(15);
+        assertThat(graph.getEdges().size()).isEqualTo(15);
+
+    }
+
+    @Test
+    public void givenNothing_whenDodecahedron_thenSuccessCreateDodecahedron() throws UnsupportedOperationException {
+        //GIVEN
+
+        //WHEN
+        Graph<Integer> graph = Graph.dodecahedron();
+
+        //THEN
+        assertThat(graph.getVertices().size()).isEqualTo(20);
+        assertThat(graph.getEdges().size()).isEqualTo(30);
 
     }
 }

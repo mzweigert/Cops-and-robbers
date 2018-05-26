@@ -1,25 +1,26 @@
-package com.copsandrobber.algorithm.k_cop_enough;
+package com.copsandrobber.algorithm.k_cops_enough;
 
 
-import com.copsandrobber.algorithm.k_cop_enough.helper.IsKCopEnoughHelper;
+import com.copsandrobber.algorithm.k_cops_enough.helper.IsKCopsEnoughHelper;
+import com.graphrodite.factory.GraphProductFactory;
 import com.graphrodite.model.Edge;
 import com.graphrodite.model.Graph;
 import com.graphrodite.model.Vertex;
-import com.graphrodite.factory.GraphProductFactory;
 
-import java.util.*;
+import java.util.Map;
+import java.util.Set;
 
-public class IsKCopEnough {
+public class IsKCopsEnough {
 
-    private IsKCopEnoughHelper helper = new IsKCopEnoughHelper();
+    private IsKCopsEnoughHelper helper = new IsKCopsEnoughHelper();
     private GraphProductFactory productFactory = new GraphProductFactory();
 
-    private IsKCopEnough() {
+    private IsKCopsEnough() {
 
     }
 
     public static <E> boolean evaluate(Graph<E> graph, int k) {
-        IsKCopEnough isKCopEnough = new IsKCopEnough();
+        IsKCopsEnough isKCopEnough = new IsKCopsEnough();
         return isKCopEnough.calculate(graph, k);
     }
 
@@ -27,7 +28,7 @@ public class IsKCopEnough {
         Graph<E> resultGraph = graph.clone();
         for (int i = 1; i < k; i++) {
             //noinspection unchecked
-            resultGraph = productFactory.createStrongProduct(resultGraph.clone(), graph.clone());
+            resultGraph = productFactory.createStrongProduct(resultGraph, graph);
         }
         Map<Vertex<E>, Set<Vertex<E>>> safeZonesForVertices = helper.findSafeZonesForVertices(resultGraph.getVertices(), graph);
         boolean safeZoneUChanged = false, safeZoneVChanged = false;

@@ -5,19 +5,25 @@ import com.graphrodite.model.Graph;
 
 public class IsOneCopEnough {
 
-    private IsOneCopEnough(){
+    private IsOneCopEnough() {
 
     }
 
-    public static Calculate setStrategy(OneCopEnoughStrategy strategy){
+    public static Calculate setStrategy(OneCopEnoughStrategy strategy) {
         return new Evaluator(strategy);
+    }
+
+    public interface Calculate {
+        <E> boolean measureCalculate(Graph<E> graph);
+
+        <E> boolean calculate(Graph<E> graph);
     }
 
     private static class Evaluator implements Calculate {
 
         private OneCopEnoughStrategy strategy;
 
-        private Evaluator(OneCopEnoughStrategy strategy){
+        private Evaluator(OneCopEnoughStrategy strategy) {
             this.strategy = strategy;
         }
 
@@ -30,10 +36,5 @@ public class IsOneCopEnough {
         public <E> boolean calculate(Graph<E> graph) {
             return strategy.calculate(graph);
         }
-    }
-
-    public interface Calculate {
-        <E> boolean measureCalculate(Graph<E> graph);
-        <E> boolean calculate(Graph<E> graph);
     }
 }

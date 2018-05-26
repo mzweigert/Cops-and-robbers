@@ -22,7 +22,7 @@ public class GraphServiceTest {
     @Before
     public void setUp() {
         Graph<Integer> graph = Graph.newInstance();
-        graphService = new GraphService<Integer>(graph.getVertices(), graph.getEdges());
+        graphService = new GraphService<>(graph.getVertices(), graph.getEdges());
     }
 
     @Test
