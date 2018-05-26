@@ -28,8 +28,7 @@ public class Pair<A, B> implements Serializable {
         return Objects.hash(getFirst(), getSecond());
     }
 
-    public String toString()
-    {
+    public String toString() {
         return "(" + first + ", " + second + ")";
     }
 

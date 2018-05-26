@@ -16,6 +16,10 @@ public class Edge<E> implements Serializable {
         this.second = second;
     }
 
+    public static <E> Edge<E> create(Vertex<E> firstVertex, Vertex<E> secondVertex) {
+        return new Edge<>(firstVertex, secondVertex);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -52,9 +56,5 @@ public class Edge<E> implements Serializable {
 
     public Edge<E> clone() {
         return (Edge<E>) SerializationUtils.clone(this);
-    }
-
-    public static <E> Edge<E> create(Vertex<E> firstVertex, Vertex<E> secondVertex) {
-        return new Edge<>(firstVertex, secondVertex);
     }
 }

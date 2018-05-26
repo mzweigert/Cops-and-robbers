@@ -2,8 +2,8 @@ package com.graphrodite.internal.service;
 
 import com.graphrodite.exception.EdgeAlreadyExistException;
 import com.graphrodite.exception.NeighborAlreadyExistException;
+import com.graphrodite.exception.PathContainsDuplicatesException;
 import com.graphrodite.exception.VertexAlreadyExistException;
-import com.graphrodite.exception.PathContainsDuplicates;
 import com.graphrodite.model.Edge;
 import com.graphrodite.model.Vertex;
 
@@ -23,7 +23,7 @@ public class GraphService<E> implements Serializable {
     }
 
     public Vertex<E> findOrCreateVertex(E index) {
-        if(containsVertex(index)){
+        if (containsVertex(index)) {
             return findVertex(v -> v.getIndex().equals(index)).get();
         }
         return createVertex(index);
@@ -103,13 +103,13 @@ public class GraphService<E> implements Serializable {
         return edges;
     }
 
-    public List<Vertex<E>> addPath(E... indexes) throws EdgeAlreadyExistException, PathContainsDuplicates {
+    public List<Vertex<E>> addPath(E... indexes) throws EdgeAlreadyExistException, PathContainsDuplicatesException {
         List<E> indexesList = Arrays.asList(indexes);
         Set<E> duplicates = indexesList.stream()
                 .filter(i -> Collections.frequency(indexesList, i) > 1)
                 .collect(Collectors.toSet());
-        if(duplicates.size() > 1) {
-            throw new PathContainsDuplicates(duplicates);
+        if (duplicates.size() > 1) {
+            throw new PathContainsDuplicatesException(duplicates);
         }
         return addSequentiallyEdges(indexes);
     }

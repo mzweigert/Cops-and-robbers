@@ -29,7 +29,7 @@ public enum GraphProduct {
         @Override
         public <A, B> boolean getCondition(ProductConditionWrapper<A, B> condition) {
             return condition.isFirstGraphHasEdgeWithFirstIndexes()
-                    || ( condition.isFirstIndexesAreEquals() && condition.isSecondGraphHasEdgeWithSecondIndexes());
+                    || (condition.isFirstIndexesAreEquals() && condition.isSecondGraphHasEdgeWithSecondIndexes());
         }
     };
 

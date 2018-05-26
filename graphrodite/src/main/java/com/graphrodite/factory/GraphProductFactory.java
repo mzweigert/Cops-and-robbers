@@ -1,14 +1,15 @@
 package com.graphrodite.factory;
 
 import com.graphrodite.exception.EdgeAlreadyExistException;
-import com.graphrodite.exception.VertexAlreadyExistException;
-import com.graphrodite.model.Pair;
 import com.graphrodite.internal.enums.GraphProduct;
-import com.graphrodite.model.Graph;
-import com.graphrodite.model.Vertex;
 import com.graphrodite.internal.wrapper.ProductConditionWrapper;
+import com.graphrodite.model.Graph;
+import com.graphrodite.model.Pair;
+import com.graphrodite.model.Vertex;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
 
 public class GraphProductFactory {
 

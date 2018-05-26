@@ -1,7 +1,7 @@
 package com.graphrodite.factory;
 
 import com.graphrodite.exception.EdgeAlreadyExistException;
-import com.graphrodite.exception.PathContainsDuplicates;
+import com.graphrodite.exception.PathContainsDuplicatesException;
 import com.graphrodite.model.Graph;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +17,7 @@ public class GraphProductFactoryTest {
     private GraphProductFactory factory = new GraphProductFactory();
 
     @Test
-    public void givenC5AndP4Graph_whenCreateStrongProduct_thenSuccessCreateCartesianProduct() throws EdgeAlreadyExistException, PathContainsDuplicates {
+    public void givenC5AndP4Graph_whenCreateStrongProduct_thenSuccessCreateCartesianProduct() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
         // GIVEN
         Graph<Integer> C5 = Graph.newInstance();
         C5.addEdge(1, 2);
@@ -44,7 +44,7 @@ public class GraphProductFactoryTest {
     }
 
     @Test
-    public void givenC5AndP4Graph_whenCreateCategoricalProduct_thenSuccessCreateCategoricalProduct() throws EdgeAlreadyExistException, PathContainsDuplicates {
+    public void givenC5AndP4Graph_whenCreateCategoricalProduct_thenSuccessCreateCategoricalProduct() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
         // GIVEN
         Graph<Integer> C5 = Graph.newInstance();
         C5.addEdge(1, 2);
@@ -72,7 +72,7 @@ public class GraphProductFactoryTest {
 
 
     @Test
-    public void givenC5AndP4Graph_whenCreateStrongProduct_thenSuccessCreateStrongProduct() throws EdgeAlreadyExistException, PathContainsDuplicates {
+    public void givenC5AndP4Graph_whenCreateStrongProduct_thenSuccessCreateStrongProduct() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
         // GIVEN
         Graph<Integer> C5 = Graph.newInstance();
         C5.addEdge(1, 2);
@@ -100,7 +100,7 @@ public class GraphProductFactoryTest {
     }
 
     @Test
-    public void givenC5AndP4Graph_whenCreateLexicographicalProduct_thenSuccessCreateLexicographicalProduct() throws EdgeAlreadyExistException, PathContainsDuplicates {
+    public void givenC5AndP4Graph_whenCreateLexicographicalProduct_thenSuccessCreateLexicographicalProduct() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
         // GIVEN
         Graph<Integer> C5 = Graph.newInstance();
         C5.addEdge(1, 2);
@@ -128,7 +128,7 @@ public class GraphProductFactoryTest {
     }
 
     @Test
-    public void givenC5AndP4AndK3Graph_whenCreateKCartesianProduct_thenSuccessCreateKCCartesianProduct() throws EdgeAlreadyExistException, PathContainsDuplicates {
+    public void givenC5AndP4AndK3Graph_whenCreateKCartesianProduct_thenSuccessCreateKCCartesianProduct() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
         // GIVEN
         Graph<Integer> C5 = Graph.newInstance();
         C5.addEdge(1, 2);
@@ -158,7 +158,7 @@ public class GraphProductFactoryTest {
     }
 
     @Test
-    public void givenC5AndP4AndK3Graph_whenCreateKStrongProduct_thenSuccessCreateKStrongProduct() throws EdgeAlreadyExistException, PathContainsDuplicates {
+    public void givenC5AndP4AndK3Graph_whenCreateKStrongProduct_thenSuccessCreateKStrongProduct() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
         // GIVEN
         Graph<Integer> C5 = Graph.newInstance();
         C5.addEdge(1, 2);
@@ -189,7 +189,7 @@ public class GraphProductFactoryTest {
     }
 
     @Test
-    public void givenC5AndP4AndK3Graph_whenCreateKCategoricalProduct_thenSuccessCreateKCategoricalProduct() throws EdgeAlreadyExistException, PathContainsDuplicates {
+    public void givenC5AndP4AndK3Graph_whenCreateKCategoricalProduct_thenSuccessCreateKCategoricalProduct() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
         // GIVEN
         Graph<Integer> C5 = Graph.newInstance();
         C5.addEdge(1, 2);
@@ -220,7 +220,7 @@ public class GraphProductFactoryTest {
     }
 
     @Test
-    public void givenC5AndP4AndK3Graph_whenCreateKLexicographicalProduct_thenSuccessCreateKLexicographicalProduct() throws EdgeAlreadyExistException, PathContainsDuplicates {
+    public void givenC5AndP4AndK3Graph_whenCreateKLexicographicalProduct_thenSuccessCreateKLexicographicalProduct() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
         // GIVEN
         Graph<Integer> C5 = Graph.newInstance();
         C5.addEdge(1, 2);
