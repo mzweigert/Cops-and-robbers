@@ -8,6 +8,9 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.Set;
+import java.util.stream.IntStream;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -17,7 +20,70 @@ public class GraphProductFactoryTest {
     private GraphProductFactory factory = new GraphProductFactory();
 
     @Test
-    public void givenC5AndP4Graph_whenCreateStrongProduct_thenSuccessCreateCartesianProduct() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenKEqual3AndP4Graph_whenCreateKStrongProduct_thenSuccessCreateKStrongProduct() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+        // GIVEN
+        int k = 3;
+        Graph<String> P4 = Graph.newInstance();
+        P4.addPath("a", "b", "c", "d");
+        // WHEN
+
+        Graph kStrongProduct = factory.createKStrongProduct(P4, k);
+        // THEN
+        int P4VerticesSize = P4.getVertices().size();
+        int P4EdgesSize = P4.getEdges().size();
+        Set kStrongProductVertices = kStrongProduct.getVertices();
+        Set kStrongProductEdges = kStrongProduct.getEdges();
+
+        int expectedStrongProductEdgesSize = P4EdgesSize;
+        int expectedStrongProductVerticesSize = P4VerticesSize;
+        for (int i = 1; i < k; i++) {
+            expectedStrongProductEdgesSize = expectedStrongProductVerticesSize * P4EdgesSize
+                    + P4VerticesSize * expectedStrongProductEdgesSize
+                    + 2 * expectedStrongProductEdgesSize * P4EdgesSize;
+            expectedStrongProductVerticesSize *= P4VerticesSize;
+        }
+
+        assertThat(kStrongProductVertices.size()).isGreaterThan(0);
+        assertThat(kStrongProductVertices.size()).isEqualTo(expectedStrongProductVerticesSize);
+        assertThat(kStrongProductEdges.size()).isGreaterThan(0);
+        assertThat(kStrongProductEdges.size()).isEqualTo(expectedStrongProductEdgesSize);
+
+    }
+
+    @Test
+    public void givenKEqual4AndC4Graph_whenCreateKStrongProduct_thenSuccessCreateKStrongProduct() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+        // GIVEN
+        int k = 4;
+        Graph<String> C4 = Graph.newInstance();
+        C4.addPath("a", "b", "c", "d");
+        C4.addEdge("a", "d");
+        // WHEN
+
+        Graph kStrongProduct = factory.createKStrongProduct(C4, k);
+        // THEN
+        int P4VerticesSize = C4.getVertices().size();
+        int P4EdgesSize = C4.getEdges().size();
+        Set kStrongProductVertices = kStrongProduct.getVertices();
+        Set kStrongProductEdges = kStrongProduct.getEdges();
+
+        int expectedStrongProductEdgesSize = P4EdgesSize;
+        int expectedStrongProductVerticesSize = P4VerticesSize;
+        for (int i = 1; i < k; i++) {
+            expectedStrongProductEdgesSize = expectedStrongProductVerticesSize * P4EdgesSize
+                    + P4VerticesSize * expectedStrongProductEdgesSize
+                    + 2 * expectedStrongProductEdgesSize * P4EdgesSize;
+            expectedStrongProductVerticesSize *= P4VerticesSize;
+        }
+
+        assertThat(kStrongProductVertices.size()).isGreaterThan(0);
+        assertThat(kStrongProductVertices.size()).isEqualTo(expectedStrongProductVerticesSize);
+        assertThat(kStrongProductEdges.size()).isGreaterThan(0);
+        assertThat(kStrongProductEdges.size()).isEqualTo(expectedStrongProductEdgesSize);
+
+    }
+
+    @Test
+    public void givenC5AndP4Graph_whenCreateCartesianProduct_thenSuccessCreateCartesianProduct() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
         // GIVEN
         Graph<Integer> C5 = Graph.newInstance();
         C5.addEdge(1, 2);
@@ -128,7 +194,7 @@ public class GraphProductFactoryTest {
     }
 
     @Test
-    public void givenC5AndP4AndK3Graph_whenCreateKCartesianProduct_thenSuccessCreateKCCartesianProduct() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenC5AndP4AndK3Graph_whenCreateThreeFactorsCartesianProduct_thenSuccessCreateKCCartesianProduct() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
         // GIVEN
         Graph<Integer> C5 = Graph.newInstance();
         C5.addEdge(1, 2);
@@ -158,7 +224,7 @@ public class GraphProductFactoryTest {
     }
 
     @Test
-    public void givenC5AndP4AndK3Graph_whenCreateKStrongProduct_thenSuccessCreateKStrongProduct() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenC5AndP4AndK3Graph_whenCreateThreeFactorsStrongProduct_thenSuccessCreateKStrongProduct() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
         // GIVEN
         Graph<Integer> C5 = Graph.newInstance();
         C5.addEdge(1, 2);
@@ -189,7 +255,7 @@ public class GraphProductFactoryTest {
     }
 
     @Test
-    public void givenC5AndP4AndK3Graph_whenCreateKCategoricalProduct_thenSuccessCreateKCategoricalProduct() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenC5AndP4AndK3Graph_whenCreateThreeFactorsCategoricalProduct_thenSuccessCreateKCategoricalProduct() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
         // GIVEN
         Graph<Integer> C5 = Graph.newInstance();
         C5.addEdge(1, 2);
@@ -220,7 +286,7 @@ public class GraphProductFactoryTest {
     }
 
     @Test
-    public void givenC5AndP4AndK3Graph_whenCreateKLexicographicalProduct_thenSuccessCreateKLexicographicalProduct() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenC5AndP4AndK3Graph_whenCreateThreeFactorsLexicographicalProduct_thenSuccessCreateKLexicographicalProduct() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
         // GIVEN
         Graph<Integer> C5 = Graph.newInstance();
         C5.addEdge(1, 2);

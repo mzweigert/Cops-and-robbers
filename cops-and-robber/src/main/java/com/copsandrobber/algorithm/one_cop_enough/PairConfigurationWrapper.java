@@ -11,14 +11,13 @@ import java.util.function.Consumer;
 
 public class PairConfigurationWrapper<T> extends ConfigurationsWrapper<Pair<Vertex<T>, Vertex<T>>, T> {
 
-    private PairConfigurationWrapper() {
 
+    private PairConfigurationWrapper(Set<Vertex<T>> vertices) {
+        super(vertices);
     }
 
     public static <T> ConfigurationsWrapper<Pair<Vertex<T>, Vertex<T>>, T> create(Set<Vertex<T>> vertices) {
-        PairConfigurationWrapper<T> wrapper = new PairConfigurationWrapper<>();
-        wrapper.initFrom(vertices);
-        return wrapper;
+        return new PairConfigurationWrapper<>(vertices);
     }
 
     @Override

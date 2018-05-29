@@ -11,14 +11,13 @@ import java.util.function.*;
 
 class ThreeTuplesConfigurationsWrapper<T> extends ConfigurationsWrapper<ThreeTuples<Vertex<T>>, T> {
 
-    private ThreeTuplesConfigurationsWrapper() {
 
+    private ThreeTuplesConfigurationsWrapper(Set<Vertex<T>> vertices) {
+        super(vertices);
     }
 
     public static <T> ConfigurationsWrapper<ThreeTuples<Vertex<T>>, T> create(Set<Vertex<T>> vertices) {
-        ThreeTuplesConfigurationsWrapper<T> wrapper = new ThreeTuplesConfigurationsWrapper<>();
-        wrapper.initFrom(vertices);
-        return wrapper;
+        return new ThreeTuplesConfigurationsWrapper<>(vertices);
     }
 
     @Override

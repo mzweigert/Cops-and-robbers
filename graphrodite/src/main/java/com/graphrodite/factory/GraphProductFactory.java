@@ -13,6 +13,15 @@ import java.util.ListIterator;
 
 public class GraphProductFactory {
 
+    public <E> Graph createKStrongProduct(Graph<E> graph, int k) {
+        Graph<E> resultGraph = graph.clone();
+        for (int i = 1; i < k; i++) {
+            //noinspection unchecked
+            resultGraph = createStrongProduct(resultGraph, graph);
+        }
+        return resultGraph;
+    }
+    
     public <A, B> Graph createStrongProduct(Graph<A> firstGraph, Graph<B> secondGraph) {
         return createProduct(firstGraph, secondGraph, GraphProduct.STRONG);
     }

@@ -9,9 +9,10 @@ public abstract class ConfigurationsWrapper<CONFIGURATION_TYPE, VERTEX_TYPE> {
     protected Set<CONFIGURATION_TYPE> marked;
     protected List<CONFIGURATION_TYPE> unmarked;
 
-    protected ConfigurationsWrapper() {
+    protected ConfigurationsWrapper(Set<Vertex<VERTEX_TYPE>> vertices) {
         this.marked = new LinkedHashSet<>();
         this.unmarked = new LinkedList<>();
+        initFrom(vertices);
     }
 
     public Set<CONFIGURATION_TYPE> getMarked() {
