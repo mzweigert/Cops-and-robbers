@@ -35,12 +35,10 @@ public class IsTwoCopsEnoughTest {
 
 
     @Test
-    public void givenC4Graph_whenIsTwoCopsEnough_thenReturnFalse() throws Exception {
+    public void givenC4Graph_whenIsTwoCopsEnough_thenReturnTrue() throws Exception {
         // GIVEN
-        graph.addEdge(1, 2);
-        graph.addEdge(2, 3);
-        graph.addEdge(3, 4);
-        graph.addEdge(4, 1);
+        graph.addPath(1, 2, 3, 4);
+        graph.addEdge(1, 4);
 
         // WHEN
         boolean result = IsTwoCopsEnough.calculate(graph);
@@ -50,7 +48,7 @@ public class IsTwoCopsEnoughTest {
     }
 
     @Test
-    public void givenPathGraph_whenIsTwoCopsEnough_thenReturnTrue() throws Exception, PathContainsDuplicatesException {
+    public void givenPathGraph_whenIsTwoCopsEnough_thenReturnTrue() throws Exception {
         // GIVEN
         graph.addPath(1, 2, 3);
 
@@ -78,7 +76,7 @@ public class IsTwoCopsEnoughTest {
     }
 
     @Test
-    public void givenCompleteGraph_whenIsTwoCopsEnough_thenReturnTrue() throws Exception, PathContainsDuplicatesException {
+    public void givenCompleteGraph_whenIsTwoCopsEnough_thenReturnTrue() throws Exception {
         // GIVEN
         graph.addPath(1, 2, 3, 4);
         graph.addEdgesToVertex(1, 4, 3);
@@ -91,7 +89,7 @@ public class IsTwoCopsEnoughTest {
     }
 
     @Test
-    public void givenPetersenGraph_whenIsTwoCopsEnough_thenReturnTrue() {
+    public void givenPetersenGraph_whenIsTwoCopsEnough_thenReturnFalse() {
         // GIVEN
         graph = Graph.petersen();
 
@@ -103,7 +101,7 @@ public class IsTwoCopsEnoughTest {
     }
 
     @Test
-    public void givenDodecahedronGraph_whenIsTwoCopsEnough_thenReturnTrue() {
+    public void givenDodecahedronGraph_whenIsTwoCopsEnough_thenReturnFalse() {
         // GIVEN
         graph = Graph.dodecahedron();
 

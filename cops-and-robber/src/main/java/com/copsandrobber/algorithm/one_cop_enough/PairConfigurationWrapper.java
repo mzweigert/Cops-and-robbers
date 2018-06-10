@@ -9,6 +9,13 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
+/**
+ * Class which holding information about marked and unmarked positions of cop and robber,
+ * where each position is representing for Pair (c, r),
+ * where c is the cop position and r is the robber position.
+ * Used in IsTwoCopsEnough algorithm which check that need two cops to catch a robber.
+ * @param <T> type of vertex position.
+ */
 public class PairConfigurationWrapper<T> extends ConfigurationsWrapper<Pair<Vertex<T>, Vertex<T>>, T> {
 
 
@@ -45,8 +52,8 @@ public class PairConfigurationWrapper<T> extends ConfigurationsWrapper<Pair<Vert
 
     @Override
     public boolean canMarkConfiguration(Pair<Vertex<T>, Vertex<T>> currentConfiguration) {
-        Collection<Vertex<T>> copNeighbours = currentConfiguration.getFirst().getClosedNeighbourhood();
-        Collection<Vertex<T>> robberNeighbours = currentConfiguration.getSecond().getClosedNeighbourhood();
+        Collection<Vertex<T>> copNeighbors = currentConfiguration.getFirst().getClosedNeighborhood();
+        Collection<Vertex<T>> robberNeighbors = currentConfiguration.getSecond().getClosedNeighborhood();
 
 
         BiFunction<Vertex<T>, Vertex<T>, Boolean> markedContainsConfiguration =
@@ -62,7 +69,7 @@ public class PairConfigurationWrapper<T> extends ConfigurationsWrapper<Pair<Vert
                                 anyCopNeighbourAndRobberNeighbourExist.apply(robberNeighbour, copNeighbourhood)
                         );
 
-        return allRobberNeighbourAndAnyCopIsMarked.apply(robberNeighbours, copNeighbours);
+        return allRobberNeighbourAndAnyCopIsMarked.apply(robberNeighbors, copNeighbors);
     }
 
 }
