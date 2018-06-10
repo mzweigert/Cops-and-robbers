@@ -29,8 +29,8 @@ public class GraphService<E> implements Serializable {
         return createVertex(index);
     }
 
-    public List<Vertex<E>> addVertices(E... indexes) throws VertexAlreadyExistException {
-        List<Vertex<E>> vertices = new ArrayList<>();
+    public Set<Vertex<E>> addVertices(E... indexes) throws VertexAlreadyExistException {
+        Set<Vertex<E>> vertices = new LinkedHashSet<>();
         for (E index : indexes) {
             Vertex<E> vertex = addVertex(index);
             vertices.add(vertex);
@@ -83,7 +83,7 @@ public class GraphService<E> implements Serializable {
         edges.add(edge);
         try {
             if (!firstVertex.equals(secondVertex)) {
-                firstVertex.createNeighbourhood(secondVertex);
+                firstVertex.createNeighborhoodWith(secondVertex);
             }
         } catch (NeighborAlreadyExistException e) {
             e.printStackTrace();
@@ -92,8 +92,8 @@ public class GraphService<E> implements Serializable {
     }
 
 
-    public List<Edge<E>> addEdgesToVertex(E first, E... neighbors) throws EdgeAlreadyExistException {
-        List<Edge<E>> edges = new ArrayList<>();
+    public Set<Edge<E>> addEdgesToVertex(E first, E... neighbors) throws EdgeAlreadyExistException {
+        Set<Edge<E>> edges = new LinkedHashSet<>();
         Vertex<E> firstVertex = findOrCreateVertex(first);
         for (E second : neighbors) {
             Vertex<E> secondVertex = findOrCreateVertex(second);
@@ -103,8 +103,8 @@ public class GraphService<E> implements Serializable {
         return edges;
     }
 
-    public List<Vertex<E>> addPath(E... indexes) throws EdgeAlreadyExistException, PathContainsDuplicatesException {
-        List<E> indexesList = Arrays.asList(indexes);
+    public Set<Vertex<E>> addPath(E... indexes) throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+        Set<E> indexesList = Set.of(indexes);
         Set<E> duplicates = indexesList.stream()
                 .filter(i -> Collections.frequency(indexesList, i) > 1)
                 .collect(Collectors.toSet());
@@ -114,9 +114,9 @@ public class GraphService<E> implements Serializable {
         return addSequentiallyEdges(indexes);
     }
 
-    private List<Vertex<E>> addSequentiallyEdges(E... indexes) throws EdgeAlreadyExistException {
+    private Set<Vertex<E>> addSequentiallyEdges(E... indexes) throws EdgeAlreadyExistException {
         Vertex<E> previousVertex = null;
-        List<Vertex<E>> vertices = new ArrayList<>();
+        Set<Vertex<E>> vertices = new LinkedHashSet<>();
         for (E index : indexes) {
             if (previousVertex != null) {
                 addEdge(previousVertex.getIndex(), index);

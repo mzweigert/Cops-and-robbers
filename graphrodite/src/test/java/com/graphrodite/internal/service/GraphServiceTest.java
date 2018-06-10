@@ -173,8 +173,8 @@ public class GraphServiceTest {
         assertThat(expectedVertex2.isPresent()).isTrue();
         assertThat(expectedVertex1.get().getIndex()).isEqualTo(firstVertexIndex);
         assertThat(expectedVertex2.get().getIndex()).isEqualTo(secondVertexIndex);
-        assertThat(expectedVertex1.get().getOpenNeighbourhood().stream().findFirst().get()).isEqualTo(expectedVertex2.get());
-        assertThat(expectedVertex2.get().getOpenNeighbourhood().stream().findFirst().get()).isEqualTo(expectedVertex1.get());
+        assertThat(expectedVertex1.get().getOpenNeighborhood().stream().findFirst().get()).isEqualTo(expectedVertex2.get());
+        assertThat(expectedVertex2.get().getOpenNeighborhood().stream().findFirst().get()).isEqualTo(expectedVertex1.get());
         assertThat(graphService.containsEdge(expectedVertex1.get().getIndex(), expectedVertex2.get().getIndex())).isTrue();
     }
 

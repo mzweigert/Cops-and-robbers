@@ -9,6 +9,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.*;
 
+/**
+ * Class which holding information about marked and unmarked positions of two cops and robber,
+ * where each position is representing for ThreeTuples (c1, c2, r),
+ * where c1 is the first cop position, c2 is the second cop position and r is the robber position.
+ * Used in IsTwoCopsEnough algorithm which check that need two cops to catch a robber.
+ * @param <T> type of vertex position.
+ */
 class ThreeTuplesConfigurationsWrapper<T> extends ConfigurationsWrapper<ThreeTuples<Vertex<T>>, T> {
 
 
@@ -56,17 +63,17 @@ class ThreeTuplesConfigurationsWrapper<T> extends ConfigurationsWrapper<ThreeTup
                         marked.contains(new ThreeTuples<>(firstCopNeighbour, secondCopNeighbour, robberNeighbour));
 
         BiFunction<Vertex<T>, Vertex<T>, Boolean> firstAndSecondCopAndRobberNeighbourExist =
-                (robberNeighbour, secondCopNeighbour) -> currentConfiguration.getFirst().getClosedNeighbourhood().stream()
+                (robberNeighbour, secondCopNeighbour) -> currentConfiguration.getFirst().getClosedNeighborhood().stream()
                         .anyMatch(firstCopNeighbour ->
                                 markedContainsConfiguration.apply(robberNeighbour, secondCopNeighbour, firstCopNeighbour));
 
         Function<Vertex<T>, Boolean> secondCopAndRobberNeighbourExist = (robberNeighbour) ->
-                currentConfiguration.getSecond().getClosedNeighbourhood().stream()
+                currentConfiguration.getSecond().getClosedNeighborhood().stream()
                         .anyMatch(secondCopNeighbour ->
                                 firstAndSecondCopAndRobberNeighbourExist.apply(robberNeighbour, secondCopNeighbour));
 
         Supplier<Boolean> configurationExist = () ->
-                currentConfiguration.getThird().getClosedNeighbourhood().stream()
+                currentConfiguration.getThird().getClosedNeighborhood().stream()
                         .allMatch(secondCopAndRobberNeighbourExist::apply);
 
 

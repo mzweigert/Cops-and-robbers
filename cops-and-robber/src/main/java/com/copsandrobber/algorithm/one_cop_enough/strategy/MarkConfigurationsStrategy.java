@@ -9,6 +9,14 @@ import com.graphrodite.model.Vertex;
 
 import java.util.Set;
 
+/**
+ * Class with implementation of algorithm which checking if one cop is enough to catch robber.
+ * Strategy calculation based on mark configurations representing possible rounds in graph.
+ * More information, description available in article
+ * Randomized pursuit-evasion with localvisibility. Isler V., Kannan S., Khanna S.
+ * SIAM Journal on Discrete Mathematics 2006,
+ * volume 20, page 12.
+ */
 public class MarkConfigurationsStrategy implements OneCopEnoughStrategy {
 
     private static MarkConfigurationsStrategy instance;
@@ -17,6 +25,10 @@ public class MarkConfigurationsStrategy implements OneCopEnoughStrategy {
 
     }
 
+    /**
+     * Method return RemoveTrapsStrategy of IterateOnNeighborsStrategy class
+     * @return OneCopEnoughStrategy instance of RemoveTrapsStrategy
+     */
     public static OneCopEnoughStrategy get() {
         if (instance == null) {
             instance = new MarkConfigurationsStrategy();

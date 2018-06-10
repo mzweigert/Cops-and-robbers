@@ -5,6 +5,10 @@ import com.graphrodite.model.Pair;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Class holding information about configuration of three values
+ * @param <E> values type
+ */
 class ThreeTuples<E> implements Serializable {
 
     private final Pair<E, E> pair;
@@ -37,14 +41,26 @@ class ThreeTuples<E> implements Serializable {
 
     }
 
+    /**
+     * method return first value
+     * @return E first value
+     */
     public E getFirst() {
         return pair.getFirst();
     }
 
+    /**
+     * method return second value
+     * @return E second value
+     */
     public E getSecond() {
         return pair.getSecond();
     }
 
+    /**
+     * method return third value
+     * @return E third value
+     */
     public E getThird() {
         return third;
     }

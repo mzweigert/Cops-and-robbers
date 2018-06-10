@@ -16,12 +16,12 @@ public class VertexTest {
         Vertex<Integer> vertex = Vertex.create(1);
         Vertex<Integer> vertexNeighbor = Vertex.create(2);
         // THEN
-        vertex.createNeighbourhood(vertexNeighbor);
+        vertex.createNeighborhoodWith(vertexNeighbor);
         // WHEN
-        assertThat(vertex.getOpenNeighbourhood().size()).isEqualTo(1);
-        assertThat(vertex.getOpenNeighbourhood().contains(vertexNeighbor)).isTrue();
-        assertThat(vertexNeighbor.getOpenNeighbourhood().size()).isEqualTo(1);
-        assertThat(vertexNeighbor.getOpenNeighbourhood().contains(vertex)).isTrue();
+        assertThat(vertex.getOpenNeighborhood().size()).isEqualTo(1);
+        assertThat(vertex.getOpenNeighborhood().contains(vertexNeighbor)).isTrue();
+        assertThat(vertexNeighbor.getOpenNeighborhood().size()).isEqualTo(1);
+        assertThat(vertexNeighbor.getOpenNeighborhood().contains(vertex)).isTrue();
     }
 
     @Test(expected = NeighborAlreadyExistException.class)
@@ -30,8 +30,8 @@ public class VertexTest {
         Vertex<Integer> vertex = Vertex.create(1);
         Vertex<Integer> vertexNeighbor = Vertex.create(2);
         // THEN
-        vertex.createNeighbourhood(vertexNeighbor);
-        vertexNeighbor.createNeighbourhood(vertex);
+        vertex.createNeighborhoodWith(vertexNeighbor);
+        vertexNeighbor.createNeighborhoodWith(vertex);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -39,7 +39,7 @@ public class VertexTest {
         // GIVEN
         Vertex<Integer> vertex = Vertex.create(1);
         // THEN
-        vertex.createNeighbourhood(vertex);
+        vertex.createNeighborhoodWith(vertex);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -49,7 +49,7 @@ public class VertexTest {
         Vertex<Integer> vertexNeighbor = Vertex.create(1);
 
         // THEN
-        vertex.createNeighbourhood(vertexNeighbor);
+        vertex.createNeighborhoodWith(vertexNeighbor);
     }
 
     @Test
@@ -58,9 +58,9 @@ public class VertexTest {
         // GIVEN
         Vertex<Integer> vertex = Vertex.create(1);
         Vertex<Integer> vertexNeighbor = Vertex.create(2);
-        vertex.createNeighbourhood(vertexNeighbor);
+        vertex.createNeighborhoodWith(vertexNeighbor);
         // THEN
-        Collection<Vertex<Integer>> neighbourhood = vertex.getOpenNeighbourhood();
+        Collection<Vertex<Integer>> neighbourhood = vertex.getOpenNeighborhood();
         // WHEN
         assertThat(neighbourhood.size()).isEqualTo(1);
         assertThat(neighbourhood.contains(vertexNeighbor)).isTrue();
@@ -71,9 +71,9 @@ public class VertexTest {
         // GIVEN
         Vertex<Integer> vertex = Vertex.create(1);
         Vertex<Integer> vertexNeighbor = Vertex.create(2);
-        vertex.createNeighbourhood(vertexNeighbor);
+        vertex.createNeighborhoodWith(vertexNeighbor);
         // THEN
-        Collection<Vertex<Integer>> neighbourhood = vertex.getClosedNeighbourhood();
+        Collection<Vertex<Integer>> neighbourhood = vertex.getClosedNeighborhood();
         // WHEN
         assertThat(neighbourhood.size()).isEqualTo(2);
         assertThat(neighbourhood.contains(vertex)).isTrue();
@@ -85,13 +85,13 @@ public class VertexTest {
         // GIVEN
         Vertex<Integer> vertex = Vertex.create(1);
         Vertex<Integer> vertexNeighbor = Vertex.create(2);
-        vertex.createNeighbourhood(vertexNeighbor);
+        vertex.createNeighborhoodWith(vertexNeighbor);
         // THEN
-        boolean result = vertex.removeNeighbourhood(vertexNeighbor);
+        boolean result = vertex.removeFromNeighborhood(vertexNeighbor);
         // WHEN
         assertThat(result).isTrue();
-        assertThat(vertex.getOpenNeighbourhood().contains(vertexNeighbor)).isFalse();
-        assertThat(vertexNeighbor.getOpenNeighbourhood().contains(vertex)).isFalse();
+        assertThat(vertex.getOpenNeighborhood().contains(vertexNeighbor)).isFalse();
+        assertThat(vertexNeighbor.getOpenNeighborhood().contains(vertex)).isFalse();
     }
 
     @Test
@@ -100,11 +100,11 @@ public class VertexTest {
         Vertex<Integer> vertex = Vertex.create(1);
         Vertex<Integer> notVertexNeighbor = Vertex.create(2);
         // THEN
-        boolean result = vertex.removeNeighbourhood(notVertexNeighbor);
+        boolean result = vertex.removeFromNeighborhood(notVertexNeighbor);
         // WHEN
         assertThat(result).isFalse();
-        assertThat(vertex.getOpenNeighbourhood().contains(notVertexNeighbor)).isFalse();
-        assertThat(notVertexNeighbor.getOpenNeighbourhood().contains(vertex)).isFalse();
+        assertThat(vertex.getOpenNeighborhood().contains(notVertexNeighbor)).isFalse();
+        assertThat(notVertexNeighbor.getOpenNeighborhood().contains(vertex)).isFalse();
     }
 
     @Test

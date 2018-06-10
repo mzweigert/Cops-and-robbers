@@ -4,6 +4,11 @@ package com.graphrodite.model;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Graph representing vertex type in graph product.
+ * @param <A> type of first graph product factor
+ * @param <B> type of second graph product factor
+ */
 public class Pair<A, B> implements Serializable {
     private A first;
     private B second;
@@ -32,10 +37,16 @@ public class Pair<A, B> implements Serializable {
         return "(" + first + ", " + second + ")";
     }
 
+    /**
+     * @return A first index of graph product vertex.
+     */
     public A getFirst() {
         return first;
     }
 
+    /**
+     * @return B second index of graph product vertex.
+     */
     public B getSecond() {
         return second;
     }

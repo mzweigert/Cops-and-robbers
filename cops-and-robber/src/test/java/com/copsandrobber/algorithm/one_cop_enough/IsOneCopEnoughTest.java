@@ -59,6 +59,27 @@ public class IsOneCopEnoughTest {
     }
 
     @Test
+    public void givenMarkConfigurationsStrategyAndTreeGraph_whenIsOneCopEnough_thenReturnTrue() throws Exception {
+        // GIVEN
+        OneCopEnoughStrategy strategy = MarkConfigurationsStrategy.get();
+        graph.addEdgesToVertex(1, 2, 3);
+        graph.addEdgesToVertex(2, 4, 5);
+        graph.addEdgesToVertex(3, 6, 7);
+
+        graph.addEdgesToVertex(4, 8, 9);
+        graph.addPath(5, 10, 11);
+
+        graph.addEdgesToVertex(7, 12, 13);
+        graph.addPath(6, 14, 15);
+
+        // WHEN
+        boolean result = IsOneCopEnough.setStrategy(strategy).calculate(graph);
+
+        // THEN
+        assertThat(result).isTrue();
+    }
+
+    @Test
     public void givenMarkConfigurationsStrategyAndPathGraph_whenIsOneCopEnough_thenReturnTrue() throws Exception, PathContainsDuplicatesException {
         // GIVEN
         OneCopEnoughStrategy strategy = MarkConfigurationsStrategy.get();
@@ -137,10 +158,10 @@ public class IsOneCopEnoughTest {
         Graph<Integer> H = Graph.newInstance();
 
         H.addPath(1, 2, 3, 4, 5);
-        Graph<Pair<Integer, Integer>> lexicographicalProduct = graphProductFactory.createStrongProduct(graph, H);
+        Graph<Pair<Integer, Integer>> strong = graphProductFactory.createStrongProduct(graph, H);
 
         // WHEN
-        boolean result = IsOneCopEnough.setStrategy(strategy).calculate(lexicographicalProduct);
+        boolean result = IsOneCopEnough.setStrategy(strategy).calculate(strong);
 
         // THEN
         assertThat(result).isTrue();
@@ -208,13 +229,31 @@ public class IsOneCopEnoughTest {
     }
 
     @Test
+    public void givenRemoveTrapsStrategyAndTreeGraph_whenIsOneCopEnough_thenReturnTrue() throws Exception {
+        // GIVEN
+        OneCopEnoughStrategy strategy = MarkConfigurationsStrategy.get();
+        graph.addEdgesToVertex(1, 2, 3);
+        graph.addEdgesToVertex(2, 4, 5);
+        graph.addEdgesToVertex(3, 6, 7);
+
+        graph.addEdgesToVertex(4, 8, 9);
+        graph.addPath(5, 10, 11);
+
+        graph.addEdgesToVertex(7, 12, 13);
+        graph.addPath(6, 14, 15);
+
+        // WHEN
+        boolean result = IsOneCopEnough.setStrategy(strategy).calculate(graph);
+
+        // THEN
+        assertThat(result).isTrue();
+    }
+
+    @Test
     public void givenRemoveTrapsStrategyAndPathGraph_whenIsOneCopEnough_thenReturnTrue() throws Exception {
         // GIVEN
         OneCopEnoughStrategy strategy = RemoveTrapsStrategy.get();
-        graph.addEdge(1, 2);
-        graph.addEdge(2, 3);
-        graph.addEdge(3, 4);
-        graph.addEdge(4, 5);
+        graph.addPath(1, 2, 3, 4, 5);
 
         // WHEN
         boolean result = IsOneCopEnough.setStrategy(strategy).calculate(graph);
@@ -288,10 +327,10 @@ public class IsOneCopEnoughTest {
         Graph<Integer> H = Graph.newInstance();
 
         H.addPath(1, 2, 3, 4, 5);
-        Graph<Pair<Integer, Integer>> lexicographicalProduct = graphProductFactory.createStrongProduct(graph, H);
+        Graph<Pair<Integer, Integer>> strongProduct = graphProductFactory.createStrongProduct(graph, H);
 
         // WHEN
-        boolean result = IsOneCopEnough.setStrategy(strategy).calculate(lexicographicalProduct);
+        boolean result = IsOneCopEnough.setStrategy(strategy).calculate(strongProduct);
 
         // THEN
         assertThat(result).isTrue();

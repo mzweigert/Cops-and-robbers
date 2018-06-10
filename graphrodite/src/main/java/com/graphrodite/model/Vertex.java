@@ -4,25 +4,41 @@ import com.graphrodite.exception.NeighborAlreadyExistException;
 import org.apache.commons.lang.SerializationUtils;
 
 import java.io.Serializable;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Repeatable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Class representing vertex in graph.
+ * @param <E> type of vertex.
+ */
 public class Vertex<E> implements Serializable {
 
     private E index;
     private List<Vertex<E>> neighbors;
 
-    public Vertex(E index) {
+    private Vertex(E index) {
         this.index = index;
         this.neighbors = new ArrayList<>();
     }
 
+    /**
+     * Method create and return vertex with given index.
+     * @param index vertex id.
+     * @return Vertex&lt;E&gt; vertex object of generic E type.
+     */
     public static <E> Vertex<E> create(E index) {
         return new Vertex<>(index);
     }
 
-    public void createNeighbourhood(Vertex<E> neighbor) throws NeighborAlreadyExistException {
+    /**
+     * Method create neighborhood with given as param vertex.
+     * @param neighbor new vertex neighbor.
+     * @throws NeighborAlreadyExistException throw when neighbor exist in neighbors set.
+     */
+    public void createNeighborhoodWith(Vertex<E> neighbor) throws NeighborAlreadyExistException {
         if (neighbors.contains(neighbor)) {
             throw new NeighborAlreadyExistException(neighbor.getIndex(), index);
         } else if (neighbor.equals(this)) {
@@ -32,8 +48,13 @@ public class Vertex<E> implements Serializable {
         neighbor.addToNeighbors(this);
     }
 
-    public boolean removeNeighbourhood(Vertex<E> vertex) {
-        return this.removeFromNeighbors(vertex) && vertex.removeFromNeighbors(this);
+    /**
+     * Method remove neighborhood with given as param vertex.
+     * @param neighbor vertex which is in neighbors set.
+     * @return true if neighborhood has been removed successfully, false otherwise.
+     */
+    public boolean removeFromNeighborhood(Vertex<E> neighbor) {
+        return this.removeFromNeighbors(neighbor) && neighbor.removeFromNeighbors(this);
     }
 
     private boolean removeFromNeighbors(Vertex<E> neighbor) {
@@ -44,16 +65,28 @@ public class Vertex<E> implements Serializable {
         this.neighbors.add(neighbor);
     }
 
-    public Collection<Vertex<E>> getOpenNeighbourhood() {
+    /**
+     * Method return copy of neighbors collection given vertex.
+     * @return Collection&lt;Vertex&lt;E&gt;&gt; collection of open neighborhood.
+     */
+    public Collection<Vertex<E>> getOpenNeighborhood() {
         return new ArrayList<>(this.neighbors);
     }
 
-    public Collection<Vertex<E>> getClosedNeighbourhood() {
-        Collection<Vertex<E>> collection = getOpenNeighbourhood();
+    /**
+     * Method return open copy of neighbors collection given vertex together with him.
+     * @return Collection&lt;Vertex&lt;E&gt;&gt; collection of closed neighborhood.
+     */
+    public Collection<Vertex<E>> getClosedNeighborhood() {
+        Collection<Vertex<E>> collection = getOpenNeighborhood();
         collection.add(this);
         return collection;
     }
 
+    /**
+     * Method return index of vertex.
+     * @return E vertex index.
+     */
     public E getIndex() {
         return index;
     }
@@ -66,7 +99,6 @@ public class Vertex<E> implements Serializable {
         Vertex<?> vertex = (Vertex<?>) o;
 
         return index.equals(vertex.index);
-
     }
 
     @Override
@@ -79,6 +111,10 @@ public class Vertex<E> implements Serializable {
         return index.toString();
     }
 
+    /**
+     * Method clone vertex.
+     * @return cloned vertex.
+     */
     public Vertex<E> clone() {
         return (Vertex<E>) SerializationUtils.clone(this);
     }

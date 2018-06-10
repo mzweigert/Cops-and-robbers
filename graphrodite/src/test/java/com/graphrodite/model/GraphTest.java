@@ -10,6 +10,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -42,8 +43,8 @@ public class GraphTest {
 
         assertThat(v1.getIndex()).isEqualTo(1);
         assertThat(v2.getIndex()).isEqualTo(2);
-        assertThat(v1.getOpenNeighbourhood().stream().findFirst().get()).isEqualTo(v2);
-        assertThat(v2.getOpenNeighbourhood().stream().findFirst().get()).isEqualTo(v1);
+        assertThat(v1.getOpenNeighborhood().stream().findFirst().get()).isEqualTo(v2);
+        assertThat(v2.getOpenNeighborhood().stream().findFirst().get()).isEqualTo(v1);
         assertThat(graph.getEdges().size()).isEqualTo(1);
     }
 
@@ -107,7 +108,7 @@ public class GraphTest {
         Graph<Integer> graph = Graph.newInstance();
 
         //WHEN
-        List<Vertex<Integer>> result = graph.addVertices(1, 2, 3, 4, 5);
+        Set<Vertex<Integer>> result = graph.addVertices(1, 2, 3, 4, 5);
 
         //THEN
         assertThat(result.size()).isEqualTo(5);
@@ -119,7 +120,7 @@ public class GraphTest {
         Graph<Integer> graph = Graph.newInstance();
 
         //WHEN
-        List<Vertex<Integer>> result = graph.addPath(1, 2, 3, 4, 5);
+        Set<Vertex<Integer>> result = graph.addPath(1, 2, 3, 4, 5);
 
         //THEN
         assertThat(result.size()).isEqualTo(5);
@@ -136,12 +137,12 @@ public class GraphTest {
         graph.addEdge(3, 1);
 
         //WHEN
-        List<Vertex<Integer>> result = graph.addPath(3, 4, 5, 6, 7);
+        Set<Vertex<Integer>> result = graph.addPath(3, 4, 5, 6, 7);
 
         //THEN
         assertThat(result.size()).isEqualTo(5);
         assertThat(graph.getVertices().size()).isEqualTo(7);
-        assertThat(graph.findVertex(3).get().getOpenNeighbourhood().size()).isEqualTo(3);
+        assertThat(graph.findVertex(3).get().getOpenNeighborhood().size()).isEqualTo(3);
     }
 
     @Test

@@ -46,11 +46,11 @@ public class IsKCopsEnoughHelperTest {
         vertices.add(anyVertex_2);
 
         // WHEN
-        Set<Vertex<Integer>> result = helper.getClosedNeighbourhoodUnion(vertices);
+        Set<Vertex<Integer>> result = helper.getClosedNeighborhoodUnion(vertices);
 
         // THEN
-        assertThat(result.containsAll(anyVertex_1.getClosedNeighbourhood())).isTrue();
-        assertThat(result.containsAll(anyVertex_2.getClosedNeighbourhood())).isTrue();
+        assertThat(result.containsAll(anyVertex_1.getClosedNeighborhood())).isTrue();
+        assertThat(result.containsAll(anyVertex_2.getClosedNeighborhood())).isTrue();
     }
 
     @Test
