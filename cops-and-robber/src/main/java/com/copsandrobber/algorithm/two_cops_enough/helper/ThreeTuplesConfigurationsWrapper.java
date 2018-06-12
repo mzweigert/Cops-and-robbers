@@ -1,4 +1,4 @@
-package com.copsandrobber.algorithm.two_cops_enough;
+package com.copsandrobber.algorithm.two_cops_enough.helper;
 
 import com.copsandrobber.algorithm.common.ConfigurationsWrapper;
 import com.graphrodite.model.Vertex;
@@ -16,7 +16,7 @@ import java.util.function.*;
  * Used in IsTwoCopsEnough algorithm which check that need two cops to catch a robber.
  * @param <T> type of vertex position.
  */
-class ThreeTuplesConfigurationsWrapper<T> extends ConfigurationsWrapper<ThreeTuples<Vertex<T>>, T> {
+public class ThreeTuplesConfigurationsWrapper<T> extends ConfigurationsWrapper<ThreeTuples<Vertex<T>>, T> {
 
 
     private ThreeTuplesConfigurationsWrapper(Set<Vertex<T>> vertices) {

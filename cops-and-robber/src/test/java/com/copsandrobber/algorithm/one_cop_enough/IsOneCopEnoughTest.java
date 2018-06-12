@@ -1,5 +1,6 @@
 package com.copsandrobber.algorithm.one_cop_enough;
 
+import com.copsandrobber.algorithm.GraphTemplate;
 import com.copsandrobber.algorithm.one_cop_enough.strategy.MarkConfigurationsStrategy;
 import com.copsandrobber.algorithm.one_cop_enough.strategy.OneCopEnoughStrategy;
 import com.copsandrobber.algorithm.one_cop_enough.strategy.RemoveTrapsStrategy;
@@ -171,25 +172,7 @@ public class IsOneCopEnoughTest {
     public void givenMarkConfigurationsStrategyAndSequentialGraph_whenIsOneCopEnough_thenReturnTrue() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
         // GIVEN
         OneCopEnoughStrategy strategy = MarkConfigurationsStrategy.get();
-        graph.addPath(1, 2, 3, 4, 5, 6);
-        graph.addEdge(1, 6);
-
-
-        graph.addEdgesToVertex(7, 1, 2, 3, 4, 5, 6);
-
-        graph.addEdgesToVertex(8, 1, 2);
-        graph.addEdgesToVertex(9, 2, 3);
-        graph.addEdgesToVertex(10, 3, 4);
-        graph.addEdgesToVertex(11, 4, 5);
-        graph.addEdgesToVertex(12, 5, 6);
-        graph.addEdgesToVertex(13, 6, 1);
-
-        graph.addEdgesToVertex(14, 8, 2, 9);
-        graph.addEdgesToVertex(15, 9, 3, 10);
-        graph.addEdgesToVertex(16, 10, 4, 11);
-        graph.addEdgesToVertex(17, 11, 5, 12);
-        graph.addEdgesToVertex(18, 12, 6, 13);
-        graph.addEdgesToVertex(19, 13, 1, 8);
+        graph = GraphTemplate.getSequentialGraph();
 
         // WHEN
         boolean result = IsOneCopEnough.setStrategy(strategy).calculate(graph);
@@ -340,24 +323,7 @@ public class IsOneCopEnoughTest {
     public void givenRemoveTrapsStrategyAndSequentialGraph_whenIsOneCopEnough_thenReturnTrue() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
         // GIVEN
         OneCopEnoughStrategy strategy = RemoveTrapsStrategy.get();
-        graph.addPath(1, 2, 3, 4, 5, 6);
-        graph.addEdge(1, 6);
-
-        graph.addEdgesToVertex(7, 1, 2, 3, 4, 5, 6);
-
-        graph.addEdgesToVertex(8, 1, 2);
-        graph.addEdgesToVertex(9, 2, 3);
-        graph.addEdgesToVertex(10, 3, 4);
-        graph.addEdgesToVertex(11, 4, 5);
-        graph.addEdgesToVertex(12, 5, 6);
-        graph.addEdgesToVertex(13, 6, 1);
-
-        graph.addEdgesToVertex(14, 8, 2, 9);
-        graph.addEdgesToVertex(15, 9, 3, 10);
-        graph.addEdgesToVertex(16, 10, 4, 11);
-        graph.addEdgesToVertex(17, 11, 5, 12);
-        graph.addEdgesToVertex(18, 12, 6, 13);
-        graph.addEdgesToVertex(19, 13, 1, 8);
+        graph = GraphTemplate.getSequentialGraph();
 
         // WHEN
         boolean result = IsOneCopEnough.setStrategy(strategy).calculate(graph);

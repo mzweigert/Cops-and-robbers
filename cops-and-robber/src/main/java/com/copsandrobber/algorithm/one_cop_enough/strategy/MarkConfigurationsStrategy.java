@@ -2,7 +2,7 @@ package com.copsandrobber.algorithm.one_cop_enough.strategy;
 
 import com.copsandrobber.algorithm.common.ConfigurationsWrapper;
 import com.copsandrobber.algorithm.common.MarkConfigurationAlgorithm;
-import com.copsandrobber.algorithm.one_cop_enough.PairConfigurationWrapper;
+import com.copsandrobber.algorithm.one_cop_enough.helper.PairConfigurationWrapper;
 import com.graphrodite.model.Graph;
 import com.graphrodite.model.Pair;
 import com.graphrodite.model.Vertex;

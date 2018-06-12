@@ -1,6 +1,7 @@
 package com.copsandrobber.algorithm.one_cop_enough;
 
 import com.copsandrobber.algorithm.common.ConfigurationsWrapper;
+import com.copsandrobber.algorithm.one_cop_enough.helper.PairConfigurationWrapper;
 import com.graphrodite.exception.EdgeAlreadyExistException;
 import com.graphrodite.exception.PathContainsDuplicatesException;
 import com.graphrodite.model.Graph;
