@@ -2,6 +2,8 @@ package com.copsandrobber.algorithm.two_cops_enough;
 
 import com.copsandrobber.algorithm.common.ConfigurationsWrapper;
 import com.copsandrobber.algorithm.common.MarkConfigurationAlgorithm;
+import com.copsandrobber.algorithm.two_cops_enough.helper.ThreeTuples;
+import com.copsandrobber.algorithm.two_cops_enough.helper.ThreeTuplesConfigurationsWrapper;
 import com.graphrodite.model.Graph;
 import com.graphrodite.model.Vertex;
 

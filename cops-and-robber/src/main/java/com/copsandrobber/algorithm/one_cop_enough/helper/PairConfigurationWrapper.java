@@ -1,4 +1,4 @@
-package com.copsandrobber.algorithm.one_cop_enough;
+package com.copsandrobber.algorithm.one_cop_enough.helper;
 
 import com.copsandrobber.algorithm.common.ConfigurationsWrapper;
 import com.graphrodite.model.Pair;

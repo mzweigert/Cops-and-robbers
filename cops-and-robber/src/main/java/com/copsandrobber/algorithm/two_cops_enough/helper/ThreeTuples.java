@@ -1,4 +1,4 @@
-package com.copsandrobber.algorithm.two_cops_enough;
+package com.copsandrobber.algorithm.two_cops_enough.helper;
 
 import com.graphrodite.model.Pair;
 
@@ -9,7 +9,7 @@ import java.util.Objects;
  * Class holding information about configuration of three values
  * @param <E> values type
  */
-class ThreeTuples<E> implements Serializable {
+public class ThreeTuples<E> implements Serializable {
 
     private final Pair<E, E> pair;
     private final E third;

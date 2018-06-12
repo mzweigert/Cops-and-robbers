@@ -18,7 +18,6 @@ import java.util.Set;
  */
 public class IterateOnNeighborsStrategy implements KCopsEnoughStrategy {
 
-
     private static KCopsEnoughStrategy instance;
 
     private IterateOnNeighborsStrategy() {

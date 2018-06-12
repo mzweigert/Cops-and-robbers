@@ -10,12 +10,4 @@ public interface OneCopEnoughStrategy {
      * @return true if one cop is enough to catch robber in given graph, false otherwise.
      */
     <E> boolean calculate(Graph<E> graph);
-
-    default <E> boolean measureCalculate(Graph<E> graph) {
-        long startTime = System.currentTimeMillis();
-        boolean result = calculate(graph);
-        long endTime = System.currentTimeMillis();
-        System.out.println("That took " + (endTime - startTime) + " milliseconds");
-        return result;
-    }
 }
