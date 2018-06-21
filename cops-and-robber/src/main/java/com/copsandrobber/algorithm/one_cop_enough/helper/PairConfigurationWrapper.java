@@ -29,8 +29,8 @@ public class PairConfigurationWrapper<T> extends ConfigurationsWrapper<Pair<Vert
 
     @Override
     protected void initFrom(Set<Vertex<T>> vertices) {
-        Set<Pair<Vertex<T>, Vertex<T>>> marked = new LinkedHashSet<>();
-        List<Pair<Vertex<T>, Vertex<T>>> unmarked = new LinkedList<>();
+        Set<Pair<Vertex<T>, Vertex<T>>> marked = new HashSet<>();
+        Set<Pair<Vertex<T>, Vertex<T>>> unmarked = new HashSet<>();
 
         BiConsumer<Vertex<T>, Vertex<T>> markRobberPosition = (copPosition, robberPosition) -> {
             Pair<Vertex<T>, Vertex<T>> pair = new Pair<>(copPosition, robberPosition);

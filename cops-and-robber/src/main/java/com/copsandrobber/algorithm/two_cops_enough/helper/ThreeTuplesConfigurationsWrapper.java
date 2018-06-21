@@ -3,10 +3,7 @@ package com.copsandrobber.algorithm.two_cops_enough.helper;
 import com.copsandrobber.algorithm.common.ConfigurationsWrapper;
 import com.graphrodite.model.Vertex;
 
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.*;
 
 /**
@@ -30,8 +27,8 @@ public class ThreeTuplesConfigurationsWrapper<T> extends ConfigurationsWrapper<T
     @Override
     protected void initFrom(Set<Vertex<T>> vertices) {
 
-        Set<ThreeTuples<Vertex<T>>> marked = new LinkedHashSet<>();
-        List<ThreeTuples<Vertex<T>>> unmarked = new LinkedList<>();
+        Set<ThreeTuples<Vertex<T>>> marked = new HashSet<>();
+        Set<ThreeTuples<Vertex<T>>> unmarked = new HashSet<>();
 
         TriConsumer<Vertex<T>> markRobberPosition = (firstCopPosition, secondCopPosition, robberPosition) -> {
             ThreeTuples<Vertex<T>> configuration = new ThreeTuples<>(firstCopPosition, secondCopPosition, robberPosition);

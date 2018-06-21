@@ -4,14 +4,14 @@ import com.graphrodite.exception.NeighborAlreadyExistException;
 import org.apache.commons.lang.SerializationUtils;
 
 import java.io.Serializable;
-import java.lang.annotation.Documented;
-import java.lang.annotation.Repeatable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
  * Class representing vertex in graph.
+ *
  * @param <E> type of vertex.
  */
 public class Vertex<E> implements Serializable {
@@ -20,12 +20,17 @@ public class Vertex<E> implements Serializable {
     private List<Vertex<E>> neighbors;
 
     private Vertex(E index) {
+        this(index, new ArrayList<>());
+    }
+
+    private Vertex(E index, List<Vertex<E>> neighbors) {
         this.index = index;
-        this.neighbors = new ArrayList<>();
+        this.neighbors = neighbors;
     }
 
     /**
      * Method create and return vertex with given index.
+     *
      * @param index vertex id.
      * @return Vertex&lt;E&gt; vertex object of generic E type.
      */
@@ -34,7 +39,18 @@ public class Vertex<E> implements Serializable {
     }
 
     /**
+     * Method create and return vertex with given index and neighbors.
+     *
+     * @param index vertex id.
+     * @return Vertex&lt;E&gt; vertex object of generic E type.
+     */
+    static <E> Vertex<E> create(E index, List<Vertex<E>> neighbors) {
+        return new Vertex<>(index, neighbors);
+    }
+
+    /**
      * Method create neighborhood with given as param vertex.
+     *
      * @param neighbor new vertex neighbor.
      * @throws NeighborAlreadyExistException throw when neighbor exist in neighbors set.
      */
@@ -50,6 +66,7 @@ public class Vertex<E> implements Serializable {
 
     /**
      * Method remove neighborhood with given as param vertex.
+     *
      * @param neighbor vertex which is in neighbors set.
      * @return true if neighborhood has been removed successfully, false otherwise.
      */
@@ -67,14 +84,16 @@ public class Vertex<E> implements Serializable {
 
     /**
      * Method return copy of neighbors collection given vertex.
+     *
      * @return Collection&lt;Vertex&lt;E&gt;&gt; collection of open neighborhood.
      */
-    public Collection<Vertex<E>> getOpenNeighborhood() {
+    public List<Vertex<E>> getOpenNeighborhood() {
         return new ArrayList<>(this.neighbors);
     }
 
     /**
      * Method return open copy of neighbors collection given vertex together with him.
+     *
      * @return Collection&lt;Vertex&lt;E&gt;&gt; collection of closed neighborhood.
      */
     public Collection<Vertex<E>> getClosedNeighborhood() {
@@ -85,6 +104,7 @@ public class Vertex<E> implements Serializable {
 
     /**
      * Method return index of vertex.
+     *
      * @return E vertex index.
      */
     public E getIndex() {
@@ -113,6 +133,7 @@ public class Vertex<E> implements Serializable {
 
     /**
      * Method clone vertex.
+     *
      * @return cloned vertex.
      */
     public Vertex<E> clone() {

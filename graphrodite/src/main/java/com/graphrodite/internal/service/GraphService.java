@@ -1,14 +1,18 @@
 package com.graphrodite.internal.service;
 
 import com.graphrodite.exception.EdgeAlreadyExistException;
+import com.graphrodite.exception.IndexesContainsDuplicatesException;
 import com.graphrodite.exception.NeighborAlreadyExistException;
-import com.graphrodite.exception.PathContainsDuplicatesException;
 import com.graphrodite.exception.VertexAlreadyExistException;
+import com.graphrodite.internal.wrapper.FindCycleDFSWrapper;
 import com.graphrodite.model.Edge;
 import com.graphrodite.model.Vertex;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Optional;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -103,15 +107,33 @@ public class GraphService<E> implements Serializable {
         return edges;
     }
 
-    public Set<Vertex<E>> addPath(E... indexes) throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+
+    public Set<Vertex<E>> addCycle(E... indexes) throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
+        if (indexes.length < 3) {
+            throw new IllegalArgumentException("Cannot create cycle from less than 3 indexes.");
+        }
+        checkIfGivenIndexesContainsDuplicates(indexes);
+        Set<Vertex<E>> vertices = addSequentiallyEdges(indexes);
+        addEdge(indexes[0], indexes[indexes.length - 1]);
+        return vertices;
+    }
+
+    public Set<Vertex<E>> addPath(E... indexes) throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
+        if (indexes.length < 2) {
+            throw new IllegalArgumentException("Cannot create path from less than 2 indexes.");
+        }
+        checkIfGivenIndexesContainsDuplicates(indexes);
+        return addSequentiallyEdges(indexes);
+    }
+
+    private void checkIfGivenIndexesContainsDuplicates(E... indexes) throws IndexesContainsDuplicatesException {
         Set<E> indexesList = Set.of(indexes);
         Set<E> duplicates = indexesList.stream()
                 .filter(i -> Collections.frequency(indexesList, i) > 1)
                 .collect(Collectors.toSet());
         if (duplicates.size() > 1) {
-            throw new PathContainsDuplicatesException(duplicates);
+            throw new IndexesContainsDuplicatesException(duplicates);
         }
-        return addSequentiallyEdges(indexes);
     }
 
     private Set<Vertex<E>> addSequentiallyEdges(E... indexes) throws EdgeAlreadyExistException {
@@ -125,5 +147,23 @@ public class GraphService<E> implements Serializable {
             vertices.add(previousVertex);
         }
         return vertices;
+    }
+
+    public boolean containsCycle(FindCycleDFSWrapper<E> wrapper, Vertex<E> current) {
+        wrapper.addToVisited(current);
+        for (Vertex<E> neighbor : current.getOpenNeighborhood()) {
+            Optional<Vertex<E>> firstFromCycle = wrapper.getLastFromCycle();
+            if (firstFromCycle.isPresent() && neighbor.equals(firstFromCycle.get())) {
+                continue;
+            }
+            wrapper.addToCycle(current);
+            if (neighbor.equals(wrapper.getStartVertex()) ||
+                    (!wrapper.IsNotInVisited(neighbor) &&
+                            containsCycle(wrapper, neighbor))) {
+                return true;
+            }
+            wrapper.removeFromCycle();
+        }
+        return false;
     }
 }

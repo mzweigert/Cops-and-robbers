@@ -4,7 +4,8 @@ import com.copsandrobber.algorithm.k_cops_enough.strategy.IterateOnEdgesStrategy
 import com.copsandrobber.algorithm.k_cops_enough.strategy.IterateOnNeighborsStrategy;
 import com.copsandrobber.algorithm.k_cops_enough.strategy.KCopsEnoughStrategy;
 import com.graphrodite.exception.EdgeAlreadyExistException;
-import com.graphrodite.exception.PathContainsDuplicatesException;
+import com.graphrodite.exception.IndexesContainsDuplicatesException;
+import com.graphrodite.factory.GraphTemplate;
 import com.graphrodite.model.Graph;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +25,7 @@ public class IsKCopsEnoughTest {
     }
 
     @Test
-    public void givenIterateOnEdgesStrategyAndPathGraphAndKEqualOne_whenIsKCopWinGraph_thenReturnTrue() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenIterateOnEdgesStrategyAndPathGraphAndKEqualOne_whenIsKCopWinGraph_thenReturnTrue() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         KCopsEnoughStrategy strategy = IterateOnEdgesStrategy.get();
         int k = 1;
@@ -40,12 +41,11 @@ public class IsKCopsEnoughTest {
     }
 
     @Test
-    public void givenIterateOnEdgesStrategyAndC4GraphAndKEqualOne_whenIsKCopWinGraph_thenReturnFalse() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenIterateOnEdgesStrategyAndC4GraphAndKEqualOne_whenIsKCopWinGraph_thenReturnFalse() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         KCopsEnoughStrategy strategy = IterateOnEdgesStrategy.get();
         int k = 1;
-        graph.addPath(1, 2, 3, 4);
-        graph.addEdge(1, 4);
+        graph.addCycle(1, 2, 3, 4);
 
         // WHEN
         boolean result = IsKCopsEnough.setStrategy(strategy).calculate(graph, k);
@@ -55,12 +55,11 @@ public class IsKCopsEnoughTest {
     }
 
     @Test
-    public void givenIterateOnEdgesStrategyAndC4GraphAndKEqualTwo_whenIsKCopWinGraph_thenReturnTrue() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenIterateOnEdgesStrategyAndC4GraphAndKEqualTwo_whenIsKCopWinGraph_thenReturnTrue() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         KCopsEnoughStrategy strategy = IterateOnEdgesStrategy.get();
         int k = 2;
-        graph.addPath(1, 2, 3, 4);
-        graph.addEdge(1, 4);
+        graph.addCycle(1, 2, 3, 4);
 
         // WHEN
         boolean result = IsKCopsEnough.setStrategy(strategy).calculate(graph, k);
@@ -74,7 +73,7 @@ public class IsKCopsEnoughTest {
         // GIVEN
         KCopsEnoughStrategy strategy = IterateOnEdgesStrategy.get();
         int k = 3;
-        graph = Graph.dodecahedron();
+        graph = GraphTemplate.getInstance().getDodecahedronGraph();
 
         // WHEN
         boolean result = IsKCopsEnough.setStrategy(strategy).calculate(graph, k);
@@ -88,7 +87,7 @@ public class IsKCopsEnoughTest {
         // GIVEN
         KCopsEnoughStrategy strategy = IterateOnEdgesStrategy.get();
         int k = 2;
-        graph = Graph.dodecahedron();
+        graph = GraphTemplate.getInstance().getDodecahedronGraph();
 
         // WHEN
         boolean result = IsKCopsEnough.setStrategy(strategy).calculate(graph, k);
@@ -102,7 +101,7 @@ public class IsKCopsEnoughTest {
         // GIVEN
         KCopsEnoughStrategy strategy = IterateOnEdgesStrategy.get();
         int k = 1;
-        graph = Graph.dodecahedron();
+        graph = GraphTemplate.getInstance().getDodecahedronGraph();
 
         // WHEN
         boolean result = IsKCopsEnough.setStrategy(strategy).calculate(graph, k);
@@ -116,7 +115,7 @@ public class IsKCopsEnoughTest {
         // GIVEN
         KCopsEnoughStrategy strategy = IterateOnEdgesStrategy.get();
         int k = 3;
-        graph = Graph.petersen();
+        graph = GraphTemplate.getInstance().getPetersenGraph();
 
         // WHEN
         boolean result = IsKCopsEnough.setStrategy(strategy).calculate(graph, k);
@@ -130,7 +129,7 @@ public class IsKCopsEnoughTest {
         // GIVEN
         KCopsEnoughStrategy strategy = IterateOnEdgesStrategy.get();
         int k = 2;
-        graph = Graph.petersen();
+        graph = GraphTemplate.getInstance().getPetersenGraph();
 
         // WHEN
         boolean result = IsKCopsEnough.setStrategy(strategy).calculate(graph, k);
@@ -144,7 +143,7 @@ public class IsKCopsEnoughTest {
         // GIVEN
         KCopsEnoughStrategy strategy = IterateOnEdgesStrategy.get();
         int k = 1;
-        graph = Graph.petersen();
+        graph = GraphTemplate.getInstance().getPetersenGraph();
 
         // WHEN
         boolean result = IsKCopsEnough.setStrategy(strategy).calculate(graph, k);
@@ -154,7 +153,7 @@ public class IsKCopsEnoughTest {
     }
 
     @Test
-    public void givenIterateOnNeighborsStrategyAndPathGraphAndKEqualOne_whenIsKCopWinGraph_thenReturnTrue() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenIterateOnNeighborsStrategyAndPathGraphAndKEqualOne_whenIsKCopWinGraph_thenReturnTrue() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         KCopsEnoughStrategy strategy = IterateOnNeighborsStrategy.get();
         int k = 1;
@@ -170,12 +169,11 @@ public class IsKCopsEnoughTest {
     }
 
     @Test
-    public void givenIterateOnNeighborsStrategyAndC4GraphAndKEqualOne_whenIsKCopWinGraph_thenReturnFalse() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenIterateOnNeighborsStrategyAndC4GraphAndKEqualOne_whenIsKCopWinGraph_thenReturnFalse() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         KCopsEnoughStrategy strategy = IterateOnNeighborsStrategy.get();
         int k = 1;
-        graph.addPath(1, 2, 3, 4);
-        graph.addEdge(1, 4);
+        graph.addCycle(1, 2, 3, 4);
 
         // WHEN
         boolean result = IsKCopsEnough.setStrategy(strategy).calculate(graph, k);
@@ -185,12 +183,11 @@ public class IsKCopsEnoughTest {
     }
 
     @Test
-    public void givenIterateOnNeighborsStrategyAndC4GraphAndKEqualTwo_whenIsKCopWinGraph_thenReturnTrue() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenIterateOnNeighborsStrategyAndC4GraphAndKEqualTwo_whenIsKCopWinGraph_thenReturnTrue() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         KCopsEnoughStrategy strategy = IterateOnNeighborsStrategy.get();
         int k = 2;
-        graph.addPath(1, 2, 3, 4);
-        graph.addEdge(1, 4);
+        graph.addCycle(1, 2, 3, 4);
 
         // WHEN
         boolean result = IsKCopsEnough.setStrategy(strategy).calculate(graph, k);
@@ -204,7 +201,7 @@ public class IsKCopsEnoughTest {
         // GIVEN
         KCopsEnoughStrategy strategy = IterateOnNeighborsStrategy.get();
         int k = 3;
-        graph = Graph.dodecahedron();
+        graph = GraphTemplate.getInstance().getDodecahedronGraph();
 
         // WHEN
         boolean result = IsKCopsEnough.setStrategy(strategy).calculate(graph, k);
@@ -218,7 +215,7 @@ public class IsKCopsEnoughTest {
         // GIVEN
         KCopsEnoughStrategy strategy = IterateOnNeighborsStrategy.get();
         int k = 2;
-        graph = Graph.dodecahedron();
+        graph = GraphTemplate.getInstance().getDodecahedronGraph();
 
         // WHEN
         boolean result = IsKCopsEnough.setStrategy(strategy).calculate(graph, k);
@@ -232,7 +229,7 @@ public class IsKCopsEnoughTest {
         // GIVEN
         KCopsEnoughStrategy strategy = IterateOnNeighborsStrategy.get();
         int k = 1;
-        graph = Graph.dodecahedron();
+        graph = GraphTemplate.getInstance().getDodecahedronGraph();
 
         // WHEN
         boolean result = IsKCopsEnough.setStrategy(strategy).calculate(graph, k);
@@ -246,7 +243,7 @@ public class IsKCopsEnoughTest {
         // GIVEN
         KCopsEnoughStrategy strategy = IterateOnNeighborsStrategy.get();
         int k = 3;
-        graph = Graph.petersen();
+        graph = GraphTemplate.getInstance().getPetersenGraph();
 
         // WHEN
         boolean result = IsKCopsEnough.setStrategy(strategy).calculate(graph, k);
@@ -260,7 +257,7 @@ public class IsKCopsEnoughTest {
         // GIVEN
         KCopsEnoughStrategy strategy = IterateOnNeighborsStrategy.get();
         int k = 2;
-        graph = Graph.petersen();
+        graph = GraphTemplate.getInstance().getPetersenGraph();
 
         // WHEN
         boolean result = IsKCopsEnough.setStrategy(strategy).calculate(graph, k);
@@ -274,7 +271,7 @@ public class IsKCopsEnoughTest {
         // GIVEN
         KCopsEnoughStrategy strategy = IterateOnNeighborsStrategy.get();
         int k = 1;
-        graph = Graph.petersen();
+        graph = GraphTemplate.getInstance().getPetersenGraph();
 
         // WHEN
         boolean result = IsKCopsEnough.setStrategy(strategy).calculate(graph, k);

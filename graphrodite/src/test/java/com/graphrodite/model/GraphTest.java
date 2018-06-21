@@ -2,13 +2,13 @@ package com.graphrodite.model;
 
 
 import com.graphrodite.exception.EdgeAlreadyExistException;
-import com.graphrodite.exception.PathContainsDuplicatesException;
+import com.graphrodite.exception.IndexesContainsDuplicatesException;
 import com.graphrodite.exception.VertexAlreadyExistException;
+import com.graphrodite.factory.GraphTemplate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -115,7 +115,7 @@ public class GraphTest {
     }
 
     @Test
-    public void givenIndexes_whenAddPathAndGraphIsEmpty_thenSuccessAddPathToGraph() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenIndexes_whenAddPathAndGraphIsEmpty_thenSuccessAddPathToGraph() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         //GIVEN
         Graph<Integer> graph = Graph.newInstance();
 
@@ -125,16 +125,16 @@ public class GraphTest {
         //THEN
         assertThat(result.size()).isEqualTo(5);
         assertThat(graph.getVertices().size()).isEqualTo(5);
-
+        assertThat(graph.containsCycle()).isFalse();
     }
 
     @Test
-    public void givenIndexes_whenAddPathAndGraphIsNotEmpty_thenSuccessAddPathToGraph() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenIndexes_whenAddPathAndGraphIsNotEmpty_thenSuccessAddPathToGraph() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         //GIVEN
         Graph<Integer> graph = Graph.newInstance();
         graph.addEdge(1, 2);
         graph.addEdge(2, 3);
-        graph.addEdge(3, 1);
+
 
         //WHEN
         Set<Vertex<Integer>> result = graph.addPath(3, 4, 5, 6, 7);
@@ -142,7 +142,81 @@ public class GraphTest {
         //THEN
         assertThat(result.size()).isEqualTo(5);
         assertThat(graph.getVertices().size()).isEqualTo(7);
-        assertThat(graph.findVertex(3).get().getOpenNeighborhood().size()).isEqualTo(3);
+        assertThat(graph.findVertex(3).get().getOpenNeighborhood().size()).isEqualTo(2);
+        assertThat(graph.containsCycle()).isFalse();
+    }
+
+    @Test
+    public void givenIndexes_whenAddCycleAndGraphIsEmpty_thenSuccessAddCycleToGraph() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
+        //GIVEN
+        Graph<Integer> graph = Graph.newInstance();
+
+        //WHEN
+        Set<Vertex<Integer>> result = graph.addCycle(1, 2, 3, 4, 5);
+
+        //THEN
+        assertThat(result.size()).isEqualTo(5);
+        assertThat(graph.getVertices().size()).isEqualTo(5);
+        assertThat(graph.containsCycle()).isTrue();
+    }
+
+    @Test
+    public void givenIndexes_whenAddCycleAndGraphIsNotEmpty_thenSuccessAddCycleToGraph() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
+        //GIVEN
+        Graph<Integer> graph = Graph.newInstance();
+        graph.addEdge(1, 2);
+        graph.addEdge(2, 3);
+        graph.addEdge(3, 1);
+
+        //WHEN
+        Set<Vertex<Integer>> result = graph.addCycle(3, 4, 5, 6, 7);
+
+        //THEN
+        assertThat(result.size()).isEqualTo(5);
+        assertThat(graph.getVertices().size()).isEqualTo(7);
+        assertThat(graph.findVertex(3).get().getOpenNeighborhood().size()).isEqualTo(4);
+        assertThat(graph.containsCycle()).isTrue();
+    }
+
+    @Test
+    public void givenC5Graph_whenContainsCycle_thenReturnTrue() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
+        //GIVEN
+        Graph<Integer> graph = Graph.newInstance();
+        graph.addCycle(1, 2, 3, 4, 5);
+
+        //WHEN
+        boolean result = graph.containsCycle();
+
+        //THEN
+        assertThat(result).isTrue();
+        assertThat(graph.getVertices().size()).isEqualTo(5);
+    }
+
+    @Test
+    public void givenP5Graph_whenContainsCycle_thenReturnFalse() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
+        //GIVEN
+        Graph<Integer> graph = Graph.newInstance();
+        graph.addPath(1, 2, 3, 4, 5);
+
+        //WHEN
+        boolean result = graph.containsCycle();
+
+        //THEN
+        assertThat(result).isFalse();
+        assertThat(graph.getVertices().size()).isEqualTo(5);
+    }
+
+    @Test
+    public void givenT5Graph_whenContainsCycle_thenReturnFalse() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
+        //GIVEN
+        Graph<Integer> graph = GraphTemplate.getInstance().createTreeWithGivenLength(10);
+
+        //WHEN
+        boolean result = graph.containsCycle();
+
+        //THEN
+        assertThat(result).isFalse();
+        assertThat(graph.getVertices().size()).isEqualTo(10);
     }
 
     @Test
@@ -259,29 +333,4 @@ public class GraphTest {
         assertThat(result).isFalse();
     }
 
-    @Test
-    public void givenNothing_whenPetersen_thenSuccessCreatePetersen() throws UnsupportedOperationException {
-        //GIVEN
-
-        //WHEN
-        Graph<Integer> graph = Graph.petersen();
-
-        //THEN
-        assertThat(graph.getVertices().size()).isEqualTo(10);
-        assertThat(graph.getEdges().size()).isEqualTo(15);
-
-    }
-
-    @Test
-    public void givenNothing_whenDodecahedron_thenSuccessCreateDodecahedron() throws UnsupportedOperationException {
-        //GIVEN
-
-        //WHEN
-        Graph<Integer> graph = Graph.dodecahedron();
-
-        //THEN
-        assertThat(graph.getVertices().size()).isEqualTo(20);
-        assertThat(graph.getEdges().size()).isEqualTo(30);
-
-    }
 }
