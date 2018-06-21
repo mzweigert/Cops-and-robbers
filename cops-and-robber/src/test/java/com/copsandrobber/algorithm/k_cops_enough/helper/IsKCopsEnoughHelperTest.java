@@ -1,7 +1,7 @@
 package com.copsandrobber.algorithm.k_cops_enough.helper;
 
 import com.graphrodite.exception.EdgeAlreadyExistException;
-import com.graphrodite.exception.PathContainsDuplicatesException;
+import com.graphrodite.exception.IndexesContainsDuplicatesException;
 import com.graphrodite.exception.VertexAlreadyExistException;
 import com.graphrodite.factory.GraphProductFactory;
 import com.graphrodite.model.Graph;
@@ -36,7 +36,7 @@ public class IsKCopsEnoughHelperTest {
     }
 
     @Test
-    public void givenAnyGraph_whenGetClosedNeighbourhoodUnion_thenReturnUnionOfClosedNeighbourhood() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenAnyGraph_whenGetClosedNeighbourhoodUnion_thenReturnUnionOfClosedNeighbourhood() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         graph.addPath(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         Set<Vertex<Integer>> vertices = new HashSet<>();
@@ -54,7 +54,7 @@ public class IsKCopsEnoughHelperTest {
     }
 
     @Test
-    public void givenPathGraph_whenFindSafeZonesForVertices_thenReturnSafeZones() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenPathGraph_whenFindSafeZonesForVertices_thenReturnSafeZones() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         graph.addPath(1, 2, 3, 4, 5, 6, 7, 8);
         Vertex<Integer> vertex_1 = graph.findVertex(2).get();
@@ -78,7 +78,7 @@ public class IsKCopsEnoughHelperTest {
     }
 
     @Test
-    public void givenC5Graph_whenFindSafeZonesForVertices_thenReturnSafeZones() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenC5Graph_whenFindSafeZonesForVertices_thenReturnSafeZones() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         graph.addPath(1, 2, 3, 4, 5);
         graph.addPath(1, 5);
@@ -101,7 +101,7 @@ public class IsKCopsEnoughHelperTest {
     }
 
     @Test
-    public void givenC5Graph_whenFindSafeZonesForVertex_thenReturnSafeZones() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenC5Graph_whenFindSafeZonesForVertex_thenReturnSafeZones() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         graph.addPath(1, 2, 3, 4, 5);
         graph.addPath(1, 5);
@@ -116,7 +116,7 @@ public class IsKCopsEnoughHelperTest {
     }
 
     @Test
-    public void givenC5ProductGraphGraph_whenFindSafeZonesForVertex_thenReturnIntersectionSafeZones() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenC5ProductGraphGraph_whenFindSafeZonesForVertex_thenReturnIntersectionSafeZones() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         graph.addPath(1, 2, 3, 4, 5);
         graph.addPath(1, 5);

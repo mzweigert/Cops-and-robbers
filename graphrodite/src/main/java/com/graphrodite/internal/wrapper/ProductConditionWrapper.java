@@ -31,11 +31,11 @@ public class ProductConditionWrapper<A, B> {
         return secondGraph.findEdge(firstVertexIndex.getSecond(), secondVertexIndex.getSecond()).isPresent();
     }
 
-    public boolean isSecondIndexesAreEquals() {
+    public boolean areSecondIndexesAreEquals() {
         return firstVertexIndex.getSecond().equals(secondVertexIndex.getSecond());
     }
 
-    public boolean isFirstIndexesAreEquals() {
+    public boolean areFirstIndexesAreEquals() {
         return firstVertexIndex.getFirst().equals(secondVertexIndex.getFirst());
     }
 }

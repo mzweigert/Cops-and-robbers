@@ -4,7 +4,7 @@ import com.copsandrobber.algorithm.common.ConfigurationsWrapper;
 import com.copsandrobber.algorithm.two_cops_enough.helper.ThreeTuples;
 import com.copsandrobber.algorithm.two_cops_enough.helper.ThreeTuplesConfigurationsWrapper;
 import com.graphrodite.exception.EdgeAlreadyExistException;
-import com.graphrodite.exception.PathContainsDuplicatesException;
+import com.graphrodite.exception.IndexesContainsDuplicatesException;
 import com.graphrodite.model.Graph;
 import com.graphrodite.model.Vertex;
 import org.junit.Before;
@@ -24,7 +24,7 @@ public class ThreeTuplesConfigurationsWrapperTest {
     }
 
     @Test
-    public void givenGraphVertices_whenCreateConfigurations_thenSuccessMatchEachWithEachFromVertices() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenGraphVertices_whenCreateConfigurations_thenSuccessMatchEachWithEachFromVertices() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         graph.addPath(1, 2, 3, 4);
         Set<Vertex<Integer>> vertices = graph.getVertices();
@@ -57,7 +57,7 @@ public class ThreeTuplesConfigurationsWrapperTest {
 
     @Test
     public void givenRobberSurroundedCops_whenCanMarkConfiguration_thenReturnTrue()
-            throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+            throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
 
         // GIVEN
         graph.addPath(0, 1, 2, 3);
@@ -79,7 +79,7 @@ public class ThreeTuplesConfigurationsWrapperTest {
 
     @Test
     public void givenRobberWithFreeButMarkedNeighbourAndCops_whenCanMarkConfiguration_thenReturnTrue()
-            throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+            throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
 
         // GIVEN
         graph.addPath(0, 1, 2, 3);
@@ -106,7 +106,7 @@ public class ThreeTuplesConfigurationsWrapperTest {
 
     @Test
     public void givenRobberWithFreeNeighbourAndCopsBeforeHim_whenCanMarkConfiguration_thenReturnFalse()
-            throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+            throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
 
         // GIVEN
         graph.addPath(0, 1, 2, 3);

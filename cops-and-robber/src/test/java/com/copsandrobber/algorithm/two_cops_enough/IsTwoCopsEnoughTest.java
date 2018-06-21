@@ -1,8 +1,9 @@
 package com.copsandrobber.algorithm.two_cops_enough;
 
 import com.graphrodite.exception.EdgeAlreadyExistException;
-import com.graphrodite.exception.PathContainsDuplicatesException;
+import com.graphrodite.exception.IndexesContainsDuplicatesException;
 import com.graphrodite.factory.GraphProductFactory;
+import com.graphrodite.factory.GraphTemplate;
 import com.graphrodite.model.Graph;
 import com.graphrodite.model.Pair;
 import org.junit.Before;
@@ -23,8 +24,7 @@ public class IsTwoCopsEnoughTest {
     @Test
     public void givenK3Graph_whenIsTwoCopsEnough_thenReturnTrue() throws Exception {
         // GIVEN
-        graph.addEdgesToVertex(1, 2, 3);
-        graph.addEdge(2, 3);
+        graph.addCycle(1, 2, 3);
 
         // WHEN
         boolean result = IsTwoCopsEnough.calculate(graph);
@@ -37,8 +37,7 @@ public class IsTwoCopsEnoughTest {
     @Test
     public void givenC4Graph_whenIsTwoCopsEnough_thenReturnTrue() throws Exception {
         // GIVEN
-        graph.addPath(1, 2, 3, 4);
-        graph.addEdge(1, 4);
+        graph.addCycle(1, 2, 3, 4);
 
         // WHEN
         boolean result = IsTwoCopsEnough.calculate(graph);
@@ -61,7 +60,7 @@ public class IsTwoCopsEnoughTest {
 
 
     @Test
-    public void givenCycleGraph_whenIsTwoCopsEnough_thenReturnTrue() throws Exception, PathContainsDuplicatesException {
+    public void givenCycleGraph_whenIsTwoCopsEnough_thenReturnTrue() throws Exception {
         // GIVEN
         for (int i = 1; i < 100; i += 1) {
             graph.addPath(i, i + 1);
@@ -91,7 +90,7 @@ public class IsTwoCopsEnoughTest {
     @Test
     public void givenPetersenGraph_whenIsTwoCopsEnough_thenReturnFalse() {
         // GIVEN
-        graph = Graph.petersen();
+        graph = GraphTemplate.getInstance().getPetersenGraph();
 
         // WHEN
         boolean result = IsTwoCopsEnough.calculate(graph);
@@ -103,7 +102,7 @@ public class IsTwoCopsEnoughTest {
     @Test
     public void givenDodecahedronGraph_whenIsTwoCopsEnough_thenReturnFalse() {
         // GIVEN
-        graph = Graph.dodecahedron();
+        graph = GraphTemplate.getInstance().getDodecahedronGraph();
 
         // WHEN
         boolean result = IsTwoCopsEnough.calculate(graph);
@@ -113,7 +112,7 @@ public class IsTwoCopsEnoughTest {
     }
 
     @Test
-    public void givenLexicographicalProductOfTwoCopWinGraphs_whenIsTwoCopsEnough_thenReturnTrue() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenLexicographicalProductOfTwoCopWinGraphs_whenIsTwoCopsEnough_thenReturnTrue() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         graph.addPath(1, 2, 3, 4);
         Graph<Integer> H = Graph.newInstance();
@@ -130,27 +129,9 @@ public class IsTwoCopsEnoughTest {
 
 
     @Test
-    public void givenSequentialGraph_whenIsTwoCopsEnough_thenReturnTrue() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenSequentialGraph_whenIsTwoCopsEnough_thenReturnTrue() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
-        graph.addPath(1, 2, 3, 4, 5, 6);
-        graph.addEdge(1, 6);
-
-
-        graph.addEdgesToVertex(7, 1, 2, 3, 4, 5, 6);
-
-        graph.addEdgesToVertex(8, 1, 2);
-        graph.addEdgesToVertex(9, 2, 3);
-        graph.addEdgesToVertex(10, 3, 4);
-        graph.addEdgesToVertex(11, 4, 5);
-        graph.addEdgesToVertex(12, 5, 6);
-        graph.addEdgesToVertex(13, 6, 1);
-
-        graph.addEdgesToVertex(14, 8, 2, 9);
-        graph.addEdgesToVertex(15, 9, 3, 10);
-        graph.addEdgesToVertex(16, 10, 4, 11);
-        graph.addEdgesToVertex(17, 11, 5, 12);
-        graph.addEdgesToVertex(18, 12, 6, 13);
-        graph.addEdgesToVertex(19, 13, 1, 8);
+        graph = GraphTemplate.getInstance().createSequentialGraphWithDepth(25);
 
         // WHEN
         boolean result = IsTwoCopsEnough.calculate(graph);

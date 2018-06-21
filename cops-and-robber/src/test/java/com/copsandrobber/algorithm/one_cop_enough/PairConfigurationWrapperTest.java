@@ -3,7 +3,7 @@ package com.copsandrobber.algorithm.one_cop_enough;
 import com.copsandrobber.algorithm.common.ConfigurationsWrapper;
 import com.copsandrobber.algorithm.one_cop_enough.helper.PairConfigurationWrapper;
 import com.graphrodite.exception.EdgeAlreadyExistException;
-import com.graphrodite.exception.PathContainsDuplicatesException;
+import com.graphrodite.exception.IndexesContainsDuplicatesException;
 import com.graphrodite.model.Graph;
 import com.graphrodite.model.Pair;
 import com.graphrodite.model.Vertex;
@@ -24,7 +24,7 @@ public class PairConfigurationWrapperTest {
     }
 
     @Test
-    public void givenGraphVertices_whenCreateConfigurations_thenSuccessMatchEachWithEachFromVertices() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenGraphVertices_whenCreateConfigurations_thenSuccessMatchEachWithEachFromVertices() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         graph.addPath(1, 2, 3, 4, 5);
         Set<Vertex<Integer>> vertices = graph.getVertices();
@@ -48,7 +48,7 @@ public class PairConfigurationWrapperTest {
 
     @Test
     public void givenRobberInTrapAndCopBeforeHim_whenIsAllRobbersNeighbourAndAnyCopIsMarked_thenReturnTrue()
-            throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+            throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
 
         // GIVEN
         // Easy to show, that robber has no free vertex to move, and will be caught
@@ -67,7 +67,7 @@ public class PairConfigurationWrapperTest {
 
     @Test
     public void givenRobberWithFreeButMarkedNeighbourAndCop_whenIsAllRobbersNeighbourAndAnyCopIsMarked_thenReturnTrue()
-            throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+            throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
 
         // GIVEN
         // Easy to show, that robber has no free vertex to move, and will be caught
@@ -88,7 +88,7 @@ public class PairConfigurationWrapperTest {
 
     @Test
     public void givenRobberWithFreeNeighbourAndCopBeforeHim_whenIsAllRobbersNeighbourAndAnyCopIsMarked_thenReturnFalse()
-            throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+            throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
 
         // GIVEN
         // Easy to show, that robber has no free vertex to move, and will be caught

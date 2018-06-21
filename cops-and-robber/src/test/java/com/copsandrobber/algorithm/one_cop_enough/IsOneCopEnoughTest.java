@@ -1,11 +1,11 @@
 package com.copsandrobber.algorithm.one_cop_enough;
 
-import com.copsandrobber.algorithm.GraphTemplate;
+import com.graphrodite.factory.GraphTemplate;
 import com.copsandrobber.algorithm.one_cop_enough.strategy.MarkConfigurationsStrategy;
 import com.copsandrobber.algorithm.one_cop_enough.strategy.OneCopEnoughStrategy;
 import com.copsandrobber.algorithm.one_cop_enough.strategy.RemoveTrapsStrategy;
 import com.graphrodite.exception.EdgeAlreadyExistException;
-import com.graphrodite.exception.PathContainsDuplicatesException;
+import com.graphrodite.exception.IndexesContainsDuplicatesException;
 import com.graphrodite.factory.GraphProductFactory;
 import com.graphrodite.model.Graph;
 import com.graphrodite.model.Pair;
@@ -32,8 +32,7 @@ public class IsOneCopEnoughTest {
     public void givenMarkConfigurationsStrategyAndK3Graph_whenIsOneCopEnough_thenReturnTrue() throws Exception {
         // GIVEN
         OneCopEnoughStrategy strategy = MarkConfigurationsStrategy.get();
-        graph.addEdgesToVertex(1, 2, 3);
-        graph.addEdge(2, 3);
+        graph.addCycle(1, 2, 3);
 
         // WHEN
         boolean result = IsOneCopEnough.setStrategy(strategy).calculate(graph);
@@ -46,11 +45,8 @@ public class IsOneCopEnoughTest {
     @Test
     public void givenMarkConfigurationsStrategyAndC4Graph_whenIsOneCopEnough_thenReturnFalse() throws Exception {
         // GIVEN
-        OneCopEnoughStrategy strategy = MarkConfigurationsStrategy.get();
-        graph.addEdge(1, 2);
-        graph.addEdge(2, 3);
-        graph.addEdge(3, 4);
-        graph.addEdge(4, 1);
+        OneCopEnoughStrategy strategy = RemoveTrapsStrategy.get();
+        graph.addCycle(1, 2, 3, 4);
 
         // WHEN
         boolean result = IsOneCopEnough.setStrategy(strategy).calculate(graph);
@@ -62,16 +58,8 @@ public class IsOneCopEnoughTest {
     @Test
     public void givenMarkConfigurationsStrategyAndTreeGraph_whenIsOneCopEnough_thenReturnTrue() throws Exception {
         // GIVEN
-        OneCopEnoughStrategy strategy = MarkConfigurationsStrategy.get();
-        graph.addEdgesToVertex(1, 2, 3);
-        graph.addEdgesToVertex(2, 4, 5);
-        graph.addEdgesToVertex(3, 6, 7);
-
-        graph.addEdgesToVertex(4, 8, 9);
-        graph.addPath(5, 10, 11);
-
-        graph.addEdgesToVertex(7, 12, 13);
-        graph.addPath(6, 14, 15);
+        OneCopEnoughStrategy strategy = RemoveTrapsStrategy.get();
+        graph = GraphTemplate.getInstance().createTreeWithGivenLength(15);
 
         // WHEN
         boolean result = IsOneCopEnough.setStrategy(strategy).calculate(graph);
@@ -81,9 +69,9 @@ public class IsOneCopEnoughTest {
     }
 
     @Test
-    public void givenMarkConfigurationsStrategyAndPathGraph_whenIsOneCopEnough_thenReturnTrue() throws Exception, PathContainsDuplicatesException {
+    public void givenMarkConfigurationsStrategyAndPathGraph_whenIsOneCopEnough_thenReturnTrue() throws Exception, IndexesContainsDuplicatesException {
         // GIVEN
-        OneCopEnoughStrategy strategy = MarkConfigurationsStrategy.get();
+        OneCopEnoughStrategy strategy = RemoveTrapsStrategy.get();
         graph.addPath(1, 2, 3);
 
         // WHEN
@@ -94,9 +82,9 @@ public class IsOneCopEnoughTest {
     }
 
     @Test
-    public void givenMarkConfigurationsStrategyAndCompleteGraph_whenIsOneCopEnough_thenReturnTrue() throws Exception, PathContainsDuplicatesException {
+    public void givenMarkConfigurationsStrategyAndCompleteGraph_whenIsOneCopEnough_thenReturnTrue() throws Exception, IndexesContainsDuplicatesException {
         // GIVEN
-        OneCopEnoughStrategy strategy = MarkConfigurationsStrategy.get();
+        OneCopEnoughStrategy strategy = RemoveTrapsStrategy.get();
         graph.addPath(1, 2, 3, 4);
         graph.addEdgesToVertex(1, 4, 3);
 
@@ -110,8 +98,8 @@ public class IsOneCopEnoughTest {
     @Test
     public void givenMarkConfigurationsStrategyAndPetersenGraph_whenIsOneCopEnough_thenReturnTrue() {
         // GIVEN
-        OneCopEnoughStrategy strategy = MarkConfigurationsStrategy.get();
-        graph = Graph.petersen();
+        OneCopEnoughStrategy strategy = RemoveTrapsStrategy.get();
+        graph = GraphTemplate.getInstance().getPetersenGraph();
 
         // WHEN
         boolean result = IsOneCopEnough.setStrategy(strategy).calculate(graph);
@@ -123,8 +111,8 @@ public class IsOneCopEnoughTest {
     @Test
     public void givenMarkConfigurationsStrategyAndDodecahedronGraph_whenIsOneCopEnough_thenReturnTrue() {
         // GIVEN
-        OneCopEnoughStrategy strategy = MarkConfigurationsStrategy.get();
-        graph = Graph.dodecahedron();
+        OneCopEnoughStrategy strategy = RemoveTrapsStrategy.get();
+        graph = GraphTemplate.getInstance().getDodecahedronGraph();
 
         // WHEN
         boolean result = IsOneCopEnough.setStrategy(strategy).calculate(graph);
@@ -134,9 +122,9 @@ public class IsOneCopEnoughTest {
     }
 
     @Test
-    public void givenMarkConfigurationsStrategyAndLexicographicalProductOfTwoCopWinGraphs_whenIsKCopWinGraph_thenReturnTrue() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenMarkConfigurationsStrategyAndLexicographicalProductOfTwoCopWinGraphs_whenIsKCopWinGraph_thenReturnTrue() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
-        OneCopEnoughStrategy strategy = MarkConfigurationsStrategy.get();
+        OneCopEnoughStrategy strategy = RemoveTrapsStrategy.get();
         graph.addPath(1, 2, 3, 4);
         Graph<Integer> H = Graph.newInstance();
 
@@ -152,9 +140,9 @@ public class IsOneCopEnoughTest {
 
 
     @Test
-    public void givenMarkConfigurationsStrategyAndStrongProductOfTwoOneCopWinGraphs_whenIsKCopWinGraph_thenReturnTrue() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenMarkConfigurationsStrategyAndStrongProductOfTwoOneCopWinGraphs_whenIsKCopWinGraph_thenReturnTrue() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
-        OneCopEnoughStrategy strategy = MarkConfigurationsStrategy.get();
+        OneCopEnoughStrategy strategy = RemoveTrapsStrategy.get();
         graph.addPath(1, 2, 3, 4);
         Graph<Integer> H = Graph.newInstance();
 
@@ -169,10 +157,10 @@ public class IsOneCopEnoughTest {
     }
 
     @Test
-    public void givenMarkConfigurationsStrategyAndSequentialGraph_whenIsOneCopEnough_thenReturnTrue() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenMarkConfigurationsStrategyAndSequentialGraph_whenIsOneCopEnough_thenReturnTrue() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
-        OneCopEnoughStrategy strategy = MarkConfigurationsStrategy.get();
-        graph = GraphTemplate.getSequentialGraph();
+        OneCopEnoughStrategy strategy = RemoveTrapsStrategy.get();
+        graph = GraphTemplate.getInstance().createSequentialGraphWithDepth(25);
 
         // WHEN
         boolean result = IsOneCopEnough.setStrategy(strategy).calculate(graph);
@@ -184,8 +172,7 @@ public class IsOneCopEnoughTest {
     public void givenRemoveTrapsStrategyAndK3Graph_whenIsOneCopEnough_thenReturnTrue() throws Exception {
         // GIVEN
         OneCopEnoughStrategy strategy = RemoveTrapsStrategy.get();
-        graph.addEdgesToVertex(1, 2, 3);
-        graph.addEdge(2, 3);
+        graph.addCycle(1, 2, 3);
 
         // WHEN
         boolean result = IsOneCopEnough.setStrategy(strategy).calculate(graph);
@@ -199,10 +186,7 @@ public class IsOneCopEnoughTest {
     public void givenRemoveTrapsStrategyAndC4Graph_whenIsOneCopEnough_thenReturnFalse() throws Exception {
         // GIVEN
         OneCopEnoughStrategy strategy = RemoveTrapsStrategy.get();
-        graph.addEdge(1, 2);
-        graph.addEdge(2, 3);
-        graph.addEdge(3, 4);
-        graph.addEdge(4, 1);
+        graph.addCycle(1, 2, 3, 4);
 
         // WHEN
         boolean result = IsOneCopEnough.setStrategy(strategy).calculate(graph);
@@ -214,16 +198,9 @@ public class IsOneCopEnoughTest {
     @Test
     public void givenRemoveTrapsStrategyAndTreeGraph_whenIsOneCopEnough_thenReturnTrue() throws Exception {
         // GIVEN
-        OneCopEnoughStrategy strategy = MarkConfigurationsStrategy.get();
-        graph.addEdgesToVertex(1, 2, 3);
-        graph.addEdgesToVertex(2, 4, 5);
-        graph.addEdgesToVertex(3, 6, 7);
+        OneCopEnoughStrategy strategy = RemoveTrapsStrategy.get();
+        graph = GraphTemplate.getInstance().createTreeWithGivenLength(15);
 
-        graph.addEdgesToVertex(4, 8, 9);
-        graph.addPath(5, 10, 11);
-
-        graph.addEdgesToVertex(7, 12, 13);
-        graph.addPath(6, 14, 15);
 
         // WHEN
         boolean result = IsOneCopEnough.setStrategy(strategy).calculate(graph);
@@ -246,7 +223,7 @@ public class IsOneCopEnoughTest {
     }
 
     @Test
-    public void givenRemoveTrapsStrategyAndCompleteGraph_whenIsOneCopEnough_thenReturnTrue() throws Exception, PathContainsDuplicatesException {
+    public void givenRemoveTrapsStrategyAndCompleteGraph_whenIsOneCopEnough_thenReturnTrue() throws Exception, IndexesContainsDuplicatesException {
         // GIVEN
         OneCopEnoughStrategy strategy = RemoveTrapsStrategy.get();
         graph.addPath(1, 2, 3, 4);
@@ -263,7 +240,7 @@ public class IsOneCopEnoughTest {
     public void givenRemoveTrapsStrategyAndPetersenGraph_whenIsOneCopEnough_thenReturnTrue() {
         // GIVEN
         OneCopEnoughStrategy strategy = RemoveTrapsStrategy.get();
-        graph = Graph.petersen();
+        graph = GraphTemplate.getInstance().getPetersenGraph();
 
         // WHEN
         boolean result = IsOneCopEnough.setStrategy(strategy).calculate(graph);
@@ -276,7 +253,7 @@ public class IsOneCopEnoughTest {
     public void givenRemoveTrapsStrategyAndDodecahedronGraph_whenIsOneCopEnough_thenReturnTrue() {
         // GIVEN
         OneCopEnoughStrategy strategy = RemoveTrapsStrategy.get();
-        graph = Graph.dodecahedron();
+        graph = GraphTemplate.getInstance().getDodecahedronGraph();
 
         // WHEN
         boolean result = IsOneCopEnough.setStrategy(strategy).calculate(graph);
@@ -286,7 +263,7 @@ public class IsOneCopEnoughTest {
     }
 
     @Test
-    public void givenRemoveTrapsStrategyAndLexicographicalProductOfTwoCopWinGraphs_whenIsOneCopEnough_thenReturnTrue() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenRemoveTrapsStrategyAndLexicographicalProductOfTwoCopWinGraphs_whenIsOneCopEnough_thenReturnTrue() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         OneCopEnoughStrategy strategy = RemoveTrapsStrategy.get();
         graph.addPath(1, 2, 3, 4);
@@ -303,7 +280,7 @@ public class IsOneCopEnoughTest {
     }
 
     @Test
-    public void givenRemoveTrapsStrategyAndStrongProductOfTwoOneCopWinGraphs_whenIsOneCopEnough_thenReturnTrue() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenRemoveTrapsStrategyAndStrongProductOfTwoOneCopWinGraphs_whenIsOneCopEnough_thenReturnTrue() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         OneCopEnoughStrategy strategy = RemoveTrapsStrategy.get();
         graph.addPath(1, 2, 3, 4);
@@ -320,10 +297,10 @@ public class IsOneCopEnoughTest {
     }
 
     @Test
-    public void givenRemoveTrapsStrategyAndSequentialGraph_whenIsOneCopEnough_thenReturnTrue() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenRemoveTrapsStrategyAndSequentialGraph_whenIsOneCopEnough_thenReturnTrue() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         OneCopEnoughStrategy strategy = RemoveTrapsStrategy.get();
-        graph = GraphTemplate.getSequentialGraph();
+        graph = GraphTemplate.getInstance().createSequentialGraphWithDepth(25);
 
         // WHEN
         boolean result = IsOneCopEnough.setStrategy(strategy).calculate(graph);

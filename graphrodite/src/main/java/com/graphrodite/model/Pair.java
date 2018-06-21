@@ -6,6 +6,7 @@ import java.util.Objects;
 
 /**
  * Graph representing vertex type in graph product.
+ *
  * @param <A> type of first graph product factor
  * @param <B> type of second graph product factor
  */
@@ -49,5 +50,10 @@ public class Pair<A, B> implements Serializable {
      */
     public B getSecond() {
         return second;
+    }
+
+    public void set(A copNeighbour, B robberNeighbour) {
+        this.first = copNeighbour;
+        this.second = robberNeighbour;
     }
 }

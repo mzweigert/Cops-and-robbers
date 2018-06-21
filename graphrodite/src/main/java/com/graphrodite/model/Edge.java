@@ -8,6 +8,7 @@ import java.util.Objects;
 
 /**
  * Class representing edge in graph.
+ *
  * @param <E> type of vertices in edge.
  */
 public class Edge<E> implements Serializable {
@@ -28,6 +29,7 @@ public class Edge<E> implements Serializable {
      * Method check if edges are equals.
      * Note, that method doesn't takes into account the order of indexes.
      * I. e. edge with fields values first=1 and second=2 is the same as edge with first=2 and second=1.
+     *
      * @param edge edge to compare.
      * @return true if given edge is equal, false otherwise.
      */
@@ -56,7 +58,8 @@ public class Edge<E> implements Serializable {
      * Method check if edge is consists of two vertices with given indexes.
      * Method use {@link Edge#equals(Object)} method,
      * and method return true, even if edge has reversed order of given indexes.
-     * @param first first vertex index.
+     *
+     * @param first  first vertex index.
      * @param second second vertex index.
      * @return true if edge is consists of given indexes, false otherwise.
      */
@@ -67,6 +70,7 @@ public class Edge<E> implements Serializable {
 
     /**
      * Method return first edge vertex.
+     *
      * @return Vertex&lt;E&gt; first vertex
      */
     public Vertex<E> getFirst() {
@@ -75,6 +79,7 @@ public class Edge<E> implements Serializable {
 
     /**
      * Method return second edge vertex.
+     *
      * @return Vertex&lt;E&gt; second vertex
      */
     public Vertex<E> getSecond() {
@@ -83,6 +88,7 @@ public class Edge<E> implements Serializable {
 
     /**
      * Method clone edge.
+     *
      * @return Edge&lt;E&gt; cloned edge.
      */
     public Edge<E> clone() {

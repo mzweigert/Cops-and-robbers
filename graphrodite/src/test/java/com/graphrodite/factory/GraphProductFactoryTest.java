@@ -1,7 +1,7 @@
 package com.graphrodite.factory;
 
 import com.graphrodite.exception.EdgeAlreadyExistException;
-import com.graphrodite.exception.PathContainsDuplicatesException;
+import com.graphrodite.exception.IndexesContainsDuplicatesException;
 import com.graphrodite.model.Graph;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,7 +9,6 @@ import org.mockito.InjectMocks;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Set;
-import java.util.stream.IntStream;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -20,7 +19,7 @@ public class GraphProductFactoryTest {
     private GraphProductFactory factory = new GraphProductFactory();
 
     @Test
-    public void givenKEqual3AndP4Graph_whenCreateKStrongProduct_thenSuccessCreateKStrongProduct() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenKEqual3AndP4Graph_whenCreateKStrongProduct_thenSuccessCreateKStrongProduct() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         int k = 3;
         Graph<String> P4 = Graph.newInstance();
@@ -51,7 +50,7 @@ public class GraphProductFactoryTest {
     }
 
     @Test
-    public void givenKEqual4AndC4Graph_whenCreateKStrongProduct_thenSuccessCreateKStrongProduct() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenKEqual4AndC4Graph_whenCreateKStrongProduct_thenSuccessCreateKStrongProduct() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         int k = 4;
         Graph<String> C4 = Graph.newInstance();
@@ -83,7 +82,7 @@ public class GraphProductFactoryTest {
     }
 
     @Test
-    public void givenC5AndP4Graph_whenCreateCartesianProduct_thenSuccessCreateCartesianProduct() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenC5AndP4Graph_whenCreateCartesianProduct_thenSuccessCreateCartesianProduct() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         Graph<Integer> C5 = Graph.newInstance();
         C5.addEdge(1, 2);
@@ -110,7 +109,7 @@ public class GraphProductFactoryTest {
     }
 
     @Test
-    public void givenC5AndP4Graph_whenCreateCategoricalProduct_thenSuccessCreateCategoricalProduct() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenC5AndP4Graph_whenCreateCategoricalProduct_thenSuccessCreateCategoricalProduct() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         Graph<Integer> C5 = Graph.newInstance();
         C5.addEdge(1, 2);
@@ -138,7 +137,7 @@ public class GraphProductFactoryTest {
 
 
     @Test
-    public void givenC5AndP4Graph_whenCreateStrongProduct_thenSuccessCreateStrongProduct() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenC5AndP4Graph_whenCreateStrongProduct_thenSuccessCreateStrongProduct() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         Graph<Integer> C5 = Graph.newInstance();
         C5.addEdge(1, 2);
@@ -166,7 +165,7 @@ public class GraphProductFactoryTest {
     }
 
     @Test
-    public void givenC5AndP4Graph_whenCreateLexicographicalProduct_thenSuccessCreateLexicographicalProduct() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenC5AndP4Graph_whenCreateLexicographicalProduct_thenSuccessCreateLexicographicalProduct() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         Graph<Integer> C5 = Graph.newInstance();
         C5.addEdge(1, 2);
@@ -194,7 +193,7 @@ public class GraphProductFactoryTest {
     }
 
     @Test
-    public void givenC5AndP4AndK3Graph_whenCreateThreeFactorsCartesianProduct_thenSuccessCreateKCCartesianProduct() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenC5AndP4AndK3Graph_whenCreateThreeFactorsCartesianProduct_thenSuccessCreateKCCartesianProduct() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         Graph<Integer> C5 = Graph.newInstance();
         C5.addEdge(1, 2);
@@ -224,7 +223,7 @@ public class GraphProductFactoryTest {
     }
 
     @Test
-    public void givenC5AndP4AndK3Graph_whenCreateThreeFactorsStrongProduct_thenSuccessCreateKStrongProduct() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenC5AndP4AndK3Graph_whenCreateThreeFactorsStrongProduct_thenSuccessCreateKStrongProduct() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         Graph<Integer> C5 = Graph.newInstance();
         C5.addEdge(1, 2);
@@ -255,7 +254,7 @@ public class GraphProductFactoryTest {
     }
 
     @Test
-    public void givenC5AndP4AndK3Graph_whenCreateThreeFactorsCategoricalProduct_thenSuccessCreateKCategoricalProduct() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenC5AndP4AndK3Graph_whenCreateThreeFactorsCategoricalProduct_thenSuccessCreateKCategoricalProduct() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         Graph<Integer> C5 = Graph.newInstance();
         C5.addEdge(1, 2);
@@ -286,7 +285,7 @@ public class GraphProductFactoryTest {
     }
 
     @Test
-    public void givenC5AndP4AndK3Graph_whenCreateThreeFactorsLexicographicalProduct_thenSuccessCreateKLexicographicalProduct() throws EdgeAlreadyExistException, PathContainsDuplicatesException {
+    public void givenC5AndP4AndK3Graph_whenCreateThreeFactorsLexicographicalProduct_thenSuccessCreateKLexicographicalProduct() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         Graph<Integer> C5 = Graph.newInstance();
         C5.addEdge(1, 2);

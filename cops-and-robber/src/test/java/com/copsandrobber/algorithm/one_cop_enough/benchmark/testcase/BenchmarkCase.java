@@ -13,8 +13,8 @@ import java.util.concurrent.TimeUnit;
 
 @BenchmarkMode(Mode.AverageTime)
 @Fork(value = 1) // repeat test only for one thread
-@Warmup(iterations = 3, time = 5) // three warmup iterations for 5 second
-@Measurement(iterations = 3, time = 5) // three measurement iterations for 5 second
+@Warmup(iterations = 1, time = 5) // 1 warmup iterations for 5 second
+@Measurement(iterations = 1, time = 5) // 1 measurement iterations for 5 second
 @State(Scope.Thread)
 abstract class BenchmarkCase<E> {
 

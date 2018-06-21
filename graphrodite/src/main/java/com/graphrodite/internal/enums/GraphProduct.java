@@ -8,9 +8,8 @@ public enum GraphProduct {
     CARTESIAN {
         @Override
         public <A, B> boolean getCondition(ProductConditionWrapper<A, B> condition) {
-
-            return (condition.isFirstGraphHasEdgeWithFirstIndexes() && condition.isSecondIndexesAreEquals() ||
-                    (condition.isSecondGraphHasEdgeWithSecondIndexes() && condition.isFirstIndexesAreEquals()));
+            return (condition.isFirstGraphHasEdgeWithFirstIndexes() && condition.areSecondIndexesAreEquals() ||
+                    (condition.isSecondGraphHasEdgeWithSecondIndexes() && condition.areFirstIndexesAreEquals()));
         }
     },
     CATEGORICAL {
@@ -29,7 +28,7 @@ public enum GraphProduct {
         @Override
         public <A, B> boolean getCondition(ProductConditionWrapper<A, B> condition) {
             return condition.isFirstGraphHasEdgeWithFirstIndexes()
-                    || (condition.isFirstIndexesAreEquals() && condition.isSecondGraphHasEdgeWithSecondIndexes());
+                    || (condition.areFirstIndexesAreEquals() && condition.isSecondGraphHasEdgeWithSecondIndexes());
         }
     };
 

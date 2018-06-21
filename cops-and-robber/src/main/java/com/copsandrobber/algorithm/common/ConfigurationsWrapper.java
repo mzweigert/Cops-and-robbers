@@ -7,11 +7,11 @@ import java.util.*;
 public abstract class ConfigurationsWrapper<CONFIGURATION_TYPE, VERTEX_TYPE> {
 
     protected Set<CONFIGURATION_TYPE> marked;
-    protected List<CONFIGURATION_TYPE> unmarked;
+    protected Set<CONFIGURATION_TYPE> unmarked;
 
     protected ConfigurationsWrapper(Set<Vertex<VERTEX_TYPE>> vertices) {
-        this.marked = new LinkedHashSet<>();
-        this.unmarked = new LinkedList<>();
+        this.marked = new HashSet<>();
+        this.unmarked = new HashSet<>();
         initFrom(vertices);
     }
 
@@ -27,7 +27,7 @@ public abstract class ConfigurationsWrapper<CONFIGURATION_TYPE, VERTEX_TYPE> {
      * Method return unmarked configurations
      * @return Set&lt;CONFIGURATION_TYPE&gt; unmarked configurations
      */
-    public List<CONFIGURATION_TYPE> getUnmarked() {
+    public Set<CONFIGURATION_TYPE> getUnmarked() {
         return unmarked;
     }
 
