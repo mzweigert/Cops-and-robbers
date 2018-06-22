@@ -76,6 +76,35 @@ public class GraphTest {
         graph.addEdge(firstVertexIndex, secondVertexIndex);
     }
 
+    @Test
+    public void givenSomeVertexAndHisNeighbors_whenAddEdgeToVertex_thenSuccessAddEdgesToVertex() throws EdgeAlreadyExistException {
+        //GIVEN
+        Graph<Integer> graph = Graph.newInstance();
+        Integer someVertexIndex = 1;
+        Integer someFirstNeighbor = 2;
+        Integer someSecondNeighbor = 3;
+        Integer someThirdNeighbor = 4;
+
+        //WHEN
+        Set<Edge<Integer>> edges = graph.addEdgesToVertex(someVertexIndex, someFirstNeighbor, someSecondNeighbor, someThirdNeighbor);
+
+        //THEN
+        assertThat(edges).isNotNull();
+        assertThat(edges.size()).isEqualTo(3);
+    }
+
+    @Test(expected = EdgeAlreadyExistException.class)
+    public void givenSomeVertexAndHisNeighborsWithDuplicated_whenAddEdgeToVertex_thenThrowException() throws EdgeAlreadyExistException {
+        //GIVEN
+        Graph<Integer> graph = Graph.newInstance();
+        Integer someVertexIndex = 1;
+        Integer someFirstNeighbor = 2;
+        Integer someSecondNeighbor = 3;
+        Integer someThirdNeighbor = 3;
+
+        //WHEN
+        graph.addEdgesToVertex(someVertexIndex, someFirstNeighbor, someSecondNeighbor, someThirdNeighbor);
+    }
 
     @Test
     public void givenSomeIndex_whenAddVertex_thenSuccessAddVertex() throws VertexAlreadyExistException {
@@ -146,6 +175,25 @@ public class GraphTest {
         assertThat(graph.containsCycle()).isFalse();
     }
 
+    @Test(expected = EdgeAlreadyExistException.class)
+    public void givenIndexesWithExitingEdge_whenAddPathAndGraphContainsGivenEdge_thenThrowException() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
+        //GIVEN
+        Graph<Integer> graph = Graph.newInstance();
+        graph.addEdge(1, 2);
+
+        //WHEN
+        graph.addPath(1, 2, 3, 4, 5);
+    }
+
+    @Test(expected = IndexesContainsDuplicatesException.class)
+    public void givenIndexesWithDuplicates_whenAddPathAndGraphIsEmpty_thenThrowException() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
+        //GIVEN
+        Graph<Integer> graph = Graph.newInstance();
+
+        //WHEN
+        graph.addPath(1, 2, 3, 3, 4, 5);
+    }
+
     @Test
     public void givenIndexes_whenAddCycleAndGraphIsEmpty_thenSuccessAddCycleToGraph() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         //GIVEN
@@ -178,6 +226,25 @@ public class GraphTest {
         assertThat(graph.containsCycle()).isTrue();
     }
 
+    @Test(expected = EdgeAlreadyExistException.class)
+    public void givenIndexesWithExitingEdge_whenAddCycleAndGraphContainsGivenEdge_thenThrowException() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
+        //GIVEN
+        Graph<Integer> graph = Graph.newInstance();
+        graph.addEdge(1, 2);
+
+        //WHEN
+        graph.addCycle(1, 2, 3, 4, 5);
+    }
+
+    @Test(expected = IndexesContainsDuplicatesException.class)
+    public void givenIndexesWithDuplicates_whenAddCycleAndGraphIsEmpty_thenThrowException() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
+        //GIVEN
+        Graph<Integer> graph = Graph.newInstance();
+
+        //WHEN
+        graph.addCycle(1, 2, 3, 3, 4, 5);
+    }
+
     @Test
     public void givenC5Graph_whenContainsCycle_thenReturnTrue() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         //GIVEN
@@ -207,7 +274,7 @@ public class GraphTest {
     }
 
     @Test
-    public void givenT5Graph_whenContainsCycle_thenReturnFalse() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
+    public void givenT5Graph_whenContainsCycle_thenReturnFalse() {
         //GIVEN
         Graph<Integer> graph = GraphTemplate.getInstance().createTreeWithGivenLength(10);
 
