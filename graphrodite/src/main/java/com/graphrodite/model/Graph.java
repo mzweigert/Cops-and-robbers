@@ -4,7 +4,8 @@ package com.graphrodite.model;
 import com.graphrodite.exception.EdgeAlreadyExistException;
 import com.graphrodite.exception.IndexesContainsDuplicatesException;
 import com.graphrodite.exception.VertexAlreadyExistException;
-import com.graphrodite.internal.service.GraphService;
+import com.graphrodite.internal.service.CreatorGraphService;
+import com.graphrodite.internal.service.FinderGraphService;
 import com.graphrodite.internal.wrapper.FindCycleDFSWrapper;
 import org.apache.commons.lang.SerializationUtils;
 
@@ -23,7 +24,8 @@ public class Graph<E> implements Serializable {
 
     private Set<Vertex<E>> vertices;
     private Set<Edge<E>> edges;
-    private GraphService<E> graphService;
+    private FinderGraphService<E> finderGraphService;
+    private CreatorGraphService<E> creatorGraphService;
 
     private Graph() {
         this(new LinkedHashSet<>(), new LinkedHashSet<>());
@@ -32,7 +34,8 @@ public class Graph<E> implements Serializable {
     private Graph(Set<Vertex<E>> vertices, Set<Edge<E>> edges) {
         this.vertices = vertices;
         this.edges = edges;
-        this.graphService = new GraphService<>(this.vertices, this.edges);
+        this.finderGraphService = new FinderGraphService<>(this.vertices, this.edges);
+        this.creatorGraphService = new CreatorGraphService<>(this.vertices, this.edges);
     }
 
     /**
@@ -72,7 +75,7 @@ public class Graph<E> implements Serializable {
      * @throws EdgeAlreadyExistException throw when edge exist in graph edges set.
      */
     public Edge<E> addEdge(E first, E second) throws EdgeAlreadyExistException {
-        return graphService.addEdge(first, second);
+        return creatorGraphService.addEdge(first, second);
     }
 
     /**
@@ -85,7 +88,7 @@ public class Graph<E> implements Serializable {
      */
     @SafeVarargs
     public final Set<Edge<E>> addEdgesToVertex(E first, E... neighbors) throws EdgeAlreadyExistException {
-        return graphService.addEdgesToVertex(first, neighbors);
+        return creatorGraphService.addEdgesToVertex(first, neighbors);
     }
 
     /**
@@ -96,7 +99,7 @@ public class Graph<E> implements Serializable {
      * @throws VertexAlreadyExistException throw when vertex with given index exist in graph vertices set.
      */
     public Vertex<E> addVertex(E index) throws VertexAlreadyExistException {
-        return graphService.addVertex(index);
+        return creatorGraphService.addVertex(index);
     }
 
     /**
@@ -108,7 +111,7 @@ public class Graph<E> implements Serializable {
      */
     @SafeVarargs
     public final Set<Vertex<E>> addVertices(E... indexes) throws VertexAlreadyExistException {
-        return graphService.addVertices(indexes);
+        return creatorGraphService.addVertices(indexes);
     }
 
     /**
@@ -121,7 +124,7 @@ public class Graph<E> implements Serializable {
      */
     @SafeVarargs
     public final Set<Vertex<E>> addPath(E... indexes) throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
-        return graphService.addPath(indexes);
+        return creatorGraphService.addPath(indexes);
     }
 
     /**
@@ -134,7 +137,7 @@ public class Graph<E> implements Serializable {
      */
     @SafeVarargs
     public final Set<Vertex<E>> addCycle(E... indexes) throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
-        return graphService.addCycle(indexes);
+        return creatorGraphService.addCycle(indexes);
     }
 
     /**
@@ -143,12 +146,7 @@ public class Graph<E> implements Serializable {
      * @return true if graph contains cycle, false otherwise.
      */
     public boolean containsCycle(){
-        Optional<Vertex<E>> first = vertices.stream().findFirst();
-        if(first.isPresent()){
-            FindCycleDFSWrapper<E> findCycleDFSWrapper = new FindCycleDFSWrapper<>(first.get());
-            return graphService.containsCycle(findCycleDFSWrapper, first.get());
-        }
-        return false;
+        return finderGraphService.containsCycle();
     }
 
 
@@ -163,7 +161,7 @@ public class Graph<E> implements Serializable {
      */
     public Optional<Edge<E>> findEdge(E first, E second) {
         if (containsEdge(first, second)) {
-            return graphService.findEdge(e -> e.containsVertices(first, second));
+            return finderGraphService.findEdge(e -> e.containsVertices(first, second));
         }
         return Optional.empty();
     }
@@ -178,7 +176,7 @@ public class Graph<E> implements Serializable {
      * @return true if edge in graph exist, false otherwise.
      */
     public boolean containsEdge(E first, E second) {
-        return graphService.containsEdge(first, second);
+        return finderGraphService.containsEdge(first, second);
     }
 
     /**
@@ -188,7 +186,7 @@ public class Graph<E> implements Serializable {
      * @return Optional&lt;Vertex&lt;E&gt;&gt; filled optional object with vertex if method found it, empty otherwise.
      */
     public Optional<Vertex<E>> findVertex(E index) {
-        return graphService.findVertex(v -> v.getIndex().equals(index));
+        return finderGraphService.findVertex(v -> v.getIndex().equals(index));
     }
 
     /**
@@ -198,7 +196,7 @@ public class Graph<E> implements Serializable {
      * @return true if vertex in graph exist, false otherwise.
      */
     public boolean containsVertex(E index) {
-        return graphService.containsVertex(index);
+        return finderGraphService.containsVertex(index);
     }
 
     /**
@@ -219,7 +217,10 @@ public class Graph<E> implements Serializable {
      * @return Set&lt;Vertex&lt;E&gt;&gt; copy of graph edges set.
      */
     public Set<Edge<E>> getEdges() {
-        return new LinkedHashSet<>(edges);
+        return edges.stream()
+                .parallel()
+                .map(e -> Edge.create(e.getFirst(), e.getSecond()))
+                .collect(Collectors.toSet());
     }
 
     /**

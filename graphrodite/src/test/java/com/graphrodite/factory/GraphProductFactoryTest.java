@@ -24,9 +24,10 @@ public class GraphProductFactoryTest {
         int k = 3;
         Graph<String> P4 = Graph.newInstance();
         P4.addPath("a", "b", "c", "d");
-        // WHEN
 
+        // WHEN
         Graph kStrongProduct = factory.createKStrongProduct(P4, k);
+
         // THEN
         int P4VerticesSize = P4.getVertices().size();
         int P4EdgesSize = P4.getEdges().size();
@@ -54,11 +55,11 @@ public class GraphProductFactoryTest {
         // GIVEN
         int k = 4;
         Graph<String> C4 = Graph.newInstance();
-        C4.addPath("a", "b", "c", "d");
-        C4.addEdge("a", "d");
-        // WHEN
+        C4.addCycle("a", "b", "c", "d");
 
+        // WHEN
         Graph kStrongProduct = factory.createKStrongProduct(C4, k);
+
         // THEN
         int P4VerticesSize = C4.getVertices().size();
         int P4EdgesSize = C4.getEdges().size();
@@ -85,17 +86,14 @@ public class GraphProductFactoryTest {
     public void givenC5AndP4Graph_whenCreateCartesianProduct_thenSuccessCreateCartesianProduct() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         Graph<Integer> C5 = Graph.newInstance();
-        C5.addEdge(1, 2);
-        C5.addEdge(2, 3);
-        C5.addEdge(3, 4);
-        C5.addEdge(4, 5);
-        C5.addEdge(5, 1);
+        C5.addCycle(1, 2, 3, 4, 5);
 
         Graph<String> P4 = Graph.newInstance();
         P4.addPath("a", "b", "c", "d");
-        // WHEN
 
+        // WHEN
         Graph cartesianProduct = factory.createCartesianProduct(C5, P4);
+
         // THEN
         int expectedCartesianProductVerticesSize = C5.getVertices().size() * P4.getVertices().size();
         int expectedCartesianProductEdgesSize = C5.getEdges().size() * P4.getVertices().size() + P4.getEdges().size() * C5.getVertices().size();
@@ -112,17 +110,14 @@ public class GraphProductFactoryTest {
     public void givenC5AndP4Graph_whenCreateCategoricalProduct_thenSuccessCreateCategoricalProduct() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         Graph<Integer> C5 = Graph.newInstance();
-        C5.addEdge(1, 2);
-        C5.addEdge(2, 3);
-        C5.addEdge(3, 4);
-        C5.addEdge(4, 5);
-        C5.addEdge(5, 1);
+        C5.addCycle(1, 2, 3, 4, 5);
 
         Graph<String> P4 = Graph.newInstance();
         P4.addPath("a", "b", "c", "d");
-        // WHEN
 
+        // WHEN
         Graph categoricalProduct = factory.createCategoricalProduct(C5, P4);
+
         // THEN
         int expectedCategoricalProductVerticesSize = C5.getVertices().size() * P4.getVertices().size();
         int expectedCategoricalProductEdgesSize = 2 * C5.getEdges().size() * P4.getEdges().size();
@@ -140,17 +135,14 @@ public class GraphProductFactoryTest {
     public void givenC5AndP4Graph_whenCreateStrongProduct_thenSuccessCreateStrongProduct() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         Graph<Integer> C5 = Graph.newInstance();
-        C5.addEdge(1, 2);
-        C5.addEdge(2, 3);
-        C5.addEdge(3, 4);
-        C5.addEdge(4, 5);
-        C5.addEdge(5, 1);
+        C5.addCycle(1, 2, 3, 4, 5);
 
         Graph<String> P4 = Graph.newInstance();
         P4.addPath("a", "b", "c", "d");
-        // WHEN
 
+        // WHEN
         Graph strongProduct = factory.createStrongProduct(C5, P4);
+
         // THEN
         int expectedStrongProductVerticesSize = C5.getVertices().size() * P4.getVertices().size();
         int expectedStrongProductEdgesSize = C5.getVertices().size() * P4.getEdges().size() + P4.getVertices().size() * C5.getEdges().size()
@@ -168,17 +160,14 @@ public class GraphProductFactoryTest {
     public void givenC5AndP4Graph_whenCreateLexicographicalProduct_thenSuccessCreateLexicographicalProduct() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         Graph<Integer> C5 = Graph.newInstance();
-        C5.addEdge(1, 2);
-        C5.addEdge(2, 3);
-        C5.addEdge(3, 4);
-        C5.addEdge(4, 5);
-        C5.addEdge(5, 1);
+        C5.addCycle(1, 2, 3, 4, 5);
 
         Graph<String> P4 = Graph.newInstance();
         P4.addPath("a", "b", "c", "d");
-        // WHEN
 
+        // WHEN
         Graph lexicographicalProduct = factory.createLexicographicalProduct(C5, P4);
+
         // THEN
         int expectedLexicographicalProductVerticesSize = C5.getVertices().size() * P4.getVertices().size();
         int expectedLexicographicalProductEdgesSize = P4.getEdges().size() * C5.getVertices().size()
@@ -196,22 +185,18 @@ public class GraphProductFactoryTest {
     public void givenC5AndP4AndK3Graph_whenCreateThreeFactorsCartesianProduct_thenSuccessCreateKCCartesianProduct() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         Graph<Integer> C5 = Graph.newInstance();
-        C5.addEdge(1, 2);
-        C5.addEdge(2, 3);
-        C5.addEdge(3, 4);
-        C5.addEdge(4, 5);
-        C5.addEdge(5, 1);
+        C5.addCycle(1, 2, 3, 4, 5);
 
         Graph<String> P4 = Graph.newInstance();
         P4.addPath("a", "b", "c", "d");
 
         Graph<Integer> K3 = Graph.newInstance();
-        K3.addEdgesToVertex(1, 2, 3);
-        K3.addEdge(2, 3);
-        // WHEN
+        K3.addCycle(1, 2, 3);
 
+        // WHEN
         Graph<?> cartesianProduct = factory.createCartesianProduct(C5, P4);
         Graph KCartesianProduct = factory.createCartesianProduct(cartesianProduct, K3);
+
         // THEN
         int expectedCartesianProductVerticesSize = cartesianProduct.getVertices().size() * K3.getVertices().size();
         int expectedCartesianProductEdgesSize = cartesianProduct.getEdges().size() * K3.getVertices().size() + K3.getEdges().size() * cartesianProduct.getVertices().size();
@@ -226,22 +211,18 @@ public class GraphProductFactoryTest {
     public void givenC5AndP4AndK3Graph_whenCreateThreeFactorsStrongProduct_thenSuccessCreateKStrongProduct() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         Graph<Integer> C5 = Graph.newInstance();
-        C5.addEdge(1, 2);
-        C5.addEdge(2, 3);
-        C5.addEdge(3, 4);
-        C5.addEdge(4, 5);
-        C5.addEdge(5, 1);
+        C5.addCycle(1, 2, 3, 4, 5);
 
         Graph<String> P4 = Graph.newInstance();
         P4.addPath("a", "b", "c", "d");
 
         Graph<Integer> K3 = Graph.newInstance();
-        K3.addEdgesToVertex(1, 2, 3);
-        K3.addEdge(2, 3);
-        // WHEN
+        K3.addCycle(1, 2, 3);
 
+        // WHEN
         Graph strongProduct = factory.createStrongProduct(C5, P4);
         Graph kStrongProduct = factory.createStrongProduct(strongProduct, K3);
+
         // THEN
         int expectedStrongProductVerticesSize = strongProduct.getVertices().size() * K3.getVertices().size();
         int expectedStrongProductEdgesSize = strongProduct.getVertices().size() * K3.getEdges().size() + K3.getVertices().size() * strongProduct.getEdges().size()
@@ -257,22 +238,18 @@ public class GraphProductFactoryTest {
     public void givenC5AndP4AndK3Graph_whenCreateThreeFactorsCategoricalProduct_thenSuccessCreateKCategoricalProduct() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         Graph<Integer> C5 = Graph.newInstance();
-        C5.addEdge(1, 2);
-        C5.addEdge(2, 3);
-        C5.addEdge(3, 4);
-        C5.addEdge(4, 5);
-        C5.addEdge(5, 1);
+        C5.addCycle(1, 2, 3, 4, 5);
 
         Graph<String> P4 = Graph.newInstance();
         P4.addPath("a", "b", "c", "d");
 
         Graph<Integer> K3 = Graph.newInstance();
-        K3.addEdgesToVertex(1, 2, 3);
-        K3.addEdge(2, 3);
-        // WHEN
+        K3.addCycle(1, 2, 3);
 
+        // WHEN
         Graph<?> categoricalProduct = factory.createCategoricalProduct(C5, P4);
         Graph KCategoricalProduct = factory.createCategoricalProduct(categoricalProduct, K3);
+
         // THEN
         int expectedCategoricalProductVerticesSize = categoricalProduct.getVertices().size() * K3.getVertices().size();
         int expectedCategoricalProductEdgesSize = 2 * categoricalProduct.getEdges().size() * K3.getEdges().size();
@@ -288,22 +265,18 @@ public class GraphProductFactoryTest {
     public void givenC5AndP4AndK3Graph_whenCreateThreeFactorsLexicographicalProduct_thenSuccessCreateKLexicographicalProduct() throws EdgeAlreadyExistException, IndexesContainsDuplicatesException {
         // GIVEN
         Graph<Integer> C5 = Graph.newInstance();
-        C5.addEdge(1, 2);
-        C5.addEdge(2, 3);
-        C5.addEdge(3, 4);
-        C5.addEdge(4, 5);
-        C5.addEdge(5, 1);
+        C5.addCycle(1, 2, 3, 4, 5);
 
         Graph<String> P4 = Graph.newInstance();
         P4.addPath("a", "b", "c", "d");
 
         Graph<Integer> K3 = Graph.newInstance();
-        K3.addEdgesToVertex(1, 2, 3);
-        K3.addEdge(2, 3);
-        // WHEN
+        K3.addCycle(1, 2, 3);
 
+        // WHEN
         Graph<?> lexicographicalProduct = factory.createLexicographicalProduct(C5, P4);
         Graph KLexicographicalProduct = factory.createLexicographicalProduct(lexicographicalProduct, K3);
+
         // THEN
         int expectedLexicographicalProductVerticesSize = lexicographicalProduct.getVertices().size() * K3.getVertices().size();
         int expectedLexicographicalProductEdgesSize = K3.getEdges().size() * lexicographicalProduct.getVertices().size()
