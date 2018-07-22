@@ -1,7 +1,6 @@
 package com.graphrodite.model;
 
 
-import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -10,7 +9,7 @@ import java.util.Objects;
  * @param <A> type of first graph product factor
  * @param <B> type of second graph product factor
  */
-public class Pair<A, B> implements Serializable {
+public class Pair<A, B> {
     private A first;
     private B second;
 
@@ -52,8 +51,4 @@ public class Pair<A, B> implements Serializable {
         return second;
     }
 
-    public void set(A copNeighbour, B robberNeighbour) {
-        this.first = copNeighbour;
-        this.second = robberNeighbour;
-    }
 }

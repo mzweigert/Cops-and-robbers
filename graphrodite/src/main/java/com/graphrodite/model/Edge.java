@@ -11,7 +11,7 @@ import java.util.Objects;
  *
  * @param <E> type of vertices in edge.
  */
-public class Edge<E> implements Serializable {
+public class Edge<E> {
 
     private Vertex<E> first;
     private Vertex<E> second;
@@ -23,6 +23,10 @@ public class Edge<E> implements Serializable {
 
     public static <E> Edge<E> create(Vertex<E> firstVertex, Vertex<E> secondVertex) {
         return new Edge<>(firstVertex, secondVertex);
+    }
+
+    public static <E> Edge<E> create(E first, E second) {
+        return new Edge<>(Vertex.create(first), Vertex.create(second));
     }
 
     /**
@@ -86,12 +90,20 @@ public class Edge<E> implements Serializable {
         return second;
     }
 
+
     /**
-     * Method clone edge.
-     *
-     * @return Edge&lt;E&gt; cloned edge.
+     * Method return index of first vertex
+     * @return first index
      */
-    public Edge<E> clone() {
-        return (Edge<E>) SerializationUtils.clone(this);
+    public E getFirstIndex() {
+        return first.getIndex();
+    }
+
+    /**
+     * Method return index of second vertex
+     * @return second index
+     */
+    public E getSecondIndex() {
+        return second.getIndex();
     }
 }

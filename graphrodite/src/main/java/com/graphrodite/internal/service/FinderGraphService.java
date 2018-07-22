@@ -69,9 +69,9 @@ public class FinderGraphService<E> extends GraphService<E> {
                 continue;
             }
             wrapper.addToCycle(current);
-            if (neighbor.equals(wrapper.getStartVertex()) ||
-                    (!wrapper.IsNotInVisited(neighbor) &&
-                            containsCycle(wrapper, neighbor))) {
+            boolean isCycle = neighbor.equals(wrapper.getStartVertex()) ||
+                    (wrapper.IsNotInVisited(neighbor) && containsCycle(wrapper, neighbor));
+            if (isCycle) {
                 return true;
             }
             wrapper.removeFromCycle();

@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @param <E> type of vertex.
  */
-public class Vertex<E> implements Serializable {
+public class Vertex<E> {
 
     private E index;
     private List<Vertex<E>> neighbors;
@@ -131,12 +131,4 @@ public class Vertex<E> implements Serializable {
         return index.toString();
     }
 
-    /**
-     * Method clone vertex.
-     *
-     * @return cloned vertex.
-     */
-    public Vertex<E> clone() {
-        return (Vertex<E>) SerializationUtils.clone(this);
-    }
 }

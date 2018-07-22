@@ -400,4 +400,19 @@ public class GraphTest {
         assertThat(result).isFalse();
     }
 
+    @Test
+    public void givenGraph_whenClone_thenReturnClonedGraph() throws EdgeAlreadyExistException {
+        //GIVEN
+        Graph<Integer> graph = Graph.newInstance();
+        graph.addEdge(1, 2);
+        graph.addEdgesToVertex(1, 3, 4, 5, 6);
+
+        //WHEN
+        Graph<Integer> result = graph.clone();
+
+        //THEN
+        assertThat(result.getEdges().size()).isEqualTo(5);
+        assertThat(result.getVertices().size()).isEqualTo(6);
+    }
+
 }
