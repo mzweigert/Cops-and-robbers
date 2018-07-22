@@ -6,7 +6,7 @@ import com.graphrodite.model.Vertex;
 import java.io.Serializable;
 import java.util.Set;
 
-public abstract class GraphService<E> implements Serializable {
+public abstract class GraphService<E> {
 
     protected final Set<Vertex<E>> vertices;
     protected final Set<Edge<E>> edges;

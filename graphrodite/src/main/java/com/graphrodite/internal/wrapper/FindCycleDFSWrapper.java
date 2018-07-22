@@ -44,12 +44,8 @@ public class FindCycleDFSWrapper<E> {
         return visitedVertices.add(item);
     }
 
-    public boolean startVertexEqualToNotVisited(Vertex<E> neighbor) {
-        return neighbor.equals(startVertex) || !visitedVertices.contains(neighbor);
-    }
-
     public boolean IsNotInVisited(Vertex<E> neighbor) {
-        return false;
+        return !visitedVertices.contains(neighbor);
     }
 
 }

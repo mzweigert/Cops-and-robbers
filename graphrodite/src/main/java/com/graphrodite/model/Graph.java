@@ -11,6 +11,7 @@ import org.apache.commons.lang.SerializationUtils;
 
 import java.io.Serializable;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
  *
  * @param <E> type of vertices in graph.
  */
-public class Graph<E> implements Serializable {
+public class Graph<E> {
 
     private Set<Vertex<E>> vertices;
     private Set<Edge<E>> edges;
@@ -229,6 +230,14 @@ public class Graph<E> implements Serializable {
      * @return Graph&lt;E&gt; cloned graph.
      */
     public Graph<E> clone() {
-        return (Graph<E>) SerializationUtils.clone(this);
+        Graph<E> clone = new Graph<>();
+        for (Edge<E> edge : this.edges) {
+            try {
+                clone.addEdge(edge.getFirstIndex(), edge.getSecondIndex());
+            } catch (EdgeAlreadyExistException e) {
+                e.printStackTrace();
+            }
+        }
+        return clone;
     }
 }

@@ -47,10 +47,10 @@ public class IterateOnEdgesStrategy implements KCopsEnoughStrategy {
                 Set<Vertex<E>> safeZoneForU = safeZonesForVertices.get(edge.getFirst());
                 Set<Vertex<E>> safeZoneForV = safeZonesForVertices.get(edge.getSecond());
                 Set<Vertex<E>> SafeZonesNeighborsForV = helper.getClosedNeighborhoodUnion(safeZoneForV);
-                safeZoneUChanged = safeZoneForU.retainAll(SafeZonesNeighborsForV);
+                safeZoneUChanged |= safeZoneForU.retainAll(SafeZonesNeighborsForV);
 
                 Set<Vertex<E>> SafeZonesNeighborsForU = helper.getClosedNeighborhoodUnion(safeZoneForU);
-                safeZoneVChanged = safeZoneForV.retainAll(SafeZonesNeighborsForU);
+                safeZoneVChanged |= safeZoneForV.retainAll(SafeZonesNeighborsForU);
 
                 if (safeZoneForU.isEmpty() || safeZoneForV.isEmpty()) {
                     return true;

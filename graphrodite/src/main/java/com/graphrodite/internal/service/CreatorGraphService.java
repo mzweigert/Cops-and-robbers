@@ -40,10 +40,11 @@ public class CreatorGraphService<E> extends GraphService<E> {
         if (finderGraphService.containsEdge(first, second)) {
             throw new EdgeAlreadyExistException(first, second);
         }
+
         Vertex<E> firstVertex = finderGraphService.findVertex(first)
-                .orElse(createVertex(first));
+                .orElseGet(() -> createVertex(first));
         Vertex<E> secondVertex = finderGraphService.findVertex(second)
-                .orElse(createVertex(second));
+                .orElseGet(() ->createVertex(second));
         Edge<E> edge = Edge.create(firstVertex, secondVertex);
         edges.add(edge);
         try {
@@ -59,10 +60,10 @@ public class CreatorGraphService<E> extends GraphService<E> {
     public Set<Edge<E>> addEdgesToVertex(E first, E... neighbors) throws EdgeAlreadyExistException {
         Set<Edge<E>> edges = new LinkedHashSet<>();
         Vertex<E> firstVertex = finderGraphService.findVertex(first)
-                .orElse(createVertex(first));
+                .orElseGet(() -> createVertex(first));
         for (E second : neighbors) {
             Vertex<E> secondVertex = finderGraphService.findVertex(second)
-                    .orElse(createVertex(second));
+                    .orElseGet(() -> createVertex(second));
             Edge<E> edge = addEdge(firstVertex.getIndex(), secondVertex.getIndex());
             edges.add(edge);
         }
