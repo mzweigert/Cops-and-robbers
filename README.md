@@ -1,4 +1,4 @@
-# Graph-Theory
+# Cops-and-robbers
 
 Project realized as part of the master's thesis, consisting of two modules:
 
